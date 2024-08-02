@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if((ctype_alpha($ciudadSinEspacios) && ctype_alpha($calleSinEspacios) && ctype_digit($numeroDeCasa)) && ((strlen($ciudad) > 2 && strlen($ciudad) < 30) && (strlen($calle) > 2 && strlen($calle) < 30) && (strlen($numeroDeCasa) > 2 && strlen($numeroDeCasa) < 5))){
 
             $datosDeRegistro["ciudad"] = $ciudad;
-            $datosDeRegistro["calle"] = $ciudad;
+            $datosDeRegistro["calle"] = $calle;
             $datosDeRegistro["numeroDeCasa"] = $numeroDeCasa;
 
         }else{
@@ -174,32 +174,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
 
-    function guardarRegistro($datos){
-
-        $carpetaJson= "Usuarios/";
-
-        if(!file_exists($carpetaJson)){
-
-            mkdir($carpetaJson, 0777,true);
-        
-        }
-
-        $usuariosJson = "Usuarios/usuarios.json";
-
-        if (file_exists($usuariosJson)) {
-            $contenidoActual = file_get_contents($usuariosJson);
-            $arrayDeDatos = json_decode($contenidoActual, true);
-        } else {
-            $arrayDeDatos = array();
-        }
     
-            $arrayDeDatos[] = $datos;
-        
-        file_put_contents($usuariosJson, json_encode($arrayDeDatos, JSON_PRETTY_PRINT));
-      
-        echo "Registro exitoso.";
-    
-     }
-
 }
+
+function guardarRegistro($datos){
+
+    $carpetaJson= "Usuarios/";
+
+    if(!file_exists($carpetaJson)){
+
+        mkdir($carpetaJson, 0777,true);
+    
+    }
+
+    $usuariosJson = "Usuarios/usuarios.json";
+
+    if (file_exists($usuariosJson)) {
+        $contenidoActual = file_get_contents($usuariosJson);
+        $arrayDeDatos = json_decode($contenidoActual, true);
+    } else {
+        $arrayDeDatos = array();
+    }
+
+        $arrayDeDatos[] = $datos;
+    
+    file_put_contents($usuariosJson, json_encode($arrayDeDatos, JSON_PRETTY_PRINT));
+  
+    echo "Registro exitoso.";
+
+ }
+
 ?>

@@ -1,0 +1,20 @@
+[
+    {
+        "nombreCompleto": "Juan Letamendia",
+        "ciudad": "Colonia Valdense",
+        "calle": "Rincon del rey",
+        "numeroDeCasa": "010",
+        "celular": "099318108",
+        "email": "juan@gmail.com",
+        "password": "$2y$10$9TTMPcEeWMNT867qsRNfI.Xglr7MKPR.9\/oNZRaedQEEOs62OWHRe"
+    },
+    {
+        "nombreCompleto": "Juan Letamendias",
+        "ciudad": "Colonia Valdense",
+        "calle": "Rincon del rey",
+        "numeroDeCasa": "010",
+        "celular": "099318108",
+        "email": "juan@gmail.com",
+        "password": "$2y$10$yPGniy2r2H2VCwzbGyby4.n49MQicqI4FP8sR.cmUnMB8Go\/Sinw6"
+    }
+]
