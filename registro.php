@@ -3,10 +3,10 @@ $mensajeDeError='';
 $error = false;
 
 /**
- * Falta: -Subir elementos a JSON.
- *          -Verificar que no se encuentre el mismo usuario registrado(correo y contraseña)
+ * Falta: 
+ *   
  *          -Agregar opcion de subscribirse a Newsletter
- *          -Agregar otro campo de contraseña para verificar que ingrese la misma contraseña en ambos *          casos(Confirmación de contraseña).
+ *          -Agregar otro campo de contraseña para verificar que ingrese la misma contraseña en ambos casos(Confirmación de contraseña).
  */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -188,20 +188,29 @@ function guardarRegistro($datos){
     }
 
     $usuariosJson = "Usuarios/usuarios.json";
+    $emailRepetido = false;
 
     if (file_exists($usuariosJson)) {
         $contenidoActual = file_get_contents($usuariosJson);
         $arrayDeDatos = json_decode($contenidoActual, true);
+        $limiteArray = count($arrayDeDatos);
+
+        for($i=0; $i<$limiteArray; $i++){
+            if($arrayDeDatos[$i]['email'] == $datos['email']){
+                $emailRepetido = true;
+            }
+        }
     } else {
         $arrayDeDatos = array();
     }
 
+    if(!$emailRepetido){
         $arrayDeDatos[] = $datos;
-    
-    file_put_contents($usuariosJson, json_encode($arrayDeDatos, JSON_PRETTY_PRINT));
-  
-    echo "Registro exitoso.";
-
+        file_put_contents($usuariosJson, json_encode($arrayDeDatos, JSON_PRETTY_PRINT));
+        echo "Registro exitoso.";
+    }else{
+        echo "Ya existe un usuario con este email";
+    }
  }
 
 ?>
