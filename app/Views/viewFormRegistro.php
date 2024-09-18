@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="public/css/styles.css" rel="stylesheet" type="text/css">
+    <link href="../../public/css/styles.css" rel="stylesheet" type="text/css">
     <title>Registro</title>
 </head>
 <body>
     <main>
         <h1 class="titulo titulo-centrado">Registro Rayuela Store</h1>
         <hr>
-        <form class="form" id="form-registro" method="POST" action="registro.php">
+        <form class="form" id="form-registro" method="POST" action="../Controllers/controllerUsuario.php">
 
                 <label class="item-form" for="correo">Correo </label>
                 <input class="item-form" type="email" id="correo" name="email" autocomplete="email" required/>
@@ -29,6 +29,6 @@
         <hr>
         <h3 class="titulo titulo-centrado">¿Ya eres usuario? <a href=#> Acceder </a></h3>
     </main>
-    <script src="public/js/registro-script.js"></script>
+    <script src="../../public/js/registro-script.js"></script>
 </body>
 </html>

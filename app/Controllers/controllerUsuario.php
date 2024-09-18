@@ -4,16 +4,20 @@ function registrarUsuario(){
     
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email'] && !empty($_POST['password']) && !empty($_POST['passwordCh']))) {
-        require '/../Models/modelUsuario.php';
 
+        require_once '../Models/modelCliente.php';
+        //Datos del form
         $email= $_POST['email'];
         $password= $_POST['password'];
         $passwordCh= $_POST['passwordCh'];
-        //Agregar suscripcion
+        //Agregar suscripcion a form
         $suscripcion= $_POST['suscripcion'];
         
-        registrarUsuarioEnBd($email, $password, $passwordCh, $suscripcion);
+        $cliente = new Cliente('Cliente');
+        $cliente->registrarCliente($email, $password, $passwordCh, $suscripcion);
         
+        }else{
+            
         }
     
     
