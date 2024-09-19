@@ -5,17 +5,17 @@ define ('CONTROLLERS_FOLDER', "app/Controllers/");
 //Si no se indica un controlador, este es el controlador que se usará
 define ('DEFAULT_CONTROLLER', "controllerUsuario");
 //Si no se indica una acción, esta acción es la que se usará
-define ('DEFAULT_ACTION', "");
+define ('DEFAULT_ACTION', "registrarUsuario");
 
 //Obtenemos el controlador.
 //Si el usuario no lo introduce, seleccionamos el de por defecto.
-$controller = DEFAULT_CONTROLLER;
+//$controller = DEFAULT_CONTROLLER;
 
 if ( !empty ( $_GET[ 'controller' ] ) ){
-$controller = $_GET [ 'controller' ];
+$controller = $_GET[ 'controller' ];
 }
 
-$action = DEFAULT_ACTION;
+//$action = DEFAULT_ACTION;
 
 // Obtenemos la acción seleccionada.
 // Si el usuario no la introduce, seleccionamos la de por defecto.
@@ -43,5 +43,6 @@ if ( is_callable ($action) )
 $action();
 else
 die ('La accion no existe - 404 not found');
+
 
 ?>

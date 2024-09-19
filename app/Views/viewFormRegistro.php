@@ -10,7 +10,7 @@
     <main>
         <h1 class="titulo titulo-centrado">Registro Rayuela Store</h1>
         <hr>
-        <form class="form" id="form-registro" method="POST" action="../Controllers/controllerUsuario.php">
+        <form class="form" id="form-registro" method="POST" action="../../index.php?controller=controllerUsuario&action=registrarUsuario">
 
                 <label class="item-form" for="correo">Correo </label>
                 <input class="item-form" type="email" id="correo" name="email" autocomplete="email" required/>
@@ -24,11 +24,21 @@
                 <input class="item-form" type="password" id="passwordCh" name="passwordCh" autocomplete="new-password" required/>
                     <p class="aviso-off" id="avisoConfirmacion"> *El campo confirmacion es necesario y debe coincidir con el campo contraseña</p>
                 
+
+                <label class="item-form" for="suscripcion">Suscripcion a Newsletter </label>
+                <input class="item-form" type="checkbox" id="suscripcion" name="suscripcion"/>
+                    
                 <input class="item-form" type="submit" value="Registrarse"/>
         </form>
+        <?php
+        // Mostrar errores si existen
+            if (!empty($errores)) {
+                echo "<p style='color:red;'>$errores</p>";
+            }
+        ?>
         <hr>
         <h3 class="titulo titulo-centrado">¿Ya eres usuario? <a href=#> Acceder </a></h3>
     </main>
-    <script src="../../public/js/registro-script.js"></script>
+    
 </body>
 </html>

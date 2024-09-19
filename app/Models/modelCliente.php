@@ -9,19 +9,32 @@ class Cliente extends Usuario {
     private $carrito;
 
 
-    public function registrarCliente($email, $password, $passwordCh, $suscripcion){
-        $mensajeDeError='';
-
-        //Email
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-           
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
-        $mensajeDeError.='Usted ha ingresado un email no valido.<br>';
-
-
-        //Password
+    public function registrarCliente($email, $password, $suscripcion) {
         
+        // Comprobar si el email ya está registrado
+        if ($this->existeEmail($email)) {
+            return false;
+        }
 
+        // Insertar el nuevo usuario en la base de datos
+        $sql = "INSERT INTO usuarios (email, password, suscripcion) VALUES (:email, :password, :suscripcion)";
+        $stmt = $this->conexion->prepare($sql);
+
+        //Encriptar contraseña
+        $passwordEnc = password_hash($password, PASSWORD_BCRYPT);
+
+        return $stmt->execute([
+            ':email' => $email,
+            ':password' => $passwordEnc,
+            ':suscripcion' => $suscripcion
+        ]);
+    }
+
+    private function existeEmail($email) {
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetch() !== false;
     }
     
 

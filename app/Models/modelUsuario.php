@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../config/conexionBD.php";
+require_once "config/conexionBD.php";
 
 class Usuario extends conexionBD {
     //Atributos del objeto usuario.
