@@ -1,4 +1,6 @@
 <?php
+//Las rutas
+require_once __DIR__."/config/paths.php";
 
 //La carpeta donde buscaremos los controladores
 define ('CONTROLLERS_FOLDER', "app/Controllers/");
@@ -9,13 +11,13 @@ define ('DEFAULT_ACTION', "registrarUsuario");
 
 //Obtenemos el controlador.
 //Si el usuario no lo introduce, seleccionamos el de por defecto.
-//$controller = DEFAULT_CONTROLLER;
+$controller = DEFAULT_CONTROLLER;
 
 if ( !empty ( $_GET[ 'controller' ] ) ){
 $controller = $_GET[ 'controller' ];
 }
 
-//$action = DEFAULT_ACTION;
+$action = DEFAULT_ACTION;
 
 // Obtenemos la acción seleccionada.
 // Si el usuario no la introduce, seleccionamos la de por defecto.
@@ -29,7 +31,6 @@ if ( !empty ( $_GET [ 'action' ] ) ){
 
 $controller = CONTROLLERS_FOLDER . $controller . '.php';
 
-print($controller);
 
 //Si la variable ($controller) es un fichero lo requerimos
 if ( is_file ( $controller ) ){
