@@ -29,13 +29,7 @@ class Cliente extends Usuario {
             ':suscripcion' => $suscripcion
         ]);
     }
-
-    private function existeEmail($email) {
-        $sql = "SELECT * FROM usuarios WHERE email = :email";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute([':email' => $email]);
-        return $stmt->fetch() !== false;
-    }
+   
     
 
     public function addCelular(){}

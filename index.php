@@ -1,5 +1,6 @@
 <?php
 //Las rutas
+
 require_once __DIR__."/config/paths.php";
 
 //La carpeta donde buscaremos los controladores

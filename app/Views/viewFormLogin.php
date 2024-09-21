@@ -1,9 +1,10 @@
 <?php
+
 //Eliminar require cuando el controlador este terminado
 require_once dirname(__DIR__,2)."/config/paths.php";
 //RUTAS
 $css = URL_PATH.'/public/css/styles.css';
-$action = URL_PATH.'\index.php?controller=controllerUsuario&action=loginUsuario';
+$action = URL_PATH.'/index.php?controller=controllerUsuario&action=loginUsuario';
 $js = URL_PATH.'/public/js/login-script.js';
 
 ?>
@@ -32,7 +33,12 @@ $js = URL_PATH.'/public/js/login-script.js';
                 
                 <input class="item-form" type="submit" value="Acceder"/>
         </form>
-        
+        <?php
+        // Mostrar errores si existen
+            if (!empty($errores)) {
+                echo "<p style='color:red;'>$errores</p>";
+            }
+        ?>
         <hr>
         <h3 class="titulo titulo-centrado">¿No eres usuario? <a href="#"> Regístrate </a></h3>       
     </main>
