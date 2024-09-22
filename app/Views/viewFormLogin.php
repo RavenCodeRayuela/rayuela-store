@@ -14,7 +14,7 @@ $js = URL_PATH.'/public/js/login-script.js';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Login Rayuela</title>
+    <title>Rayuela Store</title>
 </head>
 <body>
     <main>
