@@ -10,24 +10,46 @@ class Cliente extends Usuario {
 
 
     public function registrarCliente($email, $password, $suscripcion) {
+        try{
+            //Comenzar la transaccion
+            $this-> conexion -> beginTransaction();
+
+            // Comprobar si el email ya está registrado
+            if ($this->existeEmail($email)) {
+                return false;
+            }
+            // Insertar el nuevo usuario en la base de datos
+            $sql1 = "INSERT INTO usuarios (Email, password, Id_tipo) VALUES (:Email, :password, :Id_tipo)";
+            $stmt1 = $this->conexion->prepare($sql1);
+            //Encriptar contraseña
+            $passwordEnc = password_hash($password, PASSWORD_BCRYPT);
+
+            $stmt1->execute([
+                ':Email' => $email,
+                ':password' => $passwordEnc,
+                'Id_tipo'=>2
+            ]);
+
+            $idUsuario= (int) $this->conexion->lastInsertId();
+            
+
+            $sql2 = "INSERT INTO clientes (Id_cliente ,Suscripcion_newsletter) VALUES (:Id_cliente, :Suscripcion_newsletter)";
+            $stmt2 = $this->conexion->prepare($sql2);
         
-        // Comprobar si el email ya está registrado
-        if ($this->existeEmail($email)) {
-            return false;
-        }
+            $stmt2-> execute([
+                ':Id_cliente' => $idUsuario,
+                ':Suscripcion_newsletter' => $suscripcion
+            ]);
 
-        // Insertar el nuevo usuario en la base de datos
-        $sql = "INSERT INTO usuarios (email, password, suscripcion) VALUES (:email, :password, :suscripcion)";
-        $stmt = $this->conexion->prepare($sql);
+            $this->conexion->commit();
+            
+            return true;
 
-        //Encriptar contraseña
-        $passwordEnc = password_hash($password, PASSWORD_BCRYPT);
-
-        return $stmt->execute([
-            ':email' => $email,
-            ':password' => $passwordEnc,
-            ':suscripcion' => $suscripcion
-        ]);
+               }catch (Exception $e) {       
+                    // Revertir transaccion
+                    $this->conexion->rollBack();
+                  throw $e; // Lanzar el error
+                } 
     }
    
     

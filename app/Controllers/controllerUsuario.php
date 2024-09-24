@@ -58,13 +58,27 @@ function loginUsuario(){
             $usuarioLogueado= $usuario ->loginUsuario($email, $password);
             
             if ($usuarioLogueado) {
+
                 // Iniciar sesión de PHP para mantener al usuario autenticado
                 session_start();
-                // Almacenar el ID de usuario en la sesión para identificar al usuario
-                $_SESSION['user_email'] = $usuarioLogueado['email'];
-                // Redirigir al usuario
-                header('Location:'.URL_PATH.'/app/Views/viewFormRegistro.php');
+
+                // Almacenar info del usuario en la sesión para identificar al usuario
+                if($usuarioLogueado['Email'] == "admin@gmail.com"){
+
+                    $_SESSION['user_email'] = $usuarioLogueado['Email'];
+                    //Pasar a logica que utilice la base de datos para asignar el rol
+                    $_SESSION['rol'] = "admin";
+                    
+                    // Redirigir al usuario
+                    header('Location:'.URL_PATH.'/app/Views/viewAdmin.php');
+                    exit();
+
+                }else{
+                        $_SESSION['user_email'] = $usuarioLogueado['Email'];
+                        // Redirigir al usuario
+                        header('Location:'.URL_PATH.'/app/Views/viewFormRegistro.php');
                 exit();
+                }
             } else {
                 // Mostrar un mensaje de error
                 $errores .= "El usuario al que intenta acceder no existe en la base de datos";

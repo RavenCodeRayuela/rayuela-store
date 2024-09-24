@@ -26,12 +26,15 @@ hr{
 
     a{
       text-decoration: none;
-      border: solid;
-      background-color: white;
-      border-color: white;
       border-radius: 5px;
     }
 
+main{
+  flex: 1;
+}
+html{
+  height: 100%;
+}
 /*Fuentes y texto*/
   .titulo-centrado{
     text-align: center;
@@ -51,6 +54,9 @@ hr{
 
 body{
     background-color:#d3eaf2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
   
 
@@ -89,3 +95,60 @@ body{
     border-radius: 5px;
     
   }
+
+  header {
+    background-color: #333;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo img {
+  height: 100px;
+}
+nav {
+    display: flex;
+
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+nav ul li {
+    margin: 0 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+nav ul li a:hover {
+    color: #f4b400;
+}
+footer {
+  background-color: #333;
+  color: white;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contact-info {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.contact-info li {
+    margin-bottom: 5px;
+}
+.social-icons {
+    margin-top: 10px;
+}
+.social-icons a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 24px;
+}
