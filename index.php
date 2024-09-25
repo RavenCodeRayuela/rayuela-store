@@ -6,9 +6,9 @@ require_once __DIR__."/config/paths.php";
 //La carpeta donde buscaremos los controladores
 define ('CONTROLLERS_FOLDER', "app/Controllers/");
 //Si no se indica un controlador, este es el controlador que se usará
-define ('DEFAULT_CONTROLLER', "controllerUsuario");
+define ('DEFAULT_CONTROLLER', "controllerHome");
 //Si no se indica una acción, esta acción es la que se usará
-define ('DEFAULT_ACTION', "registrarUsuario");
+define ('DEFAULT_ACTION', "mostrarHome");
 
 //Obtenemos el controlador.
 //Si el usuario no lo introduce, seleccionamos el de por defecto.

@@ -2,12 +2,12 @@
     require_once (dirname(__FILE__,3) ."/config/paths.php");
     
 function registrarUsuario(){
-    
+    require_once ROOT_PATH.'/app/Views/viewFormRegistro.php';
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email'] && !empty($_POST['password']) && !empty($_POST['passwordCh']))) {
 
         require_once ROOT_PATH.'/app/Models/modelCliente.php';
-        require_once ROOT_PATH.'/app/Controllers/validacionDeCampos.php';
+        require_once ROOT_PATH.'/app/Controllers/validaciones.php';
 
         //Datos del form
         $email= htmlspecialchars($_POST['email']);
@@ -36,14 +36,17 @@ function registrarUsuario(){
                 echo "Error al registrar el usuario";
             }
         }
-        require_once ROOT_PATH.'/app/Views/viewFormRegistro.php';
+        
     }
 }
 function loginUsuario(){
+     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email'] && !empty($_POST['password']))){
         //Requires
         require_once ROOT_PATH.'/app/Models/modelUsuario.php';
-        require_once ROOT_PATH.'/app/Controllers/validacionDeCampos.php';
+        require_once ROOT_PATH.'/app/Controllers/validaciones.php';
+        require_once ROOT_PATH.'/app/Models/modelCliente.php';
+        require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
 
         $email= htmlspecialchars($_POST['email']);
         $password= htmlspecialchars($_POST['password']);
@@ -58,25 +61,32 @@ function loginUsuario(){
             $usuarioLogueado= $usuario ->loginUsuario($email, $password);
             
             if ($usuarioLogueado) {
-
                 // Iniciar sesión de PHP para mantener al usuario autenticado
                 session_start();
+            
+                $usuario -> setId($usuarioLogueado['Id_usuario']);
+                $usuario -> setEmail($usuarioLogueado['Email']);
+                $usuario -> setPassword($usuarioLogueado['password']);
+                $usuario -> setTipoDeUsuario($usuarioLogueado['Id_tipo']);
 
                 // Almacenar info del usuario en la sesión para identificar al usuario
-                if($usuarioLogueado['Email'] == "admin@gmail.com"){
+                if($usuario ->getTipoDeUsuario() == 1){
 
-                    $_SESSION['user_email'] = $usuarioLogueado['Email'];
-                    //Pasar a logica que utilice la base de datos para asignar el rol
+                    $admin = new Administrador($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
+
+                    $_SESSION['user_email'] = $admin ->getEmail();
                     $_SESSION['rol'] = "admin";
                     
                     // Redirigir al usuario
-                    header('Location:'.URL_PATH.'/app/Views/viewAdmin.php');
+                    header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarBackoffice');
                     exit();
 
                 }else{
                         $_SESSION['user_email'] = $usuarioLogueado['Email'];
+                        $_SESSION['rol'] ="cliente";
+                        $cliente = new Cliente($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
                         // Redirigir al usuario
-                        header('Location:'.URL_PATH.'/app/Views/viewFormRegistro.php');
+                        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome');
                 exit();
                 }
             } else {
@@ -89,4 +99,31 @@ function loginUsuario(){
     }
    
 }
+
+function logoutUsuario(){
+    // Iniciar la sesión si aun no está iniciada
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Destruir todas las variables de sesion
+    $_SESSION = [];
+
+    // Destruir la cookie de la sesion
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    // Destruir la sesion
+    session_destroy();
+
+    // Redirigir a la página de login
+    header("Location: index.php?controller=controllerHome&action=mostrarLogin");
+    exit();
+    }
+
 ?>

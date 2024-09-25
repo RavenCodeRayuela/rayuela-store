@@ -4,10 +4,11 @@ require_once "config/conexionBD.php";
 
 class Usuario extends conexionBD {
     //Atributos del objeto usuario.
-    private $id;
+    protected $id;
+    protected $nombre;
     protected $email;
     protected $password;
-    private $tipoDeUsuario;
+    protected $tipoDeUsuario;
     protected $conexion;
 
     //Hereda la conexion a BD
@@ -16,7 +17,40 @@ class Usuario extends conexionBD {
         $this -> conexion = $this -> conexion -> obtenerConexion();
     }
 
-    
+    public function  setId($id){
+        $this ->id = $id;
+    }
+
+    public function setEmail($email){
+        $this -> email = $email;
+    }
+    public function setPassword($password){
+        $this -> password = $password;
+    }
+
+    public function setTipoDeUsuario($tipoDeUsuario){
+        $this ->tipoDeUsuario = $tipoDeUsuario;
+    }
+
+    public function getId(){
+        return $this -> id;
+    }
+
+    public function getEmail(){
+        return $this -> email;
+    }
+
+    public function getPassword(){
+        return $this -> password;
+    }
+
+    public function getTipoDeUsuario(){
+        return $this ->tipoDeUsuario;
+    }
+
+
+
+
 
     protected function existeEmail($email) {
         $sql = "SELECT * FROM usuarios WHERE email = :email";

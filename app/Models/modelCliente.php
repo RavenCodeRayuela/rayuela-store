@@ -3,10 +3,62 @@ require_once 'modelUsuario.php';
 
 class Cliente extends Usuario {
 
-    private $nombre;
+    
     private $celular;
-    private $direccionesDeEnvio;
+    private $calle;
+
+    private $numeroPuerta;
+
+    private $ciudad;
     private $carrito;
+
+
+    public function __construct($id = null, $email = null, $password = null, $tipoDeUsuario = null) {
+        parent::__construct();
+        $this -> id = $id;
+        $this -> email = $email;
+        $this -> password = $password;
+        $this ->tipoDeUsuario = $tipoDeUsuario;
+
+         if($this -> obtenerClienteBD($id)!= false){
+              $clienteMom = $this -> obtenerClienteBD($id);
+
+            $this -> calle  = $clienteMom['Calle'];
+             $this -> ciudad  = $clienteMom['Ciudad'];
+             $this -> numeroPuerta = $clienteMom['NroCasa'];
+          }
+    }
+
+    public function setCelular($celular){
+        $this -> celular = $celular;
+    }
+
+    public function getCelular(){
+        return $this -> celular;
+    }
+    public function setNombre($nombre){
+        $this -> nombre = $nombre;
+    }
+    public function getNombre(){
+        return $this->nombre;
+    }
+    public function addDireccionDeEnvio(){
+
+    }
+    public function removeDireccionDeEnvio(){}
+
+    public function obtenerClienteBD($idUsuario){
+        $sql = "SELECT * FROM clientes WHERE Id_cliente = :Id_cliente";
+        $stmt = $this-> conexion ->prepare($sql);
+     
+        // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
+      $stmt->execute([':Id_cliente' => $idUsuario]);
+     
+      // Obtener la fila del usuario de la base de datos
+      $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      return $usuario;
+    }
 
 
     public function registrarCliente($email, $password, $suscripcion) {
@@ -48,27 +100,10 @@ class Cliente extends Usuario {
                }catch (Exception $e) {       
                     // Revertir transaccion
                     $this->conexion->rollBack();
-                  throw $e; // Lanzar el error
+                  throw $e;
                 } 
     }
    
-    
-
-    public function addCelular(){}
-    public function updateCelular(){}
-    public function addNombre(){}
-    public function updateNombre(){}
-    public function addDireccionDeEnvio(){}
-    public function updateDireccionDeEnvio(){}
-    public function removeDireccionDeEnvio(){}
-}
-
-class DireccionDeEnvio{
-
-    private $calle;
-    private $numero;
-    private $ciudad;
-
 }
 
 class Carrito{

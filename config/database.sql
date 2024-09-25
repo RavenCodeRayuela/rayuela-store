@@ -8,7 +8,7 @@ CREATE TABLE TIPO_DE_USUARIO(
 
 CREATE TABLE USUARIOS(
     Id_usuario int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Nombre varchar(50),
+    Nombre varchar(50) DEFAULT "Nombre no asignado",
     Email varchar(100) NOT NULL,
     password varchar(255) NOT NULL,
     Id_tipo int NOT NULL,
@@ -18,9 +18,9 @@ CREATE TABLE USUARIOS(
 CREATE TABLE CLIENTES(
     Id_cliente int NOT NULL PRIMARY KEY,
     Suscripcion_newsletter boolean NOT NULL,
-    Ciudad varchar(60),
-    Calle varchar(60),
-    NroCasa varchar(60),
+    Ciudad varchar(60) DEFAULT "Ciudad no asignada",
+    Calle varchar(60) DEFAULT "Calle no asignada",
+    NroCasa varchar(60) DEFAULT "Nro de casa no asignada",
     FOREIGN KEY(Id_cliente) REFERENCES USUARIOS(Id_usuario)
 );
 
@@ -42,15 +42,15 @@ CREATE TABLE CATEGORIAS(
     Nombre_categoria varchar(60),
     Descripcion_categoria varchar(300),
     Ruta_imagen_categoria varchar(300),
-    FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_usuario)
+    FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_admin)
 );
 
 CREATE TABLE COMPRAS(
     Id_compra int NOT NULL PRIMARY KEY AUTO_INCREMENT,
     Id_cliente int NOT NULL,
     Costo_total DOUBLE(9,2),
-    Valoracion varchar(300)
-    FOREIGN KEY(Id_cliente) REFERENCES CLIENTES(Id_usuario)
+    Valoracion varchar(300),
+    FOREIGN KEY(Id_cliente) REFERENCES CLIENTES(Id_cliente)
 );
 
 CREATE TABLE PRODUCTOS(
@@ -62,7 +62,8 @@ CREATE TABLE PRODUCTOS(
     Descuento DOUBLE(3,2),
     Descripcion_producto varchar(300),
     Ruta_imagen_producto varchar(300),
-    FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_usuario)
+    Cantidad int,
+    FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_admin),
     FOREIGN KEY(Id_categoria) REFERENCES CATEGORIAS(Id_categoria)
 );
 
@@ -73,6 +74,6 @@ CREATE TABLE COMPRA_CONTIENE_PRODUCTO(
     Cantidad_producto int,
     Precio_por_producto DOUBLE(5,2),
     PRIMARY KEY(Id_compra,Id_producto),
-    FOREIGN KEY(Id_compra) REFERENCES COMPRAS(Id_compra)
+    FOREIGN KEY(Id_compra) REFERENCES COMPRAS(Id_compra),
     FOREIGN KEY(Id_producto) REFERENCES PRODUCTOS(Id_producto)
-)
+);
