@@ -1,5 +1,5 @@
 <?php
-// Obtener el protocolo (http o https)
+// Obtener el protocolo (http o https) con un operador ternario
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
 // Obtener el nombre del servidor (localhost o el dominio)

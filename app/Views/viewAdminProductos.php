@@ -116,6 +116,13 @@
         </section>
     </main>
 
+    <?php
+        // Mostrar errores si existen
+            if (!empty($errores)) {
+                echo "<p style='color:red;'>$errores</p>";
+            }
+        ?>
+
     <script src=<?php echo $js; ?>></script>
     <?php include_once 'viewFooter.php'?>
 

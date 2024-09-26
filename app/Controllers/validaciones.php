@@ -30,9 +30,76 @@ function validarFormLogin($email){
 }
 
 function sanearTexto($texto){
-    $texto= trim($texto);
-    $texto= filter_var($texto, FILTER_SANITIZE_STRING) ;
 
-    return $texto;
+    if(!empty($texto)){
+        
+        $texto= filter_var($texto, FILTER_SANITIZE_STRING) ;
+        $texto= trim($texto);
+        
+        return $texto;
+    } else{
+        return false;
+    }
+}
+
+function validarInt($numeroEntero){
+    
+    $numeroEntero = filter_var($numeroEntero, FILTER_VALIDATE_INT);
+
+    if ($numeroEntero === false || $numeroEntero < 1) {
+        return false;
+    }else{
+        return $numeroEntero;
+    }
+}
+
+function validarFloatPositivo($numeroFloat){
+
+    $numeroFloat = filter_var($numeroFloat, FILTER_VALIDATE_FLOAT);
+
+    if ($numeroFloat === false || $numeroFloat < 0) {
+       return false;
+    } else{
+        return $numeroFloat;
+    }
+}
+
+function validarFloatPorcentaje($numeroFloat){
+
+    $numeroFloat = filter_var($numeroFloat, FILTER_VALIDATE_FLOAT);
+    
+    if ($numeroFloat !== false && ($numeroFloat < 0 || $numeroFloat > 100)) {
+       return false;
+    } else{
+        return $numeroFloat;
+    }
+
+
+}
+
+function validarImagen($imagenSubida){
+
+    if (!isset($imagenSubida['imagen']) || $imagenSubida['imagen']['error'] !== UPLOAD_ERR_OK) {
+        return false;
+    }else{
+        $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif");
+        if (!in_array($imagenSubida['imagen']['type'], $tiposPermitidos)) {
+           return false;
+        }
+        return $imagenSubida;
+    }
+}
+
+function moverImagen($imagenSubida){
+    if($imagenSubida == false){
+        return false;
+    }else{
+        $ruta_destino = ROOT_PATH."/storage/uploads/" . basename($imagenSubida['imagen']['name']);
+        if (!move_uploaded_file($imagenSubida['imagen']['tmp_name'], $ruta_destino)) {
+           return false;
+        } else{
+            return $ruta_destino;
+        }
+    }
 }
 ?>
