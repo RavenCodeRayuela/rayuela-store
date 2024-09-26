@@ -29,4 +29,10 @@ function validarFormLogin($email){
     return $mensajeDeError;
 }
 
+function sanearTexto($texto){
+    $texto= trim($texto);
+    $texto= filter_var($texto, FILTER_SANITIZE_STRING) ;
+
+    return $texto;
+}
 ?>

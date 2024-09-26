@@ -79,7 +79,7 @@ class Cliente extends Usuario {
             $stmt1->execute([
                 ':Email' => $email,
                 ':password' => $passwordEnc,
-                'Id_tipo'=>2
+                ':Id_tipo'=>2
             ]);
 
             $idUsuario= (int) $this->conexion->lastInsertId();
@@ -100,7 +100,8 @@ class Cliente extends Usuario {
                }catch (Exception $e) {       
                     // Revertir transaccion
                     $this->conexion->rollBack();
-                  throw $e;
+
+                    echo "Error: ". $e -> getMessage();
                 } 
     }
    

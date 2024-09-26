@@ -1,8 +1,10 @@
 <?php
     session_start();
-    if (!isset($_SESSION['user_email']) || $_SESSION['rol']!="admin") {
-        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
-        exit();
+    if($_SESSION !=[]){
+        if (!isset($_SESSION['user_email']) || $_SESSION['rol']!="admin") {
+            header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
+            exit();
+        }
     }
     //Quitar require cuando se maneje todo desde el controlador.
     require_once dirname(__DIR__,2)."/config/paths.php";
@@ -18,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Gestion de productos</title>
+    <title>Backoffice</title>
 </head>
 <body>
 
@@ -26,8 +28,9 @@
 
     <!-- Contenido Principal -->
     <main>
-        <section id="inicio">
-            <h1>Pagina de gestión de stock</h1>
+        <section class="text-admin">
+            <h1>Pagina de gestión de negocio</h1>
+            <p>Simplemente seleccione, del menu en la esquina superior derecha, la opción que desea y el sistema desplegara las funciones necesarias para ayudarle.</p>
         </section>
     </main>
 
