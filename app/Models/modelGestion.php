@@ -12,31 +12,26 @@ class Producto{
     private $cantidad;
     
     private $rutaImagenProducto;
-    private $conexion;
 
     public function __construct(){
-        $this -> conexion = new conexionBD();
-        $this -> conexion = $this -> conexion -> obtenerConexion();
     }
 
-    public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){
+    public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen, $idAdmin){
         try{
-            $this-> conexion -> beginTransaction();
+            $conexion=ConexionBD::getInstance();
+            $conexion -> beginTransaction();
 
             $categoriaMom= new Categoria();
-            $admin= new Administrador();
-
-            if($categoriaMom ->obtenerCategoria($categoria) && ($admin -> obtenerIdAdmin()) !=NULL ){
+            if($categoriaMom ->obtenerCategoria($categoria) ){
                 $categoriaObtenida = $categoriaMom ->obtenerCategoria($categoria);
                 $idCategoria = $categoriaObtenida['Id_categoria'];
-                $idAdmin =$admin -> obtenerIdAdmin();
             } else{
                 throw new Exception("No se puede obtener la información necesaria.");
             }
 
             $sql = "INSERT INTO productos (Nombre, Precio_actual, Descuento, Descripcion_producto, Ruta_imagen_producto, Cantidad, Id_admin, Id_categoria) VALUES (:Nombre, :Precio_actual, :Descuento, :Descripcion_producto, :Ruta_imagen_producto, :Cantidad, :Id_admin, :Id_categoria)";
             
-            $stmt = $this->conexion->prepare($sql);
+            $stmt = $conexion->prepare($sql);
 
             $stmt->execute([
                 ':Nombre' => $nombre,
@@ -49,10 +44,10 @@ class Producto{
                 ':Id_categoria' => $idCategoria
             ]);
 
-            $this->conexion-> commit();
+            $conexion-> commit();
             return true;
         } catch(Exception $e){
-            $this->conexion->rollBack();
+            $conexion->rollBack();
 
             echo "Error: ". $e -> getMessage();
         }
@@ -75,20 +70,42 @@ class Categoria{
     private $descripcion;
 
     private $rutaImagenCategoria;
-    private $conexion;
+    
+    public function __construct(){}
 
-    public function __construct(){
-        $this -> conexion = new conexionBD();
-        $this -> conexion = $this -> conexion -> obtenerConexion();
+    public function addCategoria($nombre, $descripcion,$rutaImagen,$idAdmin){
+        try{
+            $conexion=ConexionBD::getInstance();
+
+            $conexion -> beginTransaction();
+
+            $sql = "INSERT INTO categorias (Nombre_categoria,Descripcion_categoria, Ruta_imagen_categoria, Id_admin) VALUES (:Nombre_categoria, :Descripcion_categoria, :Ruta_imagen_categoria, :Id_admin)";
+            
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute([
+                ':Nombre_categoria' => $nombre,
+                ':Descripcion_categoria'=> $descripcion,
+                ':Ruta_imagen_categoria'=> $rutaImagen,
+                ':Id_admin' => $idAdmin,
+            ]);
+
+            $conexion-> commit();
+            return true;
+        } catch(Exception $e){
+            $conexion->rollBack();
+
+            echo "Error: ". $e -> getMessage();
+        }
     }
-
-    public function addCategoria(){}
     public function removeCategoria(){}
     public function updateCategoria(){}
 
     public function obtenerCategoria($nombre){
+        $conexion=ConexionBD::getInstance();
+
         $sql = "SELECT * FROM categorias WHERE Nombre_categoria = :Nombre_categoria";
-        $stmt = $this-> conexion ->prepare($sql);
+        $stmt = $conexion ->prepare($sql);
      
         // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
       $stmt->execute([':Nombre_categoria' => $nombre]);

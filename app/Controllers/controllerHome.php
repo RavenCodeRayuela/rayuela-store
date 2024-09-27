@@ -19,6 +19,9 @@ function mostrarBackoffice(){
 function mostrarBackofficeProductos(){
     require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
 }
+function mostrarBackofficeCategorias(){
+    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+}
 function mostrarNosotros(){
 
 }

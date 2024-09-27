@@ -48,8 +48,10 @@ class Cliente extends Usuario {
     public function removeDireccionDeEnvio(){}
 
     public function obtenerClienteBD($idUsuario){
+        $conexion=ConexionBD::getInstance();
+
         $sql = "SELECT * FROM clientes WHERE Id_cliente = :Id_cliente";
-        $stmt = $this-> conexion ->prepare($sql);
+        $stmt = $conexion ->prepare($sql);
      
         // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
       $stmt->execute([':Id_cliente' => $idUsuario]);
@@ -63,8 +65,9 @@ class Cliente extends Usuario {
 
     public function registrarCliente($email, $password, $suscripcion) {
         try{
+            $conexion=ConexionBD::getInstance();
             //Comenzar la transaccion
-            $this-> conexion -> beginTransaction();
+            $conexion -> beginTransaction();
 
             // Comprobar si el email ya está registrado
             if ($this->existeEmail($email)) {
@@ -72,7 +75,7 @@ class Cliente extends Usuario {
             }
             // Insertar el nuevo usuario en la base de datos
             $sql1 = "INSERT INTO usuarios (Email, password, Id_tipo) VALUES (:Email, :password, :Id_tipo)";
-            $stmt1 = $this->conexion->prepare($sql1);
+            $stmt1 = $conexion->prepare($sql1);
             //Encriptar contraseña
             $passwordEnc = password_hash($password, PASSWORD_BCRYPT);
 
@@ -82,24 +85,24 @@ class Cliente extends Usuario {
                 ':Id_tipo'=>2
             ]);
 
-            $idUsuario= (int) $this->conexion->lastInsertId();
+            $idUsuario= (int) $conexion->lastInsertId();
             
 
             $sql2 = "INSERT INTO clientes (Id_cliente ,Suscripcion_newsletter) VALUES (:Id_cliente, :Suscripcion_newsletter)";
-            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2 = $conexion->prepare($sql2);
         
             $stmt2-> execute([
                 ':Id_cliente' => $idUsuario,
                 ':Suscripcion_newsletter' => $suscripcion
             ]);
 
-            $this->conexion->commit();
+            $conexion->commit();
             
             return true;
 
                }catch (Exception $e) {       
                     // Revertir transaccion
-                    $this->conexion->rollBack();
+                    $conexion->rollBack();
 
                     echo "Error: ". $e -> getMessage();
                 } 

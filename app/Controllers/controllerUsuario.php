@@ -77,6 +77,8 @@ function loginUsuario(){
                     $_SESSION['user_email'] = $admin ->getEmail();
                     $_SESSION['rol'] = "admin";
                     
+                    $_SESSION['usuario'] = serialize($admin);
+                    
                     // Redirigir al usuario
                     header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarBackoffice');
                     exit();
@@ -85,6 +87,8 @@ function loginUsuario(){
                         $_SESSION['user_email'] = $usuarioLogueado['Email'];
                         $_SESSION['rol'] ="cliente";
                         $cliente = new Cliente($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
+                        $_SESSION['usuario'] = serialize($cliente);
+                        
                         // Redirigir al usuario
                         header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome');
                 exit();

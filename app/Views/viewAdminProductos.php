@@ -9,9 +9,9 @@
     //Quitar require cuando se maneje todo desde el controlador.
     require_once dirname(__DIR__,2)."/config/paths.php";
     $css = URL_PATH.'/public/css/styles.css';
-    $agregarProducto = URL_PATH.'/index.php?controller=controllerProducto&action=agregarProducto';
-    $modificarProducto = URL_PATH.'/index.php?controller=controllerProducto&action=modificarProducto';
-    $eliminarProducto = URL_PATH.'/index.php?controller=controllerProducto&action=eliminarProducto';
+    $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
+    $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
+    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
     $js = URL_PATH.'/public/js/productos-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
@@ -39,41 +39,53 @@
     <button class="button-forms" onclick="mostrarFormulario('agregar')">Agregar Producto</button>
     <button class="button-forms" onclick="mostrarFormulario('modificar')">Modificar Producto</button>
     <button class="button-forms" onclick="mostrarFormulario('eliminar')">Eliminar Producto</button>
-
+    <button class="button-forms" onclick="mostrarFormulario('listar')">Listar Productos</button>
+ 
     <hr class="hr-separador">
 
     <!-- Formulario para Agregar Producto -->
     <div id="agregar" class="form-container-productos">
         <h3>Agregar Producto</h3>
-        <form action= <?php echo URL_PATH.'/index.php?controller=controllerProducto&action=agregarProducto';?> method="POST" enctype="multipart/form-data">
-            <label for="nombre">Nombre del producto:</label><br>
-            <input type="text" id="nombre" name="nombre" required><br><br>
-
-            <label for="descripcion">Descripción:</label><br>
-            <textarea id="descripcion" name="descripcion" rows="4" required></textarea><br><br>
-
-            <label for="categoria">Seleccionar categoría:</label><br>
+        
+        
+            <form action= <?php echo URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';?> method="POST" enctype="multipart/form-data">
+        <div class="form-item">
+                <label class="label-gestion" for="nombre">Nombre del producto</label>
+                <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-item">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%;"></textarea>
+        </div>
+        <div class="form-item">
+            <label for="categoria">Seleccionar categoría</label>
             <select id="categoria" name="categoria" required>
                  <option value="">-- Selecciona una categoría --</option>
                     <option value="Gorro">Gorro</option>
                     <!-- <?php //foreach ($categorias as $categoria): ?>
                         <option value="<?php // echo $categoria['id']; ?>"><?php //echo $categoria['nombre']; ?></option>
                     <?php //endforeach; ?>  -->
-            </select><br><br>
-
-            <label for="cantidad">Cantidad:</label><br>
-            <input type="number" id="cantidad" name="cantidad" min="1" required><br><br>
-
-            <label for="precio_unitario">Precio unitario:</label><br>
-            <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" min="0" required><br><br>
-
-            <label for="descuento">Descuento (%):</label><br>
-            <input type="number" id="descuento" name="descuento" step="0.01" min="0" max="100"><br><br>
-
-            <label for="imagen">Subir imagen del producto:</label><br>
-            <input type="file" id="imagen" name="imagen" accept="image/*" required><br><br>
-
+            </select>
+        </div>
+        <div class="form-item">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" required>
+        </div>
+        <div class="form-item">
+            <label for="precio_unitario">Precio unitario</label>
+            <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" min="0" required>
+        </div>
+        <div class="form-item">
+            <label for="descuento">Descuento (%)</label>
+            <input type="number" id="descuento" name="descuento" step="0.01" min="0" max="100">
+        </div>
+        <div class="form-item">
+            <label for="imagen">Subir imagen del producto</label>
+            <input type="file" id="imagen" name="imagen" accept="image/*" required>
+        </div>
+        <div class="form-item">
             <input type="submit" value="Agregar producto">
+        </div>
         </form>
     </div>
 
@@ -113,13 +125,19 @@
             <input type="submit" value="Eliminar producto">
         </form>
     </div>
+
+        <!-- Listar Productos -->
+    <div id="listar" class="form-container-productos">
+        <h3>Lista de Productos</h3>
+        <div id="tablaProductos"></div>
+    </div>
         </section>
     </main>
 
     <?php
         // Mostrar errores si existen
             if (!empty($errores)) {
-                echo "<p style='color:red;'>$errores</p>";
+                echo "<p style='color:red; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$errores</p>";
             }
         ?>
 

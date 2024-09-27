@@ -142,9 +142,17 @@ nav ul li a:hover {
   text-align: center;
 }
 
-.form-container-productos{
+.form-container-productos{  
   display: none;
   margin: 15px auto;
+}
+.form-container-productos h3{
+  margin-bottom: 15px;
+}
+.form-container-productos div{ 
+  margin: auto;
+  margin-bottom: 10px;
+  width: 30%;
 }
 
 .hr-separador{
@@ -154,10 +162,25 @@ nav ul li a:hover {
 .button-forms{
   padding: 10px;
 }
+.form-container-productos input{
+  width: 100%;
+  padding: 6px 10px;
+}
+.form-container-productos select{
+  width: 100%;
+  padding: 6px 20px;
+}
 .form-container-productos input[type="submit"]{
   padding:10px;
 }
 
+.form-item label{
+  width: 100%;
+  display: block;
+  text-align: left;
+  font-size: 1.1rem;
+  margin-bottom: 3px;
+}
 /*Footer*/
 
 footer {
