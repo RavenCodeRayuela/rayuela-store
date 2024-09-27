@@ -181,6 +181,28 @@ nav ul li a:hover {
   font-size: 1.1rem;
   margin-bottom: 3px;
 }
+/*Tabla listar*/
+
+.tabla-listar table{
+  width: 100%;
+  border-collapse: collapse;
+ 
+}
+.tabla-listar th, td {
+  padding: 10px;
+  text-align: left;
+}
+.tabla-listar tr:nth-child(even) {
+  background-color: #70e8d4;
+}
+.tabla-listar tr:nth-child(odd) {
+  background-color: #70c0e8;
+}
+.tabla-listar th {
+  background-color: #e6e6e6;
+  
+}
+
 /*Footer*/
 
 footer {

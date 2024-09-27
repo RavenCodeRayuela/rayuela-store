@@ -10,3 +10,4 @@
     var formularioSeleccionado = document.getElementById(formularioId);
     formularioSeleccionado.style.display = 'block';
 }
+

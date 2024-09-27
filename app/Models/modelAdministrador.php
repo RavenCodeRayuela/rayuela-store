@@ -43,7 +43,11 @@ class Administrador extends Usuario{
         $categoria = new Categoria();
         $categoria -> addCategoria($nombre, $descripcion,$rutaImagen,$this->getId());
     }
+    
+
     public function mostrarEstadisticas(){}
+
+
     
 
 

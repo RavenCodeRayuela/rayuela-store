@@ -47,6 +47,7 @@ function loginUsuario(){
         require_once ROOT_PATH.'/app/Controllers/validaciones.php';
         require_once ROOT_PATH.'/app/Models/modelCliente.php';
         require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
+        require_once ROOT_PATH. '/app/Models/modelGestion.php';
 
         $email= htmlspecialchars($_POST['email']);
         $password= htmlspecialchars($_POST['password']);
@@ -73,10 +74,12 @@ function loginUsuario(){
                 if($usuario ->getTipoDeUsuario() == 1){
 
                     $admin = new Administrador($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
-
-                    $_SESSION['user_email'] = $admin ->getEmail();
+                    $producto= new Producto();
+                    $categoria= new Categoria();
+                    $_SESSION['user_email'] = $admin -> getEmail();
                     $_SESSION['rol'] = "admin";
-                    
+                    $_SESSION['Productos'] = $producto -> getProductos();
+                    $_SESSION['Categorias'] = $categoria -> getCategorias();
                     $_SESSION['usuario'] = serialize($admin);
                     
                     // Redirigir al usuario

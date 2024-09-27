@@ -94,11 +94,12 @@ function moverImagen($imagenSubida){
     if($imagenSubida == false){
         return false;
     }else{
-        $ruta_destino = ROOT_PATH."/storage/uploads/" . basename($imagenSubida['imagen']['name']);
-        if (!move_uploaded_file($imagenSubida['imagen']['tmp_name'], $ruta_destino)) {
+        $rutaDestino = ROOT_PATH."/public/storage/uploads/" . basename($imagenSubida['imagen']['name']);
+        if (!move_uploaded_file($imagenSubida['imagen']['tmp_name'], $rutaDestino)) {
            return false;
         } else{
-            return $ruta_destino;
+            $rutaBD = "/public/storage/uploads/" . basename($imagenSubida['imagen']['name']);
+            return $rutaBD;
         }
     }
 }

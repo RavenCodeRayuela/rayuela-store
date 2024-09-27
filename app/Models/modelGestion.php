@@ -21,14 +21,6 @@ class Producto{
             $conexion=ConexionBD::getInstance();
             $conexion -> beginTransaction();
 
-            $categoriaMom= new Categoria();
-            if($categoriaMom ->obtenerCategoria($categoria) ){
-                $categoriaObtenida = $categoriaMom ->obtenerCategoria($categoria);
-                $idCategoria = $categoriaObtenida['Id_categoria'];
-            } else{
-                throw new Exception("No se puede obtener la información necesaria.");
-            }
-
             $sql = "INSERT INTO productos (Nombre, Precio_actual, Descuento, Descripcion_producto, Ruta_imagen_producto, Cantidad, Id_admin, Id_categoria) VALUES (:Nombre, :Precio_actual, :Descuento, :Descripcion_producto, :Ruta_imagen_producto, :Cantidad, :Id_admin, :Id_categoria)";
             
             $stmt = $conexion->prepare($sql);
@@ -41,7 +33,7 @@ class Producto{
                 ':Ruta_imagen_producto'=> $rutaImagen,
                 ':Cantidad' => $cantidad,
                 ':Id_admin' => $idAdmin,
-                ':Id_categoria' => $idCategoria
+                ':Id_categoria' => $categoria
             ]);
 
             $conexion-> commit();
@@ -55,10 +47,45 @@ class Producto{
 
     
     public function removeProducto($idProducto){}
-    public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){}
+    public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){
+        
+        try {
+            $conexion=ConexionBD::getInstance();
 
-    public function listarProductos(){}
+            $stmt = $conexion->prepare("UPDATE productos SET Nombre = $nombre, Precio_actual = $precio, Descuento = $descuento, Descripcion_producto = $descripcion, Ruta_imagen_producto = $rutaImagen, Cantidad = $cantidad, Id_categoria = $categoria  WHERE id = $id");
+        
+            if ($stmt->execute()) {
+            
+                $conexion->commit();
+                return true;
+            } else {
+                throw new Exception("Error en la actualización: " . $stmt->error);
+            }
+        
+        } catch (Exception $e) {
+            
+            $conexion->rollback();
+            echo "Transacción fallida: " . $e->getMessage();
+        }
+    }
 
+    public function getProductos(){
+        
+            $conexion=ConexionBD::getInstance();
+            
+            $stmt = $conexion->query ("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, prod.Ruta_imagen_producto, cat.Nombre_categoria AS categoria 
+            FROM productos prod
+            JOIN categorias cat ON prod.Id_categoria = cat.Id_categoria;");
+
+            $productos = array();
+
+             while ( $producto = $stmt->fetch() ){
+                $productos[] = $producto;
+            }
+            
+                return $productos;
+        }
+    
     public function verProducto($idProducto){}
 
 }
@@ -116,7 +143,24 @@ class Categoria{
       return $categoria;
     }
 
-}
+    public function getCategorias(){
+        
+        $conexion=ConexionBD::getInstance();
+            
+        $stmt = $conexion->query ("SELECT Id_categoria, Nombre_categoria, Descripcion_categoria, Ruta_imagen_categoria
+        FROM categorias");
+
+        $categorias = array();
+
+         while ( $categoria = $stmt->fetch() ){
+            $categorias[] = $categoria;
+        }
+        
+            return $categorias;
+    }   
+    }
+
+
 
 
 ?>
