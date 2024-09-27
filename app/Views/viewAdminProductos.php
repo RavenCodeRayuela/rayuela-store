@@ -100,7 +100,7 @@
         
         <h3>Modificar Producto</h3>
         
-        <form action=<?php echo $modificarProducto ?> method="POST">
+        <form action=<?php echo $modificarProducto ?> method="POST" enctype="multipart/form-data">
             <div class="form-item">
                 <select id="producto_modificar" name="productoModificar" required>
                     <option value="">-- Selecciona un producto --</option>
@@ -164,7 +164,7 @@
         <form action=<?php echo $eliminarProducto ?> method="POST">
             
             <div class="form-item">
-                <select id="producto_eliminar" name="producto_eliminar" required>
+                <select id="productoEliminar" name="productoEliminar" required>
                     <option value="">-- Selecciona un producto --</option>
                         <?php foreach ($productos as $producto): ?>
                             <option value="<?php echo $producto['Id_producto']; ?>"><?php echo $producto['Nombre']; ?></option>

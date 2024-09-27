@@ -37,18 +37,22 @@ class Administrador extends Usuario{
     public function agregarProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){
         $producto = new Producto();
         $producto -> addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen, $this->getId());
+       
     }
 
     public function agregarCategoria($nombre, $descripcion,$rutaImagen){
         $categoria = new Categoria();
         $categoria -> addCategoria($nombre, $descripcion,$rutaImagen,$this->getId());
+        
     }
     
 
     public function mostrarEstadisticas(){}
 
 
-    
+    public function imprimir(){
+        
+    }
 
 
 

@@ -42,6 +42,7 @@ function agregarProducto(){
                     $producto= new Producto();
 
                     $_SESSION['Productos'] = $producto -> getProductos();
+                    $admin -> imprimir();
                     require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
                 }else{
                     echo "Error al obtener el usuario";
@@ -85,9 +86,9 @@ function modificarProducto(){
             $id = validarInt($id);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenSubida != false && $categoriaId != false && $id != false ){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenSubida != false && $categoriaId != false && $id != false && $cantidad != false){
                        
-                if (isset($_SESSION['usuario'])) {
+                if (isset($_SESSION['Productos'])) {
 
                     $producto= new Producto();
                     
@@ -100,7 +101,7 @@ function modificarProducto(){
                     $_SESSION['Productos'] = $producto -> getProductos();
                     require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
                 }else{
-                    echo "Error al obtener el usuario";
+                    echo "Error al obtener el producto";
                 }
             }else{
                 $errores= "Todo el formulario debe ser completado";
@@ -108,6 +109,45 @@ function modificarProducto(){
             }
          }
 }
+
+function eliminarProducto(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+        $id = $_POST['productoEliminar'];
+        $id = validarInt($id);
+
+        if($id != false){
+            if (isset($_SESSION['Productos'])) {
+
+                $producto= new Producto();
+                
+                $producto ->removeProducto($id);
+                
+                $mensajeExito="El producto ha sido eliminado.";
+                
+                
+
+                $_SESSION['Productos'] = $producto -> getProductos();
+                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+            }else{
+                echo "Error al obtener el producto";
+            }
+        }else{
+            $errores= "Todo el formulario debe ser completado";
+            require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+        }
+     
+
+        }
+
+
+    }
 
 function agregarCategoria(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -133,11 +173,17 @@ function agregarCategoria(){
 
         //Modificar BD
         if($nombre != false && $descripcion != false && $imagenSubida != false){
-                //Volver a hacer este codigo         
+
                 if (isset($_SESSION['usuario'])) {
                     $admin = unserialize($_SESSION['usuario']);
                     $admin ->agregarCategoria($nombre,$descripcion,$imagenSubida);
-                    
+                    $mensajeExito =" Categoría agregada correctamente.";
+
+                    $categoria = new Categoria();
+
+                    $_SESSION['Categorias'] = $categoria -> getCategorias();
+
+                    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
                 }else{
                     echo "Error al obtener el usuario";
                 }
@@ -146,5 +192,90 @@ function agregarCategoria(){
                 require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
             }
          }
+}
+
+function modificarCategoria(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    
+        require_once ROOT_PATH.'/app/Models/modelGestion.php';
+        require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
+
+        //Asignaciones
+            $nombre = $_POST["nombre"];
+            $descripcion = $_POST["descripcion"];
+            $imagenSubida = $_FILES;
+            $id = $_POST['categoria'];
+            
+        //Procesos    
+            $nombre = sanearTexto($nombre);
+            $descripcion = sanearTexto($descripcion);
+            $imagenSubida = validarImagen($imagenSubida);
+            $imagenSubida = moverImagen($imagenSubida);
+            $id = validarInt($id);
+            
+        //Modificar BD
+        if($nombre != false && $descripcion != false && $imagenSubida != false && $id != false){
+                       
+                if (isset($_SESSION['Categorias'])) {
+
+                    $categoria= new Categoria();
+                    
+                    $categoria ->updateCategoria($nombre ,$descripcion,$imagenSubida,$id);
+                    
+                    $mensajeExito="La categoría ha sido modificada.";
+                    
+                
+                    $_SESSION['Categorias'] = $categoria -> getCategorias();
+                    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+                }else{
+                    echo "Error al obtener la categoría";
+                }
+            }else{
+                $errores= "Todo el formulario debe ser completado";
+                require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
+            }
+         }
+}
+
+
+function eliminarCategoria(){
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+        $id = $_POST['categoriaEliminar'];
+        $id = validarInt($id);
+
+        if($id != false){
+            if (isset($_SESSION['Categorias'])) {
+
+                $categoria= new Categoria();
+                
+                $categoria ->removeCategoria($id);
+                
+                $mensajeExito="La categoria ha sido eliminada.";
+                
+                
+
+                $_SESSION['Categorias'] = $categoria -> getCategorias();
+                require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+            }else{
+                echo "Error al obtener la categoria";
+            }
+        }else{
+            $errores= "Todo el formulario debe ser completado";
+            require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
+        }
+     
+
+    }
 }
 ?>

@@ -46,15 +46,31 @@ class Producto{
     }
 
     
-    public function removeProducto($idProducto){}
+    public function removeProducto($idProducto){
+        $conexion=ConexionBD::getInstance();
+
+            $stmt = $conexion->prepare("DELETE FROM productos WHERE Id_producto = :id");
+            return $stmt->execute([':id' => $idProducto ]);
+
+    }
     public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){
         
         try {
             $conexion=ConexionBD::getInstance();
+            $conexion -> beginTransaction();
 
-            $stmt = $conexion->prepare("UPDATE productos SET Nombre = $nombre, Precio_actual = $precio, Descuento = $descuento, Descripcion_producto = $descripcion, Ruta_imagen_producto = $rutaImagen, Cantidad = $cantidad, Id_categoria = $categoria  WHERE id = $id");
-        
-            if ($stmt->execute()) {
+            $stmt = $conexion->prepare("UPDATE productos SET Nombre = :nombre, Precio_actual = :precio, Descuento = :descuento, Descripcion_producto = :descripcion, Ruta_imagen_producto = :rutaImagen, Cantidad = :cantidad, Id_categoria = :categoria WHERE Id_producto = :id");
+            
+            if ($stmt->execute([
+                ':nombre' => $nombre,
+                ':precio' => $precio,
+                ':descuento' => $descuento,
+                ':descripcion' => $descripcion,
+                ':rutaImagen' => $rutaImagen,
+                ':cantidad' => $cantidad,
+                ':categoria' => $categoria,
+                ':id' => $id
+            ])) {
             
                 $conexion->commit();
                 return true;
@@ -125,8 +141,39 @@ class Categoria{
             echo "Error: ". $e -> getMessage();
         }
     }
-    public function removeCategoria(){}
-    public function updateCategoria(){}
+    public function removeCategoria($idCategoria){
+        $conexion=ConexionBD::getInstance();
+
+            $stmt = $conexion->prepare("DELETE FROM categorias WHERE Id_categoria = :id");
+            return $stmt->execute([':id' => $idCategoria ]);
+
+    }
+    public function updateCategoria($nombre,$descripcion,$rutaImagen,$id){
+        try {
+            $conexion=ConexionBD::getInstance();
+            $conexion -> beginTransaction();
+
+            $stmt = $conexion->prepare("UPDATE categorias SET Nombre_categoria = :nombre, Descripcion_categoria = :descripcion, Ruta_imagen_categoria = :rutaImagen WHERE Id_categoria = :id");
+            
+            if ($stmt->execute([
+                ':nombre' => $nombre,
+                ':descripcion' => $descripcion,
+                ':rutaImagen' => $rutaImagen,
+                ':id' => $id
+            ])) {
+            
+                $conexion->commit();
+                return true;
+            } else {
+                throw new Exception("Error en la actualización: " . $stmt->error);
+            }
+        
+        } catch (Exception $e) {
+            
+            $conexion->rollback();
+            echo "Transacción fallida: " . $e->getMessage();
+        }
+    }
 
     public function obtenerCategoria($nombre){
         $conexion=ConexionBD::getInstance();
