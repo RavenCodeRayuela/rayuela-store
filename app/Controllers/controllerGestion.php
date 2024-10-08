@@ -28,9 +28,9 @@ function agregarProducto(){
             $imagenSubida = validarImagen($imagenSubida);
             $imagenSubida = moverImagen($imagenSubida);
             $categoriaId = validarInt($categoriaId);
-
+            
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenSubida != false && $categoriaId != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenSubida != false && $categoriaId != false){
                        
                 if (isset($_SESSION['usuario'])) {
                     

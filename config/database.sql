@@ -40,7 +40,7 @@ CREATE TABLE CATEGORIAS(
     Id_categoria int NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Id_admin int NOT NULL,
     Nombre_categoria varchar(60),
-    Descripcion_categoria varchar(300),
+    Descripcion_categoria varchar(125),
     Ruta_imagen_categoria varchar(300),
     FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_admin)
 );
