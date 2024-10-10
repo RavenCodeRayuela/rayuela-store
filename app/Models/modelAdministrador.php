@@ -9,11 +9,8 @@ class Administrador extends Usuario{
     private $categorias;
 
     public function __construct($id = null, $email = null, $password = null, $tipoDeUsuario = null) {
-        parent::__construct();
-        $this -> id = $id;
-        $this -> email = $email;
-        $this -> password = $password;
-        $this ->tipoDeUsuario = $tipoDeUsuario;
+        parent::__construct($id,$email,$password,$tipoDeUsuario);
+      
     }
 
    
@@ -23,9 +20,8 @@ class Administrador extends Usuario{
 
         $sql = "SELECT Id_usuario FROM usuarios WHERE Id_tipo = :Id_tipo";
         $stmt = $conexion ->prepare($sql);
-     
-        // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
-      $stmt->execute([':Id_tipo' => $this->id]);
+           
+         $stmt->execute([':Id_tipo' => $this->id]);
      
       // Obtener la fila del usuario de la base de datos
       $usuario = $stmt->fetch(PDO::FETCH_ASSOC);

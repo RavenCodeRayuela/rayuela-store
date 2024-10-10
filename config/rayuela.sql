@@ -117,7 +117,7 @@ CREATE TABLE `compra_contiene_producto` (
   `Id_producto` int(11) NOT NULL,
   `Fecha` date DEFAULT NULL,
   `Cantidad_producto` int(11) DEFAULT NULL,
-  `Precio_por_producto` double(5,2) DEFAULT NULL
+  `Precio_por_producto` double(8,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

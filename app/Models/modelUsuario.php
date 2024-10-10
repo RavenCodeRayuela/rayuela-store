@@ -12,10 +12,18 @@ class Usuario {
 
 
 
-    public function __construct(){}
+    public function __construct($id = null, $email = null, $password = null, $tipoDeUsuario = null){
+        $this -> id = $id;
+        $this -> email = $email;
+        $this -> password = $password;
+        $this ->tipoDeUsuario = $tipoDeUsuario;
+    }
 
     public function  setId($id){
         $this ->id = $id;
+    }
+    public function setNombre($nombre){
+        $this -> nombre = $nombre;
     }
 
     public function setEmail($email){
@@ -32,6 +40,10 @@ class Usuario {
     public function getId(){
         return $this -> id;
     }
+    public function getNombre(){
+        return $this->nombre;
+    }
+
 
     public function getEmail(){
         return $this -> email;
@@ -64,7 +76,7 @@ class Usuario {
         $sql = "SELECT * FROM usuarios WHERE email = :email";
         $stmt = $conexion ->prepare($sql);
      
-        // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
+        // Ejecutar la consulta SQL, pasando el email de usuario como parámetro        
         $stmt->execute([':email' => $email]);
      
       // Obtener la fila del usuario de la base de datos

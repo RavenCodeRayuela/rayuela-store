@@ -150,7 +150,8 @@ nav ul li a:hover {
   margin-bottom: 15px;
 }
 .form-container-productos div{ 
-  margin: auto;
+  margin-right: auto;
+  margin-left: auto;
   margin-bottom: 10px;
   width: 30%;
 }
@@ -181,13 +182,13 @@ nav ul li a:hover {
   font-size: 1.1rem;
   margin-bottom: 3px;
 }
-/*Tabla listar*/
 
+/*Tabla listar*/
 .tabla-listar table{
   width: 100%;
   border-collapse: collapse;
- 
 }
+
 .tabla-listar th, td {
   padding: 10px;
   text-align: left;

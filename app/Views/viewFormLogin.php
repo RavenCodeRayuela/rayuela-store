@@ -47,7 +47,7 @@ $img = URL_PATH.'/public/img/';
         <?php
         // Mostrar errores si existen
             if (!empty($errores)) {
-                echo "<p style='color:red;'>$errores</p>";
+                echo "<p style='color:red; text-align:center;'>$errores</p>";
             }
         ?>
         <hr>

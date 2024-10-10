@@ -18,10 +18,16 @@ CREATE TABLE USUARIOS(
 CREATE TABLE CLIENTES(
     Id_cliente int NOT NULL PRIMARY KEY,
     Suscripcion_newsletter boolean NOT NULL,
+    FOREIGN KEY(Id_cliente) REFERENCES USUARIOS(Id_usuario)
+);
+
+CREATE TABLE DIRECCIONES_DE_ENVIO(
+    Id_direccion int NOT NULL PRIMARY KEY,
     Ciudad varchar(60) DEFAULT "Ciudad no asignada",
     Calle varchar(60) DEFAULT "Calle no asignada",
-    NroCasa varchar(60) DEFAULT "Nro de casa no asignada",
-    FOREIGN KEY(Id_cliente) REFERENCES USUARIOS(Id_usuario)
+    NroCasa varchar(60) DEFAULT "Nro de casa no asignada"
+    Id_cliente int NOT NULL,
+    FOREIGN KEY(Id_cliente) REFERENCES CLIENTES(Id_cliente)
 );
 
 CREATE TABLE CELULARES(
@@ -50,6 +56,8 @@ CREATE TABLE COMPRAS(
     Id_cliente int NOT NULL,
     Costo_total DOUBLE(9,2),
     Valoracion varchar(300),
+    Estado varchar(30),
+    Tipo_de_pago varchar(30),
     FOREIGN KEY(Id_cliente) REFERENCES CLIENTES(Id_cliente)
 );
 
@@ -58,13 +66,19 @@ CREATE TABLE PRODUCTOS(
     Id_admin int NOT NULL,
     Id_categoria int NOT NULL,
     Nombre varchar(60),
-    Precio_actual DOUBLE(5,2),
-    Descuento DOUBLE(3,2),
+    Precio_actual DOUBLE(7,2),
+    Descuento DOUBLE(5,2),
     Descripcion_producto varchar(300),
-    Ruta_imagen_producto varchar(300),
     Cantidad int,
     FOREIGN KEY(Id_admin) REFERENCES ADMINISTRADOR(Id_admin),
     FOREIGN KEY(Id_categoria) REFERENCES CATEGORIAS(Id_categoria)
+);
+
+CREATE TABLE IMAGEN_PRODUCTO(
+    Ruta_imagen_producto varchar(300) NOT NULL,
+    Id_producto int NOT NULL,
+    PRIMARY KEY(Ruta_imagen_producto,Id_producto),
+    FOREIGN KEY(Id_producto) REFERENCES PRODUCTOS(Id_producto)
 );
 
 CREATE TABLE COMPRA_CONTIENE_PRODUCTO(
@@ -72,7 +86,7 @@ CREATE TABLE COMPRA_CONTIENE_PRODUCTO(
     Id_producto int NOT NULL,
     Fecha DATE,
     Cantidad_producto int,
-    Precio_por_producto DOUBLE(5,2),
+    Precio_por_producto DOUBLE(7,2),
     PRIMARY KEY(Id_compra,Id_producto),
     FOREIGN KEY(Id_compra) REFERENCES COMPRAS(Id_compra),
     FOREIGN KEY(Id_producto) REFERENCES PRODUCTOS(Id_producto)

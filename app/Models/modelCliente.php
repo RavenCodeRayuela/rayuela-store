@@ -4,46 +4,27 @@ require_once 'modelUsuario.php';
 class Cliente extends Usuario {
 
     
-    private $celular;
-    private $calle;
+    private $celulares;
 
-    private $numeroPuerta;
+    private $direccionesDeEnvio;
 
-    private $ciudad;
+    private $suscripcion;
     private $carrito;
 
 
     public function __construct($id = null, $email = null, $password = null, $tipoDeUsuario = null) {
-        parent::__construct();
-        $this -> id = $id;
-        $this -> email = $email;
-        $this -> password = $password;
-        $this ->tipoDeUsuario = $tipoDeUsuario;
-
+        parent::__construct($id, $email, $password, $tipoDeUsuario);
+        
          if($this -> obtenerClienteBD($id)!= false){
-              $clienteMom = $this -> obtenerClienteBD($id);
+            
+            $clienteMom = $this -> obtenerClienteBD($id);
+            $this -> suscripcion  = $clienteMom['Suscripcion_newsletter'];
 
-            $this -> calle  = $clienteMom['Calle'];
-             $this -> ciudad  = $clienteMom['Ciudad'];
-             $this -> numeroPuerta = $clienteMom['NroCasa'];
-          }
-    }
-
-    public function setCelular($celular){
-        $this -> celular = $celular;
+             }
     }
 
-    public function getCelular(){
-        return $this -> celular;
-    }
-    public function setNombre($nombre){
-        $this -> nombre = $nombre;
-    }
-    public function getNombre(){
-        return $this->nombre;
-    }
-    public function addDireccionDeEnvio(){
-
+    public function addDireccionDeEnvio($calle, $numeroPuerta, $ciudad){
+        $this->direccionesDeEnvio.= new DireccionDeEnvio($calle,$numeroPuerta,$ciudad);
     }
     public function removeDireccionDeEnvio(){}
 
@@ -108,6 +89,21 @@ class Cliente extends Usuario {
                 } 
     }
    
+}
+
+class DireccionDeEnvio{
+    private $calle;
+
+    private $numeroPuerta;
+
+    private $ciudad;
+
+    public function __construct($calle,$numeroPuerta,$ciudad){
+        $this->calle = $calle;
+        $this->numeroPuerta = $numeroPuerta;
+        $this->ciudad = $ciudad;
+    }
+
 }
 
 class Carrito{
