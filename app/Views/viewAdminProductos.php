@@ -86,8 +86,8 @@
                 <input type="number" id="descuento" name="descuento" step="0.01" min="0" max="100">
             </div>
             <div class="form-item">
-                <label for="imagen">Subir imagen del producto</label>
-                <input type="file" id="imagen" name="imagen" accept="image/*" required>
+                 <label for="imagen">Subir imágenes del producto</label>
+                 <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
             </div>
             <div class="form-item">
                 <input type="submit" value="Agregar producto">

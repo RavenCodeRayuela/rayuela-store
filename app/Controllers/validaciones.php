@@ -77,30 +77,77 @@ function validarFloatPorcentaje($numeroFloat){
 
 }
 
-function validarImagen($imagenSubida){
 
-    if (!isset($imagenSubida['imagen']) || $imagenSubida['imagen']['error'] !== UPLOAD_ERR_OK) {
+function validarImagen($imagen){
+
+    if (!isset($imagen['imagen']) || $imagen['imagen']['error'] !== UPLOAD_ERR_OK) {
         return false;
     }else{
         $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif");
-        if (!in_array($imagenSubida['imagen']['type'], $tiposPermitidos)) {
-           return false;
+        if (!in_array($imagen['imagen']['type'], $tiposPermitidos)) {
+        return false;
         }
-        return $imagenSubida;
+        return $imagen;
+    }
+
+}
+function moverImagen($imagen){
+if($imagen == false){
+    return false;
+}else{
+    $rutaDestino = ROOT_PATH."/public/storage/uploads/" . basename($imagen['imagen']['name']);
+    if (!move_uploaded_file($imagen['imagen']['tmp_name'], $rutaDestino)) {
+       return false;
+    } else{
+        $rutaBD = "/public/storage/uploads/" . basename($imagen['imagen']['name']);
+        return $rutaBD;
     }
 }
+}
 
-function moverImagen($imagenSubida){
-    if($imagenSubida == false){
-        return false;
-    }else{
-        $rutaDestino = ROOT_PATH."/public/storage/uploads/" . basename($imagenSubida['imagen']['name']);
-        if (!move_uploaded_file($imagenSubida['imagen']['tmp_name'], $rutaDestino)) {
-           return false;
-        } else{
-            $rutaBD = "/public/storage/uploads/" . basename($imagenSubida['imagen']['name']);
-            return $rutaBD;
+function validarImagenes($imagenes) {
+
+    $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif");
+
+    
+    for ($i = 0; $i < count($imagenes['name']); $i++) {
+        
+        if (!isset($imagenes['name'][$i]) || $imagenes['error'][$i] !== UPLOAD_ERR_OK) {
+            return false; 
         }
+        if (!in_array($imagenes['type'][$i], $tiposPermitidos)) {
+            return false; 
+        }
+    }
+    
+    return $imagenes;
+}
+
+function moverImagenes($imagenes) {
+    if ($imagenes == false) {
+        return false;
+    } else {
+       
+        $rutasBD = array();
+
+       
+        for ($i = 0; $i < count($imagenes['name']); $i++) {
+            $nombreImagen = basename($imagenes['name'][$i]);
+            $rutaTemporal = $imagenes['tmp_name'][$i];
+            $rutaDestino = ROOT_PATH . "/public/storage/uploads/" . $nombreImagen;
+
+           
+            if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
+                
+                $rutasBD[] = "/public/storage/uploads/" . $nombreImagen;
+            } else {
+                
+                return false;
+            }
+        }
+
+       
+        return $rutasBD;
     }
 }
 ?>

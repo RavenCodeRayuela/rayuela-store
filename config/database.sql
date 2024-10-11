@@ -25,7 +25,7 @@ CREATE TABLE DIRECCIONES_DE_ENVIO(
     Id_direccion int NOT NULL PRIMARY KEY,
     Ciudad varchar(60) DEFAULT "Ciudad no asignada",
     Calle varchar(60) DEFAULT "Calle no asignada",
-    NroCasa varchar(60) DEFAULT "Nro de casa no asignada"
+    NroCasa varchar(60) DEFAULT "Nro de casa no asignada",
     Id_cliente int NOT NULL,
     FOREIGN KEY(Id_cliente) REFERENCES CLIENTES(Id_cliente)
 );
@@ -76,8 +76,9 @@ CREATE TABLE PRODUCTOS(
 
 CREATE TABLE IMAGEN_PRODUCTO(
     Ruta_imagen_producto varchar(300) NOT NULL,
+    Id_imagen int NOT NULL AUTO_INCREMENT,
     Id_producto int NOT NULL,
-    PRIMARY KEY(Ruta_imagen_producto,Id_producto),
+    PRIMARY KEY(Id_imagen,Id_producto),
     FOREIGN KEY(Id_producto) REFERENCES PRODUCTOS(Id_producto)
 );
 

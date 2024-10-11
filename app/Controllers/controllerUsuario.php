@@ -94,7 +94,7 @@ function loginUsuario(){
                         
                         // Redirigir al usuario
                         header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
-                exit();
+                        exit();
                 }
             } else {
                 // Mostrar un mensaje de error

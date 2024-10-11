@@ -16,7 +16,7 @@ function agregarProducto(){
             $cantidad = $_POST["cantidad"];
             $precioUnitario = $_POST["precio_unitario"];
             $descuento =$_POST["descuento"];
-            $imagenSubida = $_FILES;
+            $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
             
         //Procesos    
@@ -25,17 +25,17 @@ function agregarProducto(){
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
-            $imagenSubida = validarImagen($imagenSubida);
-            $imagenSubida = moverImagen($imagenSubida);
+            $imagenes = validarImagenes($imagenes);
+            $imagenes = moverImagenes($imagenes);
             $categoriaId = validarInt($categoriaId);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenSubida != false && $categoriaId != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false){
                        
                 if (isset($_SESSION['usuario'])) {
                     
                     $admin = unserialize($_SESSION['usuario']);
-                    $admin ->agregarProducto($nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenSubida);
+                    $admin ->agregarProducto($nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
                     
                     $mensajeExito="El producto ha sido ingresado.";
                     
@@ -70,7 +70,7 @@ function modificarProducto(){
             $cantidad = $_POST["cantidad"];
             $precioUnitario = $_POST["precio_unitario"];
             $descuento =$_POST["descuento"];
-            $imagenSubida = $_FILES;
+            $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
             $id = $_POST['productoModificar'];
             
@@ -80,19 +80,19 @@ function modificarProducto(){
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
-            $imagenSubida = validarImagen($imagenSubida);
-            $imagenSubida = moverImagen($imagenSubida);
+            $imagenes = validarImagenes($imagenes);
+            $imagenes = moverImagenes($imagenes);
             $categoriaId = validarInt($categoriaId);
             $id = validarInt($id);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenSubida != false && $categoriaId != false && $id != false && $cantidad != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false){
                        
                 if (isset($_SESSION['Productos'])) {
 
                     $producto= new Producto();
                     
-                    $producto ->updateProducto($id ,$nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenSubida);
+                    $producto ->updateProducto($id ,$nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
                     
                     $mensajeExito="El producto ha sido modificado.";
                     

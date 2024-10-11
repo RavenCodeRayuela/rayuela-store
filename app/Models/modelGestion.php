@@ -16,12 +16,30 @@ class Producto{
     public function __construct(){
     }
 
-    public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen, $idAdmin){
+    private function addImagenes($imagenes, $idProducto) {
+        if (empty($imagenes) || empty($idProducto)) {
+            return false;
+        }
+    
+        $conexion = ConexionBD::getInstance();
+        $sql = "INSERT INTO imagen_producto (Id_producto, Ruta_imagen_producto) VALUES (:Id_producto, :Ruta_imagen_producto)";
+        $stmt = $conexion->prepare($sql);
+    
+        foreach ($imagenes as $rutaImagen) {
+            if (!$stmt->execute([':Id_producto' => $idProducto, ':Ruta_imagen_producto' => $rutaImagen])) {
+                return false; 
+            }
+        }
+    
+        return true; 
+    }
+
+    public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes, $idAdmin){
         try{
             $conexion=ConexionBD::getInstance();
             $conexion -> beginTransaction();
 
-            $sql = "INSERT INTO productos (Nombre, Precio_actual, Descuento, Descripcion_producto, Ruta_imagen_producto, Cantidad, Id_admin, Id_categoria) VALUES (:Nombre, :Precio_actual, :Descuento, :Descripcion_producto, :Ruta_imagen_producto, :Cantidad, :Id_admin, :Id_categoria)";
+            $sql = "INSERT INTO productos (Nombre, Precio_actual, Descuento, Descripcion_producto, Cantidad, Id_admin, Id_categoria) VALUES (:Nombre, :Precio_actual, :Descuento, :Descripcion_producto, :Cantidad, :Id_admin, :Id_categoria)";
             
             $stmt = $conexion->prepare($sql);
 
@@ -30,11 +48,16 @@ class Producto{
                 ':Precio_actual' => $precio,
                 ':Descuento'=> $descuento,
                 ':Descripcion_producto'=> $descripcion,
-                ':Ruta_imagen_producto'=> $rutaImagen,
                 ':Cantidad' => $cantidad,
                 ':Id_admin' => $idAdmin,
                 ':Id_categoria' => $categoria
             ]);
+
+            $idProducto= (int) $conexion->lastInsertId();
+
+            if (!$this->addImagenes($imagenes, $idProducto)) {
+                throw new Exception("Error al agregar imagenes");
+            }
 
             $conexion-> commit();
             return true;
@@ -53,7 +76,7 @@ class Producto{
             return $stmt->execute([':id' => $idProducto ]);
 
     }
-    public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $rutaImagen){
+    public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes){
         
         try {
             $conexion=ConexionBD::getInstance();
@@ -66,11 +89,12 @@ class Producto{
                 ':precio' => $precio,
                 ':descuento' => $descuento,
                 ':descripcion' => $descripcion,
-                ':rutaImagen' => $rutaImagen,
                 ':cantidad' => $cantidad,
                 ':categoria' => $categoria,
                 ':id' => $id
             ])) {
+
+                $this->addImagenes($imagenes,$id);
             
                 $conexion->commit();
                 return true;
@@ -89,7 +113,7 @@ class Producto{
         
             $conexion=ConexionBD::getInstance();
             
-            $stmt = $conexion->query ("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, prod.Ruta_imagen_producto, cat.Nombre_categoria AS categoria 
+            $stmt = $conexion->query ("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, cat.Nombre_categoria AS categoria 
             FROM productos prod
             JOIN categorias cat ON prod.Id_categoria = cat.Id_categoria;");
 
@@ -181,10 +205,10 @@ class Categoria{
         $sql = "SELECT * FROM categorias WHERE Nombre_categoria = :Nombre_categoria";
         $stmt = $conexion ->prepare($sql);
      
-        // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
+               
       $stmt->execute([':Nombre_categoria' => $nombre]);
      
-      // Obtener la fila del usuario de la base de datos
+      
       $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
 
       return $categoria;
