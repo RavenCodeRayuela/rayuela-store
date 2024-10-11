@@ -27,5 +27,7 @@ function mostrarNosotros(){
 }
 
 function mostrarInfoContacto(){}
-function mostrarPerfil(){}
+function mostrarPerfil(){
+    require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
+}
 ?>

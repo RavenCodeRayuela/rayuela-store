@@ -3,7 +3,7 @@
 session_start();
 if($_SESSION !=[]){
 if (isset($_SESSION['user_email']) && $_SESSION['rol']!="admin") {
-    header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome');
+    header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
     exit();
 }elseif (($_SESSION['user_email']) && $_SESSION['rol']=="admin") {
     header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarBackoffice');

@@ -93,7 +93,7 @@ function loginUsuario(){
                         $_SESSION['usuario'] = serialize($cliente);
                         
                         // Redirigir al usuario
-                        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome');
+                        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
                 exit();
                 }
             } else {
