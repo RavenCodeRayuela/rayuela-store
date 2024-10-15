@@ -18,7 +18,7 @@
     $agregarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=agregarCategoria';
     $modificarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=modificarCategoria';
     $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
-    $js = URL_PATH.'/public/js/categorias-script.js';
+    $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
 
@@ -40,7 +40,7 @@
         <section class="text-admin">
             <h1>Pagina de gestión de categorias</h1>
 
-            <!-- Botones para elegir qué formulario mostrar -->
+            <!-- Botones para elegir que formulario mostrar -->
       <hr class="hr-separador">       
     <button class="button-forms" onclick="mostrarFormulario('agregar')">Agregar categorias</button>
     <button class="button-forms" onclick="mostrarFormulario('modificar')">Modificar categorias</button>

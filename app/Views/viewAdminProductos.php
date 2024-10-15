@@ -19,7 +19,7 @@
     $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
     $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
     $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
-    $js = URL_PATH.'/public/js/productos-script.js';
+    $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
 
@@ -145,8 +145,8 @@
             </div>
 
             <div class="form-item">
-                <label for="imagen">Subir imagen del producto</label>
-                <input type="file" id="imagen_modificar" name="imagen" accept="image/*" required>
+                 <label for="imagen">Subir imágenes del producto</label>
+                 <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
             </div>
 
             <div class="form-item">
@@ -178,34 +178,42 @@
         </form>
     </div>
 
-        <!-- Listar Productos -->
-    <div id="listar" class="form-container-productos">
-        <h3>Lista de Productos</h3>
-        
-        <div  id="tablaProductos">
-            <?php
-                if ($productos) {
-                        echo "<table class='tabla-listar'>";
-                        echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Cantidad</th><th>Precio</th><th>Descuento</th><th>Imagen</th><th>Categoría</th></tr>";
-                        foreach ($productos as $producto) {
-                            echo "<tr>";
-                            echo "<td>" . $producto['Id_producto']. "</td>";
-                            echo "<td>" . $producto['Nombre'] . "</td>";
-                            echo "<td>" . $producto['Descripcion_producto'] . "</td>";
-                            echo "<td>" . $producto['Cantidad'] . "</td>";
-                            echo "<td>" . $producto['Precio_actual'] . "</td>";
-                            echo "<td>" . $producto['Descuento'] . "%</td>";
-                            echo "<td><img src='" . URL_PATH.$producto['Ruta_imagen_producto'] . "'alt'='Imagen de producto' width='100'></td>";
-                            echo "<td>" . $producto['categoria'] . "</td>";
-                            echo "</tr>";
-                        }
-                        echo "</table>";
-                    } else {
-                        echo "No hay productos disponibles.";
+   <!-- Listar Productos -->
+<div id="listar" class="form-container-productos">
+    <h3>Lista de Productos</h3>
+
+    <div id="tablaProductos">
+        <?php
+            if ($productos) {
+                echo "<table class='tabla-listar'>";
+                echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Cantidad</th><th>Precio</th><th>Descuento</th><th>Imágenes</th><th>Categoría</th></tr>";
+                
+                foreach ($productos as $producto) {
+                    echo "<tr>";
+                    echo "<td>" . $producto['Id_producto']. "</td>";
+                    echo "<td>" . $producto['Nombre'] . "</td>";
+                    echo "<td>" . $producto['Descripcion_producto'] . "</td>";
+                    echo "<td>" . $producto['Cantidad'] . "</td>";
+                    echo "<td>" . $producto['Precio_actual'] . "</td>";
+                    echo "<td>" . $producto['Descuento'] . "%</td>";
+                    echo "<td class='td-imagenes'>";
+                    
+                    foreach($producto['imagenes'] as $imagen) {
+                        echo "<img src='" . URL_PATH . $imagen . "' alt='Imagen de producto' class='img-thumbnail'>";
                     }
-            ?>
-        </div>
+
+                    echo "</td>";
+                    echo "<td>" . $producto['categoria'] . "</td>";
+                    echo "</tr>";
+                }
+                
+                echo "</table>";
+            } else {
+                echo "No hay productos disponibles.";
+            }
+        ?>
     </div>
+</div>
         </section>
     </main>
     <script src=<?php echo $js; ?>></script>

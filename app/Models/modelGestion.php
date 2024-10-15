@@ -33,6 +33,51 @@ class Producto{
     
         return true; 
     }
+    
+    private function updateImagenes($imagenes, $idProducto) {
+
+        $conexion = ConexionBD::getInstance();
+
+        if (empty($imagenes) || empty($idProducto)) {
+            return false;
+        }
+
+        $resultadoIdImagenes= $this->selectImagenes($idProducto);
+       
+
+        $sql = "UPDATE imagen_producto SET Ruta_imagen_producto = :Ruta_imagen_producto WHERE Id_imagen = :Id_imagen";
+        $stmt = $conexion->prepare($sql);
+    
+        $limite= count($resultadoIdImagenes);
+        $iteraciones=0;
+
+        foreach ($imagenes as $rutaImagen) {
+            
+            if($iteraciones==($limite)){
+                return false;
+            }
+            if (!$stmt->execute([':Id_imagen' => $resultadoIdImagenes[$iteraciones]['Id_imagen'], ':Ruta_imagen_producto' => $rutaImagen])) {
+                return false; 
+            }
+            $iteraciones++;
+        }
+    
+        return true; 
+    }
+
+    private function selectImagenes($idProducto){
+        if (empty($idProducto)) {
+            return false;
+        }
+        $conexion = ConexionBD::getInstance();
+
+        $sqlSelect = "SELECT Id_imagen FROM imagen_producto WHERE Id_producto = :id";
+        $stmtSelect = $conexion->prepare($sqlSelect);
+
+        $stmtSelect->execute([':id'=>$idProducto]);
+
+        return $stmtSelect->fetchAll();
+    }
 
     public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes, $idAdmin){
         try{
@@ -70,11 +115,27 @@ class Producto{
 
     
     public function removeProducto($idProducto){
+        try {
         $conexion=ConexionBD::getInstance();
 
-            $stmt = $conexion->prepare("DELETE FROM productos WHERE Id_producto = :id");
-            return $stmt->execute([':id' => $idProducto ]);
+            $conexion -> beginTransaction();
+        
+            //Borrar imagenes relacionadas con el id
+            $stmtImagenes = $conexion->prepare("DELETE FROM imagen_producto WHERE Id_producto = :id");
+            $stmtImagenes->execute([':id' => $idProducto ]);
 
+            //Borrar producto relacionado con el id
+            $stmtProducto = $conexion->prepare("DELETE FROM productos WHERE Id_producto = :id");
+            $stmtProducto->execute([':id' => $idProducto ]);
+
+
+            $conexion->commit();
+            return true;
+        } catch (Exception $e) {
+            
+            $conexion->rollback();
+            echo "Transacción fallida: " . $e->getMessage();
+        }
     }
     public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes){
         
@@ -82,7 +143,7 @@ class Producto{
             $conexion=ConexionBD::getInstance();
             $conexion -> beginTransaction();
 
-            $stmt = $conexion->prepare("UPDATE productos SET Nombre = :nombre, Precio_actual = :precio, Descuento = :descuento, Descripcion_producto = :descripcion, Ruta_imagen_producto = :rutaImagen, Cantidad = :cantidad, Id_categoria = :categoria WHERE Id_producto = :id");
+            $stmt = $conexion->prepare("UPDATE productos SET Nombre = :nombre, Precio_actual = :precio, Descuento = :descuento, Descripcion_producto = :descripcion, Cantidad = :cantidad, Id_categoria = :categoria WHERE Id_producto = :id");
             
             if ($stmt->execute([
                 ':nombre' => $nombre,
@@ -94,8 +155,10 @@ class Producto{
                 ':id' => $id
             ])) {
 
-                $this->addImagenes($imagenes,$id);
-            
+              
+            if (!$this->updateImagenes($imagenes, $id)) {
+                throw new Exception("Error al agregar imagenes, asegurese que el numero de imagenes sea igual al numero de imagenes anterior");
+            }
                 $conexion->commit();
                 return true;
             } else {
@@ -113,16 +176,24 @@ class Producto{
         
             $conexion=ConexionBD::getInstance();
             
-            $stmt = $conexion->query ("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, cat.Nombre_categoria AS categoria 
-            FROM productos prod
-            JOIN categorias cat ON prod.Id_categoria = cat.Id_categoria;");
+            $stmt = $conexion->query ("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes,
+            cat.Nombre_categoria AS categoria
+            FROM productos AS prod
+            JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
+            JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto GROUP BY prod.Id_producto;");
 
             $productos = array();
 
              while ( $producto = $stmt->fetch() ){
+
+                $producto['imagenes'] = explode(',', $producto['imagenes']);
+
+                //Para eliminar el string del cual se hizo el explode para generar el array de imagenes
+                unset($producto[6]);
+
+
                 $productos[] = $producto;
             }
-            
                 return $productos;
         }
     

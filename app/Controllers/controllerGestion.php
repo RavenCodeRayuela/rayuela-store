@@ -86,7 +86,7 @@ function modificarProducto(){
             $id = validarInt($id);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && $descuento != false && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false){
                        
                 if (isset($_SESSION['Productos'])) {
 

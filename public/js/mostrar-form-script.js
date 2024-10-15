@@ -1,5 +1,7 @@
- // Función para mostrar el formulario correspondiente
+ 
+ // Funcion para mostrar el formulario correspondiente
  function mostrarFormulario(formularioId) {
+
     // Ocultar todos los formularios mediante una funcion anonima
     var formularios = document.querySelectorAll('.form-container-productos');
     formularios.forEach(function(formulario) {
@@ -10,4 +12,5 @@
     var formularioSeleccionado = document.getElementById(formularioId);
     formularioSeleccionado.style.display = 'block';
 }
+
 
