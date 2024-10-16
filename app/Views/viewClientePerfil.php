@@ -2,6 +2,20 @@
     $css = URL_PATH.'/public/css/styles.css';
     $js = URL_PATH.'/public/js/admin-script.js';
     $img = URL_PATH.'/public/img/';
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+        
+    if($_SESSION !=[]){
+        if (!isset($_SESSION['user_email'])) {
+            header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
+            exit();
+        }
+        if(isset($_SESSION['nombre'])){
+            $nombre = $_SESSION['nombre'];
+        }
+    }
     
 ?>
 
@@ -22,7 +36,7 @@
 
         <!-- Barra lateral -->
         <div class="sidebar">
-            <h3><?php echo $usuario; ?>Nombre de usuario</h3>
+            <h3><?php echo $nombre; ?></h3>
             <a href="#" onclick="mostrarContenido('datos')">Datos personales</a>
             <a href="#" onclick="mostrarContenido('historial')">Historial de compras</a>
             <a href="#" onclick="mostrarContenido('direcciones')">Direcciones de envío</a>

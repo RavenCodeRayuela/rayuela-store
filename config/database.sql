@@ -92,3 +92,21 @@ CREATE TABLE COMPRA_CONTIENE_PRODUCTO(
     FOREIGN KEY(Id_compra) REFERENCES COMPRAS(Id_compra),
     FOREIGN KEY(Id_producto) REFERENCES PRODUCTOS(Id_producto)
 );
+
+
+/*Agregar luego de creada la base de datos*/
+INSERT INTO `tipo_de_usuario` (`Id_tipo`, `Rol`) VALUES
+(1, 'Admin'),
+(2, 'Cliente');
+
+INSERT INTO `usuarios` (`Id_usuario`, `Nombre`, `Email`, `password`, `Id_tipo`) VALUES
+(1, 'Nombre no asignado', 'admin@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 1),
+(3, 'Nombre no asignado', 'usuario1@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 2);
+
+
+INSERT INTO `clientes` (`Id_cliente`, `Suscripcion_newsletter`) VALUES
+(3, 0);
+
+
+INSERT INTO `administrador` (`Id_admin`) VALUES
+(1);

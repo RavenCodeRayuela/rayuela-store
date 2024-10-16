@@ -21,3 +21,4 @@
 - Terminar diseño de perfiles de usuario
 - Realizar página web empresa
 - Centrar listado de productos y categorías
+- Agregar una prepagina con datos del negocio

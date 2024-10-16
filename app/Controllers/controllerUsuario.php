@@ -64,7 +64,7 @@ function loginUsuario(){
             if ($usuarioLogueado) {
                 // Iniciar sesión de PHP para mantener al usuario autenticado
                 session_start();
-            
+                
                 $usuario -> setId($usuarioLogueado['Id_usuario']);
                 $usuario -> setEmail($usuarioLogueado['Email']);
                 $usuario -> setPassword($usuarioLogueado['password']);
@@ -90,8 +90,8 @@ function loginUsuario(){
                         $_SESSION['user_email'] = $usuarioLogueado['Email'];
                         $_SESSION['rol'] ="cliente";
                         $cliente = new Cliente($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
-                        $_SESSION['usuario'] = serialize($cliente);
-                        
+                        $_SESSION['nombre'] = $cliente->getNombre();
+
                         // Redirigir al usuario
                         header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
                         exit();

@@ -17,6 +17,13 @@ class Usuario {
         $this -> email = $email;
         $this -> password = $password;
         $this ->tipoDeUsuario = $tipoDeUsuario;
+
+        if($email!= null){
+            if($this -> obtenerUsuarioBD($email)){
+                $usuarioMom= $this->obtenerUsuarioBD($email);
+                $this -> nombre = $usuarioMom['Nombre'];
+            }
+        }
     }
 
     public function  setId($id){
