@@ -32,11 +32,11 @@
     <?php include_once 'viewHeader.php'?>
 
     <!-- Contenido Principal -->
-    <div class="container">
+    <main class="container">
 
         <!-- Barra lateral -->
         <div class="sidebar">
-            <h3><?php echo $nombre; ?></h3>
+            <h3><?php echo "Bienvenido ".$nombre; ?></h3>
             <a href="#" onclick="mostrarContenido('datos')">Datos personales</a>
             <a href="#" onclick="mostrarContenido('historial')">Historial de compras</a>
             <a href="#" onclick="mostrarContenido('direcciones')">Direcciones de envío</a>
@@ -49,7 +49,7 @@
             <p>Aquí irá todo lo relacionado a la opción seleccionada en el menú de subnavegación.</p>
         </div>
 
-    </div>
+    </main>
 
 
     <?php include_once 'viewFooter.php'?>

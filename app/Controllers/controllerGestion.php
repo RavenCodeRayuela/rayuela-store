@@ -54,7 +54,7 @@ function agregarProducto(){
          }
 }
 
-function modificarProducto(){
+function modificarProducto($id){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -110,7 +110,7 @@ function modificarProducto(){
          }
 }
 
-function eliminarProducto(){
+function eliminarProducto($id){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (session_status() === PHP_SESSION_NONE) {

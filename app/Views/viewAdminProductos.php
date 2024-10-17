@@ -186,7 +186,7 @@
         <?php
             if ($productos) {
                 echo "<table class='tabla-listar'>";
-                echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Cantidad</th><th>Precio</th><th>Descuento</th><th>Imágenes</th><th>Categoría</th></tr>";
+                echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Cantidad</th><th>Precio</th><th>Descuento</th><th>Imágenes</th><th>Categoría</th><th>Modificar</th><th>Eliminar</th></tr>";
                 
                 foreach ($productos as $producto) {
                     echo "<tr>";
@@ -203,6 +203,8 @@
                     }
 
                     echo "</td>";
+                    echo "<td>" . $producto['categoria'] . "</td>";
+                    echo "<td><a href='index.php?controller=user&action=edit&id=".$producto['Id_producto']."'>"."Modificar"."</a></td>";
                     echo "<td>" . $producto['categoria'] . "</td>";
                     echo "</tr>";
                 }
