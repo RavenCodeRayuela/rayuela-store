@@ -54,6 +54,20 @@ function agregarProducto(){
          }
 }
 
+function editarProducto($id){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
+    $producto= new Producto($id);
+    $categoria= new Categoria();
+    $categorias= $categoria -> getCategorias();
+
+    require_once ROOT_PATH."/app/Views/viewAdminModificarProducto.php";
+    
+    
+}
 function modificarProducto($id){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -72,6 +86,7 @@ function modificarProducto($id){
             $descuento =$_POST["descuento"];
             $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
+            //Como puedo pasar el id?
             $id = $_POST['productoModificar'];
             
         //Procesos    

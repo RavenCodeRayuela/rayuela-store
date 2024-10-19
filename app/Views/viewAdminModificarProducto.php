@@ -8,17 +8,9 @@
             header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
             exit();
         }
-        if(isset($_SESSION['Categorias']) && isset($_SESSION['Productos'])){
-            $categorias = $_SESSION['Categorias'];
-            $productos = $_SESSION['Productos'];
-        }
     }
-    //Quitar require cuando se maneje todo desde el controlador.
-    require_once dirname(__DIR__,2)."/config/paths.php";
     $css = URL_PATH.'/public/css/styles.css';
-    $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
     $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
-    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
     $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
@@ -43,17 +35,19 @@
     <hr class="hr-separador">
 
     <!-- Formulario para Modificar Producto -->
-    <div id="modificar" class="form-container-productos">
+    <div id="modificar" class="form-container-productos" style="display:block;">
         <form action=<?php echo $modificarProducto ?> method="POST" enctype="multipart/form-data">
             
             <div class="form-item">
                 <label for="nombre">Nuevo nombre del producto:</label><br>
-                <input type="text" id="nombre_modificar" name="nombre"><br><br>
+                <input type="text" id="nombre_modificar" name="nombre" value="<?php echo $producto->getNombre();?>"><br><br>
             </div>
             
             <div class="form-item">
                 <label for="descripcion">Nueva descripción:</label><br>
-                <textarea id="descripcion_modificar" name="descripcion" rows="4" style="resize:none; width:100%;"></textarea><br><br>
+                <textarea id="descripcion_modificar" name="descripcion" rows="4" style="resize:none; width:100%;">
+                    <?php echo $producto->getDescripcion();?>
+                </textarea><br><br>
             </div>
 
             <div class="form-item">
@@ -68,17 +62,17 @@
             
             <div class="form-item">
                 <label for="cantidad">Nueva cantidad:</label><br>
-                <input type="number" id="cantidad_modificar" name="cantidad" min="1"><br><br>
+                <input type="number" id="cantidad_modificar" name="cantidad" min="1" value="<?php echo $producto->getCantidad();?>"><br><br>
             </div>
 
             <div class="form-item">
                 <label for="precio_unitario">Nuevo precio unitario:</label><br>
-                <input type="number" id="precio_unitario_modificar" name="precio_unitario" step="0.01" min="0"><br><br>
+                <input type="number" id="precio_unitario_modificar" name="precio_unitario" step="0.01" min="0" value="<?php echo $producto->getPrecio();?>"><br><br>
             </div>
             
             <div class="form-item">
                 <label for="descuento">Nuevo descuento (%):</label><br>
-                <input type="number" id="descuento_modificar" name="descuento" step="0.01" min="0" max="100"><br><br>
+                <input type="number" id="descuento_modificar" name="descuento" step="0.01" min="0" max="100" value="<?php echo $producto->getDescuento();?>"><br><br>
             </div>
 
             <div class="form-item">

@@ -15,6 +15,7 @@
 - Realizar la logica del perfil de usuario
 - Realizar paginación de productos y categorias
 - Añadir restriccion para que el admin no agregue productos ya presentes en la base de datos(Comprobar por Nombre y/o descripcion)
+- Sanear todos los mensajes a usuario mediante htmlspecialchars.
 
 #### Diseño Web
 - Mejorar los diseños en general, prioridad en las paginas que ven los usuarios/clientes.

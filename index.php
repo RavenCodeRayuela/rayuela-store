@@ -17,7 +17,14 @@ $action = obtenerAction();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ( is_callable ($action) ){
-        $action();
+        switch ($action) {
+            case 'editarProducto':
+                $action($_GET[ 'id' ]);
+                break;
+            default:
+                $action();
+                break;
+        }
     }else{
         die ('La accion no existe - 404 not found');
     }
@@ -27,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (is_callable ($action)){
         $action();
+        
     }else{
         die ('La accion no existe - 404 not found');
     }

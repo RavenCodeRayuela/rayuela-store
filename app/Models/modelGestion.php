@@ -11,11 +11,77 @@ class Producto{
     private $categoria;
     private $cantidad;
     
-    private $rutaImagenProducto;
+    public function __construct($id=null){
 
-    public function __construct(){
+        if($id!=null){
+            $productoMom= $this->getProducto($id);
+            $this->id=$productoMom['Id_producto'];
+            $this->nombre=$productoMom['Nombre'];
+            $this->descripcion=$productoMom['Descripcion_producto'];
+            $this->precio=$productoMom['Precio_actual'];
+            $this->descuento=$productoMom['Descuento'];
+            $this->categoria=$productoMom['Id_categoria'];
+            $this->cantidad=$productoMom['Cantidad'];
+        }
     }
 
+    //Getters y setters
+
+    public function getId(){
+        return $this->id;
+    }
+    public function setId($id){
+        $this->id=$id;
+    }
+
+    public function getNombre(){
+        return $this->nombre;
+    }
+
+    public function setNombre($nombre){
+        $this->nombre=$nombre;
+    }
+
+    public function getDescripcion(){
+        return $this->descripcion;
+    }
+    public function setDescripcion($descripcion){
+        $this->descripcion=$descripcion;
+    }
+
+    public function getPrecio(){
+        return $this->precio;
+    }
+
+    public function setPrecio($precio){
+        $this->precio=$precio;
+    }
+
+    public function getDescuento(){
+        return $this->descuento;
+    }
+
+    public function setDescuento($descuento){
+        $this->descuento=$descuento;
+    }
+
+    public function getCategoria(){
+        return $this->categoria;
+    }
+
+    public function setCategoria($categoria){
+        $this->categoria=$categoria;
+    }
+
+    public function getCantidad(){
+        return $this->cantidad;
+    }
+    public function setCantidad($cantidad){
+        $this->cantidad=$cantidad;
+    }
+
+
+    //Funciones de BBDD
     private function addImagenes($imagenes, $idProducto) {
         if (empty($imagenes) || empty($idProducto)) {
             return false;
@@ -197,7 +263,17 @@ class Producto{
                 return $productos;
         }
     
-    public function verProducto($idProducto){}
+        public function getProducto($idProducto){
+            $conexion = ConexionBD::getInstance();
+        
+            $stmt = $conexion->prepare("SELECT Id_producto, Nombre, Descripcion_producto, Cantidad, Precio_actual, Descuento, Id_categoria FROM productos WHERE Id_producto = :id");
+    
+            if ($stmt->execute([':id' => $idProducto])) {
+                return $stmt->fetch();
+            }
+            
+            return false; 
+        }
 
 }
 
