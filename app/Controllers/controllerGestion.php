@@ -86,7 +86,6 @@ function modificarProducto(){
             $descuento =$_POST["descuento"];
             $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
-            //Como puedo pasar el id?
             $id = $_POST['id'];
             
         //Procesos    
@@ -193,17 +192,29 @@ function agregarCategoria(){
 
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
 
-                    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
                 }else{
                     echo "Error al obtener el usuario";
                 }
             }else{
                 $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
+                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
             }
          }
 }
 
+function editarCategoria($id){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
+
+    $categoria= new Categoria($id);
+    require_once ROOT_PATH."/app/Views/viewAdminModificarCategoria.php";
+    
+    
+}
 function modificarCategoria(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -218,7 +229,7 @@ function modificarCategoria(){
             $nombre = $_POST["nombre"];
             $descripcion = $_POST["descripcion"];
             $imagenSubida = $_FILES;
-            $id = $_POST['categoria'];
+            $id = $_POST['id'];
             
         //Procesos    
             $nombre = sanearTexto($nombre);
@@ -240,20 +251,19 @@ function modificarCategoria(){
                     
                 
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
-                    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
                 }else{
                     echo "Error al obtener la categoría";
                 }
             }else{
                 $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
+                require_once ROOT_PATH."/app/Views/viewAdminModificarCategoria.php";
             }
          }
 }
 
 
-function eliminarCategoria(){
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+function eliminarCategoria($id){
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -261,31 +271,29 @@ function eliminarCategoria(){
         
         require_once ROOT_PATH.'/app/Models/modelGestion.php';
 
-        $id = $_POST['categoriaEliminar'];
         $id = validarInt($id);
 
         if($id != false){
-            if (isset($_SESSION['Categorias'])) {
 
-                $categoria= new Categoria();
+                $categoria= new Categoria($id);
+                
+                $imagen= $categoria->getRutaImagenCategoria();
+                
+                eliminarImagenes($imagen);
                 
                 $categoria ->removeCategoria($id);
-                
+
                 $mensajeExito="La categoria ha sido eliminada.";
                 
                 
 
                 $_SESSION['Categorias'] = $categoria -> getCategorias();
-                require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
-            }else{
-                echo "Error al obtener la categoria";
-            }
-        }else{
-            $errores= "Todo el formulario debe ser completado";
-            require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php'; 
-        }
-     
 
-    }
+                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+        }else{
+            echo "Error al obtener la categoria";
+            }
+        
+     
 }
 ?>

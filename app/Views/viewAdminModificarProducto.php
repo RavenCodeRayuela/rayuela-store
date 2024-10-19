@@ -3,12 +3,11 @@
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
-    if($_SESSION !=[]){
-        if (!isset($_SESSION['user_email']) || $_SESSION['rol']!="admin") {
-            header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
-            exit();
-        }
+    if (!isset($_SESSION['user_email']) || $_SESSION['rol']!="admin") {
+        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
+        exit();
     }
+    
     $css = URL_PATH.'/public/css/styles.css';
     $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
     $js = URL_PATH.'/public/js/mostrar-form-script.js';

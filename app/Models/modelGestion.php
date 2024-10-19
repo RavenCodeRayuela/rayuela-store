@@ -285,7 +285,51 @@ class Categoria{
 
     private $rutaImagenCategoria;
     
-    public function __construct(){}
+    public function __construct($id=null){
+        
+        if($id!=null){
+            $categoriaMom= $this->getCategoria($id);
+            
+            $this->id=$categoriaMom['Id_categoria'];
+            $this->nombre=$categoriaMom['Nombre_categoria'];
+            $this->descripcion=$categoriaMom['Descripcion_categoria'];
+            $this->rutaImagenCategoria=$categoriaMom['Ruta_imagen_categoria'];
+            
+        }
+        
+    }
+
+    //Getters y setters
+    public function getId(){
+        return $this->id;
+    }
+    public function setId($id){
+        $this->id=$id;
+    }
+
+    public function getNombre(){
+        return $this->nombre;
+    }
+    public function setNombre($nombre){
+        $this->nombre=$nombre;
+    }
+
+    public function getDescripcion(){
+        return $this->descripcion;
+    }
+    public function setDescripcion($descripcion){
+        $this->descripcion=$descripcion;
+    }
+
+    public function getRutaImagenCategoria(){
+        return $this->rutaImagenCategoria;
+    }
+
+    public function setRutaImagenCategoria($rutaImagenCategoria){
+        $this->rutaImagenCategoria=$rutaImagenCategoria;
+    }
+
+
 
     public function addCategoria($nombre, $descripcion,$rutaImagen,$idAdmin){
         try{
@@ -346,19 +390,39 @@ class Categoria{
         }
     }
 
-    public function obtenerCategoria($nombre){
+    public function getCategoria($id=null,$nombre=null){
+        
         $conexion=ConexionBD::getInstance();
 
-        $sql = "SELECT * FROM categorias WHERE Nombre_categoria = :Nombre_categoria";
-        $stmt = $conexion ->prepare($sql);
-     
-               
-      $stmt->execute([':Nombre_categoria' => $nombre]);
-     
-      
-      $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($id == null){        
+            $sql = "SELECT * FROM categorias WHERE Nombre_categoria = :Nombre_categoria";
+            $stmt = $conexion ->prepare($sql);
+        
+                
+            $stmt->execute([':Nombre_categoria' => $nombre]);
+        
+        
+            $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      return $categoria;
+            return $categoria;
+        }
+        
+        if($nombre == null){
+            $sql = "SELECT * FROM categorias WHERE Id_categoria = :Id_categoria";
+            $stmt = $conexion ->prepare($sql);
+        
+                
+            $stmt->execute([':Id_categoria' => $id]);
+        
+        
+            $categoria = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $categoria;
+        }
+
+        if(($id && $nombre) == null){
+            return false;
+        }
     }
 
     public function getCategorias(){

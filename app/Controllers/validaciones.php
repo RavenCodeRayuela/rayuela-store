@@ -152,17 +152,26 @@ function moverImagenes($imagenes) {
 }
 
 function eliminarImagenes($imagenes){
-
-    foreach ($imagenes as $imagen) {
-    
-        $rutaImagen = ROOT_PATH.$imagen['Ruta_imagen_producto']; 
-    
-        if (file_exists($rutaImagen)) { 
-            unlink($rutaImagen);
-        } else {
-            echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
+   
+    if (is_array($imagenes )){
+        foreach ($imagenes as $imagen) {
+        
+            $rutaImagen = ROOT_PATH.$imagen['Ruta_imagen_producto']; 
+        
+            if (file_exists($rutaImagen)) { 
+                unlink($rutaImagen);
+            } else {
+                echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
+            }
+        
         }
-    
+    }else{
+        $rutaImagen = ROOT_PATH.$imagenes;
+            if (file_exists($rutaImagen)) { 
+                unlink($rutaImagen);
+            } else {
+                echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
+            }
     }
 }
 ?>

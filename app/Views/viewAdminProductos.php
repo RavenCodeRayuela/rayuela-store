@@ -129,8 +129,8 @@
 
                     echo "</td>";
                     echo "<td>" . $producto['categoria'] . "</td>";
-                    echo "<td><a href=".$editarProducto."&id=".$producto['Id_producto']."'>"."Modificar"."</a></td>";
-                    echo "<td><a href=".$eliminarProducto."&id=".$producto['Id_producto']."'>"."Eliminar"."</a></td>";
+                    echo "<td><a href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a></td>";
+                    echo "<td><a href=".$eliminarProducto."&id=".$producto['Id_producto'].">"."Eliminar"."</a></td>";
                     echo "</tr>";
                 }
                 
@@ -183,9 +183,9 @@
                             echo "<td>" . $categoria['Id_categoria']. "</td>";
                             echo "<td>" . $categoria['Nombre_categoria'] . "</td>";
                             echo "<td>" . $categoria['Descripcion_categoria'] . "</td>";
-                            echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de producto' width='100'></td>";
-                            echo "<td><a href=".$editarCategoria."&id=".$categoria['Id_categoria']."'>"."Modificar"."</a></td>";
-                            echo "<td><a href=".$eliminarCategoria."&id=".$categoria['Id_categoria']."'>"."Eliminar"."</a></td>";
+                            echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de categoria' width='100' class='img-thumbnail'></td>";
+                            echo "<td><a href=".$editarCategoria."&id=".$categoria['Id_categoria'].">"."Modificar"."</a></td>";
+                            echo "<td><a href=".$eliminarCategoria."&id=".$categoria['Id_categoria'].">"."Eliminar"."</a></td>";
                             echo "</tr>";
                         }
                         echo "</table>";

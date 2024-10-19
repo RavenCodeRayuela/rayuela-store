@@ -7,8 +7,6 @@
 (Tareas por hacer que surgen del úso de la aplicación, errores, mejoras, etc. Por lo tanto puede no contener los RF o RNF a desarrollar)
 ----------------------
 
-- Terminar de pasar view de categorias a la de productos para combinarla
-
 #### Programación
 - Hacer temporales los mensajes de exito o fracaso al realizar operaciones con el CRUD.
 - Verificar que la imagen a eliminar no este siendo utilizada en una categoría u otro producto, en dicho caso no borrar dicha imagen, si datos referentes al producto en la base de datos.(Opcional)
@@ -18,6 +16,7 @@
 - Añadir restriccion para que el admin no agregue productos ya presentes en la base de datos(Comprobar por Nombre y/o descripcion)
 - Permitir que se agreguen imagenes(a BBDD) cuando se modifica el producto.(O que no se agreguen a los archivos y que se reciba un msj de feedback)
 - Sanear todos los mensajes a usuario mediante htmlspecialchars.
+- Realizar un header con un require para comprobar sesiones y variables de sesiones.
 
 #### Diseño Web
 - Mejorar los diseños en general, prioridad en las paginas que ven los usuarios/clientes.
@@ -25,3 +24,7 @@
 - Realizar página web empresa
 - Centrar listado de productos y categorías
 - Agregar una prepagina con datos del negocio
+
+#### General
+
+- Corregir faltas de ortografía en msj a usuarios.
