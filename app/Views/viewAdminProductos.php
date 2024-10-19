@@ -13,13 +13,21 @@
             $productos = $_SESSION['Productos'];
         }
     }
-    
+    //General
     $css = URL_PATH.'/public/css/styles.css';
-    $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
-    $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
-    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
     $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
+
+    //Productos
+    $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
+    $editarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto';
+    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
+
+    //Categorias
+    $agregarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=agregarCategoria';
+    $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
+    $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
+   
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +36,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Gestion de productos</title>
+    <title>Gestion de productos y categorias</title>
 </head>
 <body>
 
@@ -38,12 +46,14 @@
     <!-- Contenido Principal -->
     <main>
         <section class="text-admin">
-            <h1>Pagina de gestión de productos</h1>
+            <h1>Pagina de gestión de productos y categorias</h1>
 
             <!-- Botones para elegir qué formulario mostrar -->
       <hr class="hr-separador">       
     <button class="button-forms" onclick="mostrarFormulario('agregar')">Agregar Producto</button>
     <button class="button-forms" onclick="mostrarFormulario('listar')">Listar Productos</button>
+    <button class="button-forms" onclick="mostrarFormulario('agregarCategoria')">Agregar categorias</button>
+    <button class="button-forms" onclick="mostrarFormulario('listarCategorias')">Listar categorias</button>
  
     <hr class="hr-separador">
 
@@ -119,8 +129,8 @@
 
                     echo "</td>";
                     echo "<td>" . $producto['categoria'] . "</td>";
-                    echo "<td><a href='index.php?controller=controllerGestion&action=editarProducto&id=".$producto['Id_producto']."'>"."Modificar"."</a></td>";
-                    echo "<td><a href='index.php?controller=controllerGestion&action=editarProducto&id=".$producto['Id_producto']."'>"."Eliminar"."</a></td>";
+                    echo "<td><a href=".$editarProducto."&id=".$producto['Id_producto']."'>"."Modificar"."</a></td>";
+                    echo "<td><a href=".$eliminarProducto."&id=".$producto['Id_producto']."'>"."Eliminar"."</a></td>";
                     echo "</tr>";
                 }
                 
@@ -131,6 +141,62 @@
         ?>
     </div>
 </div>
+        <!-- Formulario para Agregar Categoria -->
+        <div id="agregarCategoria" class="form-container-productos">
+                <h3>Agregar categoria</h3>
+                
+                <form action= <?php echo $agregarCategoria;?> method="POST" enctype="multipart/form-data">
+                
+                <div class="form-item">
+                        <label class="label-gestion" for="nombre">Nombre de la categoria</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-item">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%;"></textarea>
+                </div>
+                
+                <div class="form-item">
+                    <label for="imagen">Subir imagen de la categoria</label>
+                    <input type="file" id="imagen" name="imagen" accept="image/*" required>
+                </div>
+                
+                <div class="form-item">
+                    <input type="submit" value="Agregar categoria">
+                </div>
+                </form>
+            </div>
+
+            
+        <!-- Listar Categorias -->
+    <div id="listarCategorias" class="form-container-productos">
+        <h3>Lista de categorias</h3>
+
+        <div  id="tablaProductos">
+            <?php
+                if ($categorias) {
+                        echo "<table class='tabla-listar'>";
+                        echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Imagen</th><th>Modificar</th><th>Eliminar</th></tr>";
+                        foreach ($categorias as $categoria) {
+                            echo "<tr>";
+                            echo "<td>" . $categoria['Id_categoria']. "</td>";
+                            echo "<td>" . $categoria['Nombre_categoria'] . "</td>";
+                            echo "<td>" . $categoria['Descripcion_categoria'] . "</td>";
+                            echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de producto' width='100'></td>";
+                            echo "<td><a href=".$editarCategoria."&id=".$categoria['Id_categoria']."'>"."Modificar"."</a></td>";
+                            echo "<td><a href=".$eliminarCategoria."&id=".$categoria['Id_categoria']."'>"."Eliminar"."</a></td>";
+                            echo "</tr>";
+                        }
+                        echo "</table>";
+                    } else {
+                        echo "No hay productos disponibles.";
+                    }
+            ?>
+        </div>
+    </div>
+
+
         </section>
     </main>
     <script src=<?php echo $js; ?>></script>

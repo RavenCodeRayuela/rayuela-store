@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'editarProducto':
                 $action($_GET[ 'id' ]);
                 break;
+            case 'eliminarProducto':
+                $action($_GET[ 'id' ]);
+                break;
             default:
                 $action();
                 break;

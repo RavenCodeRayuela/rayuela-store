@@ -80,6 +80,9 @@
                  <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
             </div>
 
+            <div class="form-item" style="display:none;">
+                 <input type="text" id="id_producto" name="id" value="<?php echo $producto->getId();?>">
+            </div>
             <div class="form-item">
                 <input type="submit" value="Modificar producto">
             </div>

@@ -131,13 +131,13 @@ class Producto{
         return true; 
     }
 
-    private function selectImagenes($idProducto){
+    public function selectImagenes($idProducto){
         if (empty($idProducto)) {
             return false;
         }
         $conexion = ConexionBD::getInstance();
 
-        $sqlSelect = "SELECT Id_imagen FROM imagen_producto WHERE Id_producto = :id";
+        $sqlSelect = "SELECT Id_imagen, Ruta_imagen_producto FROM imagen_producto WHERE Id_producto = :id";
         $stmtSelect = $conexion->prepare($sqlSelect);
 
         $stmtSelect->execute([':id'=>$idProducto]);

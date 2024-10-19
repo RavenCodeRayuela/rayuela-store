@@ -68,7 +68,7 @@ function editarProducto($id){
     
     
 }
-function modificarProducto($id){
+function modificarProducto(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -87,7 +87,7 @@ function modificarProducto($id){
             $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
             //Como puedo pasar el id?
-            $id = $_POST['productoModificar'];
+            $id = $_POST['id'];
             
         //Procesos    
             $nombre = sanearTexto($nombre);
@@ -126,7 +126,6 @@ function modificarProducto($id){
 }
 
 function eliminarProducto($id){
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -134,35 +133,31 @@ function eliminarProducto($id){
         
         require_once ROOT_PATH.'/app/Models/modelGestion.php';
 
-        $id = $_POST['productoEliminar'];
         $id = validarInt($id);
 
         if($id != false){
-            if (isset($_SESSION['Productos'])) {
-
+            
                 $producto= new Producto();
+
+                $imagenes= $producto->selectImagenes($id);
+
+                eliminarImagenes($imagenes);
                 
                 $producto ->removeProducto($id);
                 
                 $mensajeExito="El producto ha sido eliminado.";
                 
-                
 
                 $_SESSION['Productos'] = $producto -> getProductos();
                 require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+             
             }else{
-                echo "Error al obtener el producto";
-            }
-        }else{
-            $errores= "Todo el formulario debe ser completado";
+            echo "Error al obtener el producto";
             require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
         }
-     
-
-        }
+}
 
 
-    }
 
 function agregarCategoria(){
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

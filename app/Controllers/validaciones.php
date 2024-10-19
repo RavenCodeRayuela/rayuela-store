@@ -150,4 +150,19 @@ function moverImagenes($imagenes) {
         return $rutasBD;
     }
 }
+
+function eliminarImagenes($imagenes){
+
+    foreach ($imagenes as $imagen) {
+    
+        $rutaImagen = ROOT_PATH.$imagen['Ruta_imagen_producto']; 
+    
+        if (file_exists($rutaImagen)) { 
+            unlink($rutaImagen);
+        } else {
+            echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
+        }
+    
+    }
+}
 ?>
