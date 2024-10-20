@@ -26,7 +26,9 @@ class Cliente extends Usuario {
     public function addDireccionDeEnvio($calle, $numeroPuerta, $ciudad){
         $this->direccionesDeEnvio.= new DireccionDeEnvio($calle,$numeroPuerta,$ciudad);
     }
-    public function removeDireccionDeEnvio(){}
+    public function removeDireccionDeEnvio($idDireccion){
+        //Desarrollar
+    }
 
     public function obtenerClienteBD($idUsuario){
         $conexion=ConexionBD::getInstance();
@@ -92,6 +94,7 @@ class Cliente extends Usuario {
 }
 
 class DireccionDeEnvio{
+    private $idDireccion;
     private $calle;
 
     private $numeroPuerta;
