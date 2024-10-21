@@ -3,6 +3,8 @@
     $jsOfertas = URL_PATH.'/public/js/carrusel.js';
     $img = URL_PATH.'/public/img/';
     $jsCategorias= URL_PATH.'/public/js/carrusel-categorias.js';
+    $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
+    $registro= URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro';
 ?>
 
 <!DOCTYPE html>
@@ -21,20 +23,22 @@
     <section id="inicio" class="hero">
         <div class="hero-item">
             <h1>Rayuela Store</h1>
-            <p>La mejor tienda de ropa de diseñador a tu alcance.</p>
+            <p>La mejor tienda de ropa de diseñador, ahora a tu alcance.</p>
             <h3>¿Por qué elegirnos?</h3>
             <p> Ofrecemos diseños exclusivos y calidad superior.<br>Nuestra prioridad es que luzcas bien.</p>
             <hr>
                 <div class="botones-container">
                     <div>
                         <p>Empieza a buscar tu estilo</p>
-                        <button class="btn loguearse">Loguearse</button>
+                        
+                        <a href=<?php echo $login;?> class="btn loguearse">Loguearse</a>
+   
                     </div>
                     <div>
                         <p>¿No estas registrado?</p>
-                        <button class="btn registrarse">Registrarse</button>
+                        <a href=<?php echo $registro;?> class="btn registrarse">Registrarse</a>
                     </div>
-                        <!-- Agregar luego comprobación para saber si el cliente esta logueado o no y dependiendo de éso mostrar distintos botones<button class="btn productos">Productos</button>-->
+                        <!-- Agregar luego comprobación para saber si el cliente esta logueado o no y dependiendo de éso mostrar distintos <a href="productos.html" class="btn productos">Productos</a>-->
                 </div>
         </div>
         <div>

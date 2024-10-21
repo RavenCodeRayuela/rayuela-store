@@ -275,6 +275,50 @@ class Producto{
             return false; 
         }
 
+
+        public function getProductosPaginados($paginaActual, $elementosPorPagina = 10) {
+            $conexion = ConexionBD::getInstance();
+        
+        
+            $offset = ($paginaActual - 1) * $elementosPorPagina;
+        
+            $stmt = $conexion->prepare("
+                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, 
+                       GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
+                FROM productos AS prod
+                JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
+                JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 
+                GROUP BY prod.Id_producto
+                 LIMIT :limit OFFSET :offset
+                ");
+
+               
+                $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+        
+    
+            $stmt->execute();
+        
+            $productos = array();
+        
+            while ($producto = $stmt->fetch()) {
+                $producto['imagenes'] = explode(',', $producto['imagenes']);
+                // Para eliminar el string del cual se hizo el explode
+                unset($producto[6]);
+                $productos[] = $producto;
+            }
+        
+            return $productos;
+        }
+
+        public function contarTotalProductos() {
+            $conexion = ConexionBD::getInstance();
+            $stmt = $conexion->query("SELECT COUNT(*) as total FROM productos");
+            $total = $stmt->fetch()['total'];
+            return $total;
+        }
+
 }
 
 

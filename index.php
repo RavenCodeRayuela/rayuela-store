@@ -30,6 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'eliminarCategoria':
                 $action($_GET[ 'id' ]);
                 break;
+            case 'listarProductos':
+                if(isset($_GET['page'])){
+                    $action($_GET['page']);
+                }else{
+                $action(1);
+                }
+                break;
             default:
                 $action();
                 break;

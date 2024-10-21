@@ -34,7 +34,7 @@ hr{
 main{
   flex: 1;
 }
-html{
+html, body{
   height: 100%;
 }
 /*Fuentes y texto*/
@@ -191,6 +191,15 @@ nav ul li a:hover {
 }
 
 /*Tabla listar*/
+.container-listar{
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.container-listar h1{
+  margin-bottom: 20px;
+}
 .tabla-listar table{
   width: 100%;
   border-collapse: collapse;
@@ -227,6 +236,30 @@ nav ul li a:hover {
 
 .td-imagenes img {
   margin-right: 5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 16px;
+  text-decoration: none;
+  background-color: #f1f1f1;
+  color: #000;
+  border-radius: 4px;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
 }
 
 /*Footer*/
@@ -359,6 +392,8 @@ footer {
 }
 
 .btn {
+  display: inline-block; 
+  text-decoration: none; 
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
@@ -366,23 +401,31 @@ footer {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   color: white;
   margin: 10px;
 }
+.btn.listar {
+  background: linear-gradient(135deg, #15c0eb, #b6e7f7);
+}
+.btn.listar:hover {
+  background: linear-gradient(135deg, #b6e7f7, #15c0eb);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+}
 
-/* Botón de Registrarse con gradiente */
+
 .btn.registrarse {
   background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
 .btn.registrarse:hover {
   background: linear-gradient(135deg, #2575fc, #6a11cb);
-  transform: translateY(-3px); /* Efecto de elevación */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más profunda */
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
 }
 
-/* Botón de Loguearse con colores sólidos */
+
 .btn.loguearse {
   background-color: #f45d22;
 }

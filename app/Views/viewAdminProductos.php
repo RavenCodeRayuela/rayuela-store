@@ -20,9 +20,7 @@
 
     //Productos
     $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
-    $editarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto';
-    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
-
+    $listarProductos= URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos';
     //Categorias
     $agregarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=agregarCategoria';
     $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
@@ -51,7 +49,7 @@
             <!-- Botones para elegir qué formulario mostrar -->
       <hr class="hr-separador">       
     <button class="button-forms" onclick="mostrarFormulario('agregar')">Agregar Producto</button>
-    <button class="button-forms" onclick="mostrarFormulario('listar')">Listar Productos</button>
+    <a href="<?php echo $listarProductos;?>" class="btn listar">Listar Productos</a>
     <button class="button-forms" onclick="mostrarFormulario('agregarCategoria')">Agregar categorias</button>
     <button class="button-forms" onclick="mostrarFormulario('listarCategorias')">Listar categorias</button>
  
@@ -102,45 +100,6 @@
         </form>
     </div>
 
- 
-   <!-- Listar Productos -->
-<div id="listar" class="form-container-productos">
-    <h3>Lista de Productos</h3>
-
-    <div id="tablaProductos">
-        <?php
-            if ($productos) {
-                echo "<table class='tabla-listar'>";
-                echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Cantidad</th><th>Precio</th><th>Descuento</th><th>Imágenes</th><th>Categoría</th><th>Modificar</th><th>Eliminar</th></tr>";
-                
-                foreach ($productos as $producto) {
-                    echo "<tr>";
-                    echo "<td>" . $producto['Id_producto']. "</td>";
-                    echo "<td>" . $producto['Nombre'] . "</td>";
-                    echo "<td>" . $producto['Descripcion_producto'] . "</td>";
-                    echo "<td>" . $producto['Cantidad'] . "</td>";
-                    echo "<td>" . $producto['Precio_actual'] . "</td>";
-                    echo "<td>" . $producto['Descuento'] . "%</td>";
-                    echo "<td class='td-imagenes'>";
-                    
-                    foreach($producto['imagenes'] as $imagen) {
-                        echo "<img src='" . URL_PATH . $imagen . "' alt='Imagen de producto' class='img-thumbnail'>";
-                    }
-
-                    echo "</td>";
-                    echo "<td>" . $producto['categoria'] . "</td>";
-                    echo "<td><a href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a></td>";
-                    echo "<td><a href=".$eliminarProducto."&id=".$producto['Id_producto'].">"."Eliminar"."</a></td>";
-                    echo "</tr>";
-                }
-                
-                echo "</table>";
-            } else {
-                echo "No hay productos disponibles.";
-            }
-        ?>
-    </div>
-</div>
         <!-- Formulario para Agregar Categoria -->
         <div id="agregarCategoria" class="form-container-productos">
                 <h3>Agregar categoria</h3>

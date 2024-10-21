@@ -10,7 +10,6 @@
     
     $css = URL_PATH.'/public/css/styles.css';
     $modificarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=modificarProducto';
-    $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
 
@@ -90,7 +89,6 @@
 </div>
 </section>
     </main>
-    <script src=<?php echo $js; ?>></script>
     <?php
         // Mostrar errores si existen
             if (!empty($errores)) {

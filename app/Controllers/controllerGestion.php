@@ -156,6 +156,20 @@ function eliminarProducto($id){
         }
 }
 
+function listarProductos($paginaActual){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    $productosPorPagina = 10;
+    
+    $producto = new Producto();
+    
+    $totalProductos= $producto->contarTotalProductos();
+    $totalPaginas = ceil($totalProductos / $productosPorPagina);
+
+    $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
+
+    require_once ROOT_PATH.'/app/Views/viewAdminListarProductos.php';
+}
 
 
 function agregarCategoria(){
