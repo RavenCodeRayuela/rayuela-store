@@ -42,14 +42,15 @@ function agregarProducto(){
                     $producto= new Producto();
 
                     $_SESSION['Productos'] = $producto -> getProductos();
-                    $admin -> imprimir();
-                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+                    
+                    header("Location: index.php?controller=controllerGestion&action=listarProductos");
+                    exit();
                 }else{
                     echo "Error al obtener el usuario";
                 }
             }else{
                 $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+                require_once ROOT_PATH.'/app/Views/viewAdminAgregarProducto.php'; 
             }
          }
 }
@@ -113,7 +114,9 @@ function modificarProducto(){
                     
 
                     $_SESSION['Productos'] = $producto -> getProductos();
-                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+                    
+                    header("Location: index.php?controller=controllerGestion&action=listarProductos");
+                    exit();
                 }else{
                     echo "Error al obtener el producto";
                 }
@@ -146,13 +149,13 @@ function eliminarProducto($id){
                 
                 $mensajeExito="El producto ha sido eliminado.";
                 
-
+                $productos = $producto-> getProductosPaginados(1);
                 $_SESSION['Productos'] = $producto -> getProductos();
-                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+                require_once ROOT_PATH.'/app/Views/viewAdminListarProductos.php';
              
             }else{
             echo "Error al obtener el producto";
-            require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+            require_once ROOT_PATH.'/app/Views/viewAdminListarProductos.php'; 
         }
 }
 

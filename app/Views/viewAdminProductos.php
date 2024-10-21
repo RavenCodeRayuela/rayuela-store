@@ -55,51 +55,6 @@
  
     <hr class="hr-separador">
 
-    <!-- Formulario para Agregar Producto -->
-    <div id="agregar" class="form-container-productos">
-        <h3>Agregar Producto</h3>
-        
-        
-        <form action= <?php echo URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';?> method="POST" enctype="multipart/form-data">
-            <div class="form-item">
-                <label class="label-gestion" for="nombre">Nombre del producto</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div class="form-item">
-                <label for="descripcion">Descripción</label>
-                <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%;"></textarea>
-            </div>
-            <div class="form-item">
-                <label for="categoria">Seleccionar categoría</label>
-                <select id="categoria" name="categoria" required>
-                    <option value="">-- Selecciona una categoría --</option>
-                        <?php foreach ($categorias as $categoria): ?>
-                            <option value="<?php echo $categoria['Id_categoria']; ?>"><?php echo $categoria['Nombre_categoria']; ?></option>
-                        <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="form-item">
-                <label for="cantidad">Cantidad</label>
-                <input type="number" id="cantidad" name="cantidad" min="1" required>
-            </div>
-            <div class="form-item">
-                <label for="precio_unitario">Precio unitario</label>
-                <input type="number" id="precio_unitario" name="precio_unitario" step="0.01" min="0" required>
-            </div>
-            <div class="form-item">
-                <label for="descuento">Descuento (%)</label>
-                <input type="number" id="descuento" name="descuento" step="0.01" min="0" max="100">
-            </div>
-            <div class="form-item">
-                 <label for="imagen">Subir imágenes del producto</label>
-                 <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
-            </div>
-            <div class="form-item">
-                <input type="submit" value="Agregar producto">
-            </div>
-        </form>
-    </div>
-
         <!-- Formulario para Agregar Categoria -->
         <div id="agregarCategoria" class="form-container-productos">
                 <h3>Agregar categoria</h3>
@@ -126,53 +81,5 @@
                 </div>
                 </form>
             </div>
-
-            
-        <!-- Listar Categorias -->
-    <div id="listarCategorias" class="form-container-productos">
-        <h3>Lista de categorias</h3>
-
-        <div  id="tablaProductos">
-            <?php
-                if ($categorias) {
-                        echo "<table class='tabla-listar'>";
-                        echo "<tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Imagen</th><th>Modificar</th><th>Eliminar</th></tr>";
-                        foreach ($categorias as $categoria) {
-                            echo "<tr>";
-                            echo "<td>" . $categoria['Id_categoria']. "</td>";
-                            echo "<td>" . $categoria['Nombre_categoria'] . "</td>";
-                            echo "<td>" . $categoria['Descripcion_categoria'] . "</td>";
-                            echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de categoria' width='100' class='img-thumbnail'></td>";
-                            echo "<td><a href=".$editarCategoria."&id=".$categoria['Id_categoria'].">"."Modificar"."</a></td>";
-                            echo "<td><a href=".$eliminarCategoria."&id=".$categoria['Id_categoria'].">"."Eliminar"."</a></td>";
-                            echo "</tr>";
-                        }
-                        echo "</table>";
-                    } else {
-                        echo "No hay productos disponibles.";
-                    }
-            ?>
-        </div>
-    </div>
-
-
-        </section>
-    </main>
-    <script src=<?php echo $js; ?>></script>
-    <?php
-        // Mostrar errores si existen
-            if (!empty($errores)) {
-                echo "<p id='mensajeEstado' style='color:red; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$errores</p>";
-            }
-        // Mostrar msj exito si existe
-            if(!empty($mensajeExito)){
-                echo "<p id='mensajeEstado' style='color:green; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$mensajeExito</p>";
-            }
-        
-        ?>
-
-    
-    <?php include_once 'viewFooter.php'?>
-
 </body>
 </html>

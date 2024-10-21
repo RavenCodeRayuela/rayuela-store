@@ -12,7 +12,7 @@
     $img = URL_PATH.'/public/img/';
     $editarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto';
     $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
-    $listarProductos= URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos';
+    $agregarProductos= URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarProducto';
 
 ?>
 
@@ -30,9 +30,10 @@
    <?php include_once 'viewHeaderAdmin.php'?>
 
    <!-- Listar Productos -->
-<div id="listar" class="container-listar" style="display:block">
-     <h1>Lista de Productos</h1>
-
+<div id="listar" class="container-listar">
+    <div class="header-lista">
+        <h1>Lista de Productos</h1><a href="<?php echo $agregarProductos;?>" class="btn listar">Agregar producto</a>
+   </div>
     <div id="tablaProductos">
         <?php
             if ($productos) {
@@ -55,8 +56,8 @@
 
                     echo "</td>";
                     echo "<td>" . $producto['categoria'] . "</td>";
-                    echo "<td><a href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a></td>";
-                    echo "<td><a href=".$eliminarProducto."&id=".$producto['Id_producto'].">"."Eliminar"."</a></td>";
+                    echo "<td><a class='btn modificar' href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a></td>";
+                    echo "<td><a class='btn eliminar' href=".$eliminarProducto."&id=".$producto['Id_producto'].">"."Eliminar"."</a></td>";
                     echo "</tr>";
                 }
                 
@@ -67,7 +68,7 @@
                 echo "No hay productos disponibles.";
             }
         ?>
-        <?php if ($totalPaginas > 1): ?>
+        <?php if (isset($totalPaginas) && $totalPaginas > 1): ?>
                     <div class="pagination">
                         <?php if ($paginaActual > 1): ?>
                             <a href="<?php echo $listarProductos;?>&page=<?= $paginaActual - 1 ?>">&laquo; Anterior</a>

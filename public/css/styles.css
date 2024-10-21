@@ -150,7 +150,7 @@ nav ul li a:hover {
 }
 
 .form-container-productos{  
-  display: none;
+  display: block;
   margin: 15px auto;
 }
 .form-container-productos h3{
@@ -190,6 +190,11 @@ nav ul li a:hover {
   margin-bottom: 3px;
 }
 
+/*Header tabla listar*/
+.header-lista{
+  display: flex;
+  justify-content: space-between;
+}
 /*Tabla listar*/
 .container-listar{
   margin-left: auto;
@@ -414,6 +419,23 @@ footer {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
 }
 
+.btn.modificar {
+  background: linear-gradient(135deg, #ee9d07, #976200);
+}
+.btn.modificar:hover {
+  background: linear-gradient(135deg, #976200, #ee9d07);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+}
+
+.btn.eliminar {
+  background: linear-gradient(135deg, #ee0707, #970000);
+}
+.btn.eliminar:hover {
+  background: linear-gradient(135deg, #970000, #ee0707);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+}
 
 .btn.registrarse {
   background: linear-gradient(135deg, #6a11cb, #2575fc);

@@ -16,8 +16,8 @@ function mostrarBackoffice(){
     require_once ROOT_PATH.'/app/Views/viewAdmin.php';
 }
 
-function mostrarBackofficeProductos(){
-    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php';
+function mostrarAgregarProducto(){
+    require_once ROOT_PATH.'/app/Views/viewAdminAgregarProducto.php';
 }
 function mostrarBackofficeCategorias(){
     require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
