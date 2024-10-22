@@ -5,6 +5,11 @@
     $jsCategorias= URL_PATH.'/public/js/carrusel-categorias.js';
     $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
     $registro= URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro';
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+         
 ?>
 
 <!DOCTYPE html>
@@ -24,23 +29,29 @@
         <div class="hero-item">
             <h1>Rayuela Store</h1>
             <p>La mejor tienda de ropa de diseñador, ahora a tu alcance.</p>
+            <?php if (!isset($_SESSION['user_email'])):?>
             <h3>¿Por qué elegirnos?</h3>
             <p> Ofrecemos diseños exclusivos y calidad superior.<br>Nuestra prioridad es que luzcas bien.</p>
             <hr>
                 <div class="botones-container">
+
+                
                     <div>
-                        <p>Empieza a buscar tu estilo</p>
-                        
+                        <p>Empieza a buscar tu estilo</p>  
                         <a href=<?php echo $login;?> class="btn loguearse">Loguearse</a>
-   
                     </div>
                     <div>
                         <p>¿No estas registrado?</p>
                         <a href=<?php echo $registro;?> class="btn registrarse">Registrarse</a>
                     </div>
-                        <!-- Agregar luego comprobación para saber si el cliente esta logueado o no y dependiendo de éso mostrar distintos <a href="productos.html" class="btn productos">Productos</a>-->
-                </div>
-        </div>
+                    <?php else:?>
+                    <div>
+                        <h3>Mira nuestros productos</h3>
+                        <a href="" class="btn productos">Productos</a>
+                    </div>
+                    <?php endif;?>   
+            </div>
+            </div>
         <div>
             <img src="<?php echo $img."hero-shot.jpg";?>" alt="hero-foto" class="hero-shot">
         </div>
@@ -58,28 +69,29 @@
         </div>
     </section>
 
+    <?php if(isset($categorias) && !empty($categorias)):?>
     <!-- Sección Categorías -->
     <section id="categorias">
             <h2>Categorías</h2>
 
+            
             <!-- Contenedor de Carrusel -->
             <div class="categorias-carrusel">
                 <button class="carrusel-btn left-btn" id="left-btn">&#10094;</button>
                 <div class="categorias-container" id="categorias-container">
-                    <div class="categoria-item">Ropa</div>
-                    <div class="categoria-item">Accesorios</div>
-                    <div class="categoria-item">Zapatos</div>
-                    <div class="categoria-item">Bolsos</div>
-                    <div class="categoria-item">Joyas</div>
-                    <div class="categoria-item">Sombreros</div>
-                    <div class="categoria-item">Bufandas</div>
-                    <div class="categoria-item">Bufandas</div>
-                    <div class="categoria-item">Bufandas</div>
+                <?php foreach($categorias as $categoria):?>
+                    <div class="categoria-item">
+                        <a href=#><img class="img-categoria" src= <?php echo URL_PATH. $categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
+                        <div class="medio-categoria">
+                            <div class="txt-categoria"><?php echo $categoria->getNombre();?></div>
+                        </div>
+                    </div>
+                <?php endforeach;?>
                 </div>
                 <button class="carrusel-btn right-btn" id="right-btn">&#10095;</button>
             </div>
         </section>
-
+    <?php endif;?>
 
     <script src=<?php echo $jsOfertas;?>></script>
     <script src=<?php echo $jsCategorias;?>></script>

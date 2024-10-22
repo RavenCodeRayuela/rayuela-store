@@ -1,6 +1,19 @@
 <?php
     require_once (dirname(__FILE__,3) ."/config/paths.php");
 function mostrarHome(){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    $cat= new Categoria();
+    $catBD= $cat->getCategorias();
+    $categorias= array();
+    
+    if(!empty($catBD)){
+        
+        foreach ($catBD as $categoria) {
+            $catMom= new Categoria($categoria['Id_categoria']);
+            $categorias[]= $catMom;
+        }
+    }
     require_once ROOT_PATH.'/app/Views/viewIndex.php';
 }
 
