@@ -12,7 +12,6 @@
 - Verificar que la imagen a eliminar no este siendo utilizada en una categoría u otro producto, en dicho caso no borrar dicha imagen, si datos referentes al producto en la base de datos.(Opcional)
 - Evitar que el administrador pueda eliminar las categorias si estas estan relacionadas a productos existentes o que se pueda pero se borren los productos, mostrar advertencia.
 - Realizar la logica del perfil de usuario
-- Realizar paginación de productos y categorias
 - Añadir restriccion para que el admin no agregue productos ya presentes en la base de datos(Comprobar por Nombre y/o descripcion)
 - Permitir que se agreguen imagenes(a BBDD) cuando se modifica el producto.(O que no se agreguen a los archivos y que se reciba un msj de feedback)
 - Sanear todos los mensajes a usuario mediante htmlspecialchars.
@@ -21,9 +20,6 @@
 #### Diseño Web
 - Mejorar los diseños en general, prioridad en las paginas que ven los usuarios/clientes.
 - Terminar diseño de perfiles de usuario
-- Realizar página web empresa
-- Centrar listado de productos y categorías
-- Agregar una prepagina con datos del negocio
 
 #### General
 

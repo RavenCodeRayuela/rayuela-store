@@ -149,9 +149,9 @@ function eliminarProducto($id){
                 
                 $mensajeExito="El producto ha sido eliminado.";
                 
-                $productos = $producto-> getProductosPaginados(1);
                 $_SESSION['Productos'] = $producto -> getProductos();
-                require_once ROOT_PATH.'/app/Views/viewAdminListarProductos.php';
+                header("Location: index.php?controller=controllerGestion&action=listarProductos");
+                    exit();
              
             }else{
             echo "Error al obtener el producto";
@@ -209,13 +209,14 @@ function agregarCategoria(){
 
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
 
-                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+                    header("Location: index.php?controller=controllerGestion&action=listarCategorias");
+                    exit();
                 }else{
                     echo "Error al obtener el usuario";
                 }
             }else{
                 $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+                require_once ROOT_PATH.'/app/Views/viewAdminAgregarCategoria.php'; 
             }
          }
 }
@@ -266,9 +267,10 @@ function modificarCategoria(){
                     
                     $mensajeExito="La categoría ha sido modificada.";
                     
-                
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
-                    require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+
+                    header("Location: index.php?controller=controllerGestion&action=listarCategorias");
+                    exit(); 
                 }else{
                     echo "Error al obtener la categoría";
                 }
@@ -302,15 +304,27 @@ function eliminarCategoria($id){
 
                 $mensajeExito="La categoria ha sido eliminada.";
                 
+                $_SESSION['Categorias'] = $categoria -> getCategorias();
                 
 
-                $_SESSION['Categorias'] = $categoria -> getCategorias();
-
-                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+                header("Location: index.php?controller=controllerGestion&action=listarCategorias");
+                exit();
         }else{
             echo "Error al obtener la categoria";
             }
-        
-     
 }
+
+function listarCategorias($paginaActual){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+           
+           $categoriasPorPagina = 10;                
+           $categoria = new Categoria();
+               
+           $totalCategorias= $categoria->contarTotalCategorias();
+           $totalPaginas = ceil($totalCategorias / $categoriasPorPagina);
+           
+           $categorias = $categoria->getCategoriasPaginadas($paginaActual, $categoriasPorPagina);
+           
+           require_once ROOT_PATH.'/app/Views/viewAdminListarCategorias.php';
+           }
 ?>

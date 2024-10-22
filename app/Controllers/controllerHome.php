@@ -19,9 +19,11 @@ function mostrarBackoffice(){
 function mostrarAgregarProducto(){
     require_once ROOT_PATH.'/app/Views/viewAdminAgregarProducto.php';
 }
-function mostrarBackofficeCategorias(){
-    require_once ROOT_PATH.'/app/Views/viewAdminCategorias.php';
+
+function mostrarAgregarCategoria(){
+    require_once ROOT_PATH.'/app/Views/viewAdminAgregarCategoria.php';
 }
+
 function mostrarNosotros(){
 
 }

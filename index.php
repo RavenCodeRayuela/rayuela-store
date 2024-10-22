@@ -37,6 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $action(1);
                 }
                 break;
+            case 'listarCategorias':
+                if(isset($_GET['page'])){
+                    $action($_GET['page']);
+                }else{
+                    $action(1);
+                }
+                break;
             default:
                 $action();
                 break;

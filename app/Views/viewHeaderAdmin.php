@@ -9,7 +9,7 @@
             <ul>
             <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome'?>>Inicio</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos'?>>Productos</a></li>
-                <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=listarCategorias'?>>Categorías</a></li>
+                <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarCategorias'?>>Categorías</a></li>
                 <li><a href="#stock">Estadisticas</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerUsuario&action=logoutUsuario'?>><img src="<?php echo $img;?>exit.png" alt="Logout" class="user"></a></li>
             </ul>

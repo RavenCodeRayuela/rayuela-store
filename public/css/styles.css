@@ -411,10 +411,10 @@ footer {
   margin: 10px;
 }
 .btn.listar {
-  background: linear-gradient(135deg, #15c0eb, #b6e7f7);
+  background: linear-gradient(135deg, #2b8600, #39b102);
 }
 .btn.listar:hover {
-  background: linear-gradient(135deg, #b6e7f7, #15c0eb);
+  background: linear-gradient(135deg, #39b102, #2b8600);
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
 }

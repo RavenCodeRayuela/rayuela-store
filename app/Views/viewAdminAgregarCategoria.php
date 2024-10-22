@@ -15,17 +15,10 @@
     }
     //General
     $css = URL_PATH.'/public/css/styles.css';
-    $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 
     //Productos
-    $agregarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=agregarProducto';
-    $listarProductos= URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos';
-    //Categorias
-    $agregarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=agregarCategoria';
-    $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
-    $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
-   
+    $agregarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=agregarCategoria';   
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +27,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Gestion de productos y categorias</title>
+    <title>Agregar Categorías</title>
 </head>
 <body>
 
@@ -44,21 +37,11 @@
     <!-- Contenido Principal -->
     <main>
         <section class="text-admin">
-            <h1>Pagina de gestión de productos y categorias</h1>
-
-            <!-- Botones para elegir qué formulario mostrar -->
-      <hr class="hr-separador">       
-    <button class="button-forms" onclick="mostrarFormulario('agregar')">Agregar Producto</button>
-    <a href="<?php echo $listarProductos;?>" class="btn listar">Listar Productos</a>
-    <button class="button-forms" onclick="mostrarFormulario('agregarCategoria')">Agregar categorias</button>
-    <button class="button-forms" onclick="mostrarFormulario('listarCategorias')">Listar categorias</button>
- 
+        <h1>Agregar Categoría</h1>           
     <hr class="hr-separador">
 
-        <!-- Formulario para Agregar Categoria -->
-        <div id="agregarCategoria" class="form-container-productos">
-                <h3>Agregar categoria</h3>
-                
+    <!-- Formulario para Agregar Categoria -->
+    <div id="agregarCategoria" class="form-container-productos">
                 <form action= <?php echo $agregarCategoria;?> method="POST" enctype="multipart/form-data">
                 
                 <div class="form-item">
@@ -81,5 +64,21 @@
                 </div>
                 </form>
             </div>
+        </section>
+    </main>
+    <?php
+        // Mostrar errores si existen
+            if (!empty($errores)) {
+                echo "<p id='mensajeEstado' style='color:red; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$errores</p>";
+            }
+        // Mostrar msj exito si existe
+            if(!empty($mensajeExito)){
+                echo "<p id='mensajeEstado' style='color:green; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$mensajeExito</p>";
+            }
+        
+        ?>
+    
+    <?php include_once 'viewFooter.php'?>
+
 </body>
 </html>

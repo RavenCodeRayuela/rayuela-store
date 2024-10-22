@@ -11,7 +11,6 @@
 
     $css = URL_PATH.'/public/css/styles.css';
     $modificarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=modificarCategoria';
-    $js = URL_PATH.'/public/js/mostrar-form-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
 
@@ -21,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Gestion de productos</title>
+    <title>Modificar categoría</title>
 </head>
 <body>
 
@@ -64,7 +63,6 @@
         </div>
 
     </main>
-    <script src=<?php echo $js; ?>></script>
     <?php
         // Mostrar errores si existen
             if (!empty($errores)) {

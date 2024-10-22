@@ -283,8 +283,7 @@ class Producto{
             $offset = ($paginaActual - 1) * $elementosPorPagina;
         
             $stmt = $conexion->prepare("
-                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, 
-                       GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
+                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
                 FROM productos AS prod
                 JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
                 JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 
@@ -483,7 +482,41 @@ class Categoria{
         }
         
             return $categorias;
-    }   
+    }
+
+    public function contarTotalCategorias() {
+        $conexion = ConexionBD::getInstance();
+        $stmt = $conexion->query("SELECT COUNT(*) as total FROM categorias");
+        $total = $stmt->fetch()['total'];
+        return $total;
+    }
+
+
+    public function getCategoriasPaginadas($paginaActual, $elementosPorPagina = 10) {
+        
+        $conexion = ConexionBD::getInstance();
+    
+        $offset = ($paginaActual - 1) * $elementosPorPagina;
+    
+         $stmt = $conexion->prepare ("SELECT Id_categoria, Nombre_categoria, Descripcion_categoria, Ruta_imagen_categoria FROM categorias LIMIT :limit OFFSET :offset");
+
+           
+            $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    
+
+        $stmt->execute();
+    
+        $categorias = array();
+
+        while ( $categoria = $stmt->fetch() ){
+           $categorias[] = $categoria;
+       }
+       
+           return $categorias;
+    }
+
     }
 
 

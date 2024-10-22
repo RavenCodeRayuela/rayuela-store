@@ -9,8 +9,6 @@
     //Quitar require cuando se maneje todo desde el controlador.
     require_once dirname(__DIR__,2)."/config/paths.php";
     $css = URL_PATH.'/public/css/styles.css';
-    $action = URL_PATH.'/index.php?controller=controllerProducto&action=agregarProducto';
-    $js = URL_PATH.'/public/js/admin-script.js';
     $img = URL_PATH.'/public/img/';
 ?>
 

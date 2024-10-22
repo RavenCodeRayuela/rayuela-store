@@ -10,9 +10,9 @@
     
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
-    $editarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto';
-    $eliminarProducto = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarProducto';
-    $agregarProductos= URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarProducto';
+    $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
+    $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
+    $agregarCategoria= URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarCategoria';
 
 ?>
 
@@ -22,7 +22,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Categorías</title>
+    <title>Lista de categorías</title>
 </head>
 <body>
 
@@ -45,8 +45,8 @@
                             echo "<td>" . $categoria['Nombre_categoria'] . "</td>";
                             echo "<td>" . $categoria['Descripcion_categoria'] . "</td>";
                             echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de categoria' width='100' class='img-thumbnail'></td>";
-                            echo "<td><a href=".$editarCategoria."&id=".$categoria['Id_categoria'].">"."Modificar"."</a></td>";
-                            echo "<td><a href=".$eliminarCategoria."&id=".$categoria['Id_categoria'].">"."Eliminar"."</a></td>";
+                            echo "<td><a class='btn modificar' href=".$editarCategoria."&id=".$categoria['Id_categoria'].">"."Modificar"."</a></td>";
+                            echo "<td><a class='btn eliminar' href=".$eliminarCategoria."&id=".$categoria['Id_categoria'].">"."Eliminar"."</a></td>";
                             echo "</tr>";
                         }
                         echo "</table>";
@@ -77,6 +77,17 @@
     </div>
 </div>
    
+<?php
+        // Mostrar errores si existen
+            if (!empty($errores)) {
+                echo "<p id='mensajeEstado' style='color:red; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$errores</p>";
+            }
+        // Mostrar msj exito si existe
+            if(!empty($mensajeExito)){
+                echo "<p id='mensajeEstado' style='color:green; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$mensajeExito</p>";
+            }
+        
+        ?>
     <?php include_once 'viewFooter.php'?>
 
 </body>
