@@ -17,6 +17,13 @@ function mostrarHome(){
     require_once ROOT_PATH.'/app/Views/viewIndex.php';
 }
 
+function mostrarProductos(){
+    require_once ROOT_PATH.'/app/Views/viewProductos.php';
+}
+
+function mostrarSingleProduct(){
+    require_once ROOT_PATH.'/app/Views/viewSingleProduct.php';
+}
 function mostrarLogin(){
     require_once ROOT_PATH.'/app/Views/viewFormLogin.php';
 }

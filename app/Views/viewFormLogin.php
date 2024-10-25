@@ -28,7 +28,7 @@ $img = URL_PATH.'/public/img/';
      
     <?php include_once 'viewHeader.php';?>
     <!-- Contenido Principal -->
-    <main>
+    <main class="comienzoPagina">
         <h1 class="titulo titulo-centrado">Acceso a Rayuela Store</h1>
         <hr>
 

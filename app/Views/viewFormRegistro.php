@@ -19,7 +19,7 @@
     <?php include_once 'viewHeader.php'?>
     
     <!-- Contenido Principal -->
-    <main>
+    <main class="comienzoPagina">
         <h1 class="titulo titulo-centrado">Registro Rayuela Store</h1>
         <hr>
         

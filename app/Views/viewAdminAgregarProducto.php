@@ -35,7 +35,7 @@
    <?php include_once 'viewHeaderAdmin.php'?>
 
     <!-- Contenido Principal -->
-    <main>
+    <main class="comienzoPagina">
         <section class="text-admin">
         <h1>Agregar Producto</h1>           
     <hr class="hr-separador">

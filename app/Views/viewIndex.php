@@ -25,7 +25,7 @@
     <?php include_once 'viewHeader.php'?>
 
     <!-- Sección Inicio -->
-    <section id="inicio" class="hero">
+    <section id="inicio" class="hero comienzoPagina">
         <div class="hero-item">
             <h1>Rayuela Store</h1>
             <p>La mejor tienda de ropa de diseñador, ahora a tu alcance.</p>
@@ -82,9 +82,7 @@
                 <?php foreach($categorias as $categoria):?>
                     <div class="categoria-item">
                         <a href=#><img class="img-categoria" src= <?php echo URL_PATH. $categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
-                        <div class="medio-categoria">
                             <div class="txt-categoria"><?php echo $categoria->getNombre();?></div>
-                        </div>
                     </div>
                 <?php endforeach;?>
                 </div>

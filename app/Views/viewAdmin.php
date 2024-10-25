@@ -25,7 +25,7 @@
    <?php include_once 'viewHeaderAdmin.php';?>
 
     <!-- Contenido Principal -->
-    <main>
+    <main class="comienzoPagina">
         <section class="text-admin">
             <h1>Pagina de gestión de negocio</h1>
             <p>Simplemente seleccione, del menu en la esquina superior derecha, la opción que desea y el sistema desplegara las funciones necesarias para ayudarle.</p>

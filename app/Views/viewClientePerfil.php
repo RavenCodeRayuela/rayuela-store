@@ -32,7 +32,7 @@
     <?php include_once 'viewHeader.php'?>
 
     <!-- Contenido Principal -->
-    <main class="container">
+    <main class="container comienzoPagina">
 
         <!-- Barra lateral -->
         <div class="sidebar">

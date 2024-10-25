@@ -28,7 +28,7 @@
    <?php include_once 'viewHeaderAdmin.php'?>
 
     <!-- Contenido Principal -->
-    <main>
+    <main class="comienzoPagina">
         <section class="text-admin">
             <h1>Modificar categoría</h1>
     <hr class="hr-separador">

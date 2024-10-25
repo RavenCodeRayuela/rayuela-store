@@ -4,7 +4,7 @@ const leftBtn = document.getElementById('left-btn');
 const rightBtn = document.getElementById('right-btn');
 
 let scrollAmount = 0;
-const scrollStep = 350; 
+const scrollStep = 340; 
 
 leftBtn.addEventListener('click', () => {
     categoriasContainer.scrollBy({
