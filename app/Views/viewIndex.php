@@ -63,9 +63,17 @@
         <h2>Ofertas</h2>
         <div class="carousel-container">
             <div class="carousel-slide">
-                <img src="img1.jpg" alt="Oferta 1">
-                <img src="img2.jpg" alt="Oferta 2">
-                <img src="img3.jpg" alt="Oferta 3">
+                <?php foreach ($productos as $producto):?>
+                <div class="product-item-ofertas">
+                    <div class="product-image">
+                        <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
+                        <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+                    </div>
+                    <a href="<?php echo $singleProduct;?>"><?php echo $producto['Nombre']?></a>
+                    <p><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                    <p><?php echo $producto['Descuento'].'% Descuento'?></p>
+                </div>
+                <?php endforeach;?>
             </div>
         </div>
     </section>

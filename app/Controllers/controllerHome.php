@@ -6,6 +6,17 @@ function mostrarHome(){
     $cat= new Categoria();
     $catBD= $cat->getCategorias();
     $categorias= array();
+    $prod = new Producto();
+    //Hacer logica para filtrar datos 
+    $prodts = $prod->getProductos();
+    $productos = array();
+
+    foreach ($prodts as $producto) {
+        if($producto['Descuento']>5){
+            $productos[]=$producto;
+        }
+    }
+
     
     if(!empty($catBD)){
         
@@ -37,7 +48,7 @@ function mostrarProductos($categoria, $paginaActual){
     require_once ROOT_PATH.'/app/Views/viewProductos.php';
 }
 
-function mostrarSingleProduct(){
+function mostrarSingleProduct($id){
     require_once ROOT_PATH.'/app/Views/viewSingleProduct.php';
 }
 function mostrarLogin(){

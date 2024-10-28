@@ -10,6 +10,8 @@ class Producto{
     private $descuento;
     private $categoria;
     private $cantidad;
+
+    private array $imagenes;
     
     public function __construct($id=null){
 
@@ -22,6 +24,12 @@ class Producto{
             $this->descuento=$productoMom['Descuento'];
             $this->categoria=$productoMom['Id_categoria'];
             $this->cantidad=$productoMom['Cantidad'];
+
+            $imagenesMom=$this->selectImagenes($id);
+
+            foreach ($imagenesMom as $imagen) {
+                $this->imagenes[]= $imagen['Ruta_imagen_producto'];
+            }
         }
     }
 
@@ -80,6 +88,11 @@ class Producto{
         $this->cantidad=$cantidad;
     }
 
+    public function getTotalDeImagenes(){
+        return count($this->imagenes);
+    }
+
+    //public function getImagen($)
 
     //Funciones de BBDD
     private function addImagenes($imagenes, $idProducto) {

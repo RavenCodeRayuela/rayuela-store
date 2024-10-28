@@ -19,38 +19,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ( is_callable ($action) ){
         switch ($action) {
             case 'editarProducto':
+
                 $action($_GET[ 'id' ]);
                 break;
+
             case 'eliminarProducto':
+
                 $action($_GET[ 'id' ]);
                 break;
+
             case 'editarCategoria':
+
                 $action($_GET[ 'id' ]);
                 break;
+
             case 'eliminarCategoria':
+
                 $action($_GET[ 'id' ]);
                 break;
+
             case 'listarProductos':
-                if(isset($_GET['page'])){
-                    $action($_GET['page']);
-                }else{
-                $action(1);
-                }
+
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action=($page);
                 break;
+
             case 'listarCategorias':
-                if(isset($_GET['page'])){
-                    $action($_GET['page']);
-                }else{
-                    $action(1);
-                }
+                
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action=($page);
                 break;
+
             case 'mostrarProductos':
 
                 $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : 'all';
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
                 $action($categoria,$page);
                 break;
+                
+            case 'mostrarSingleProduct':
+
+                $action($_GET[ 'id' ]);
+                break;                
+
             default:
                 $action();
                 break;

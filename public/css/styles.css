@@ -500,10 +500,13 @@ footer {
 
 /*Seccion ofertas*/
 section {
-  padding: 40px 20px;
+  padding: 50px 20px;
   text-align: center;
 }
 
+.carrusel h2{
+  padding-bottom: 50px;
+}
 .carrusel {
   background-color: #2c2b2b65;
 }
@@ -523,7 +526,7 @@ section {
   width: 100%;
   max-width: 300px;
   height: auto;
-  margin: 0 5px;
+  margin: 0 15px;
 }
 
 /* Sección de categorías */
