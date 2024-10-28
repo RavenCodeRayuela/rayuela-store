@@ -17,7 +17,23 @@ function mostrarHome(){
     require_once ROOT_PATH.'/app/Views/viewIndex.php';
 }
 
-function mostrarProductos(){
+function mostrarProductos($categoria, $paginaActual){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    $cat= new Categoria();
+    $categorias= $cat->getCategorias();
+
+    $productosPorPagina = 9;
+    
+    $producto = new Producto();
+
+    if($categoria=='all'){
+        $totalProductos= $producto->contarTotalProductos();
+        $totalPaginas = ceil($totalProductos / $productosPorPagina);
+        $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
+    }
+
+
     require_once ROOT_PATH.'/app/Views/viewProductos.php';
 }
 

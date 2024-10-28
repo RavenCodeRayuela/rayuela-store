@@ -1,12 +1,14 @@
 <?php
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
-    $singleProduct= URL_PATH.'/index.php?controller=controllerHome&action=mostrarSingleProduct';
     
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
-         
+
+        $singleProduct= URL_PATH.'/index.php?controller=controllerHome&action=mostrarSingleProduct';
+        
+        $listarCatalogo =URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria='.$categoria;
 ?>
 
 <!DOCTYPE html>
@@ -26,97 +28,54 @@
         <h2>Categorías</h2>
         <hr>
         <nav class="category-list">
-            <a href="#">Categoría 1</a>
-            <a href="#">Categoría 2</a>
-            <a href="#">Categoría 3</a>
-            <a href="#">Categoría 4</a>
+            <?php foreach ($categorias as $cat):?>
+            <a href="#"><?php echo $cat['Nombre_categoria'];?></a>
+            <?php endforeach;?>
         </nav>
     </aside>
 
     <!-- Sección de productos -->
     <section class="products">
-        <h2>Nombre de categoría seleccionada</h2>
+        <h2><?php echo $categoria == 'all' ? 'Todos los productos' : $categoria  ?></h2>
         
         <div class="sort-filter">
-            <span>Cantidad de artículos: 9</span>
+            <span>Cantidad de artículos: <?php echo $totalProductos;?></span>
             <button>Ordenar por</button>
         </div>
         <hr>
         <div class="product-grid">
+            <?php foreach ($productos as $producto):?>
+                
             <div class="product-item">
                 <div class="product-image">
-                    <img src="imagen1.jpg" alt="Producto 1" class="default-img">
-                    <img src="imagen1_hover.jpg" alt="Producto 1 Hover" class="hover-img">
+                    <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
+                    <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
                 </div>
-                <a href="<?php echo $singleProduct;?>">Nombre del Producto</a>
-                <p>$50.00</p>
+                <a href="<?php echo $singleProduct;?>"><?php echo $producto['Nombre']?></a>
+                <p><?php echo 'UYU '.$producto['Precio_actual']?></p>
             </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="imagen2.jpg" alt="Producto 2" class="default-img">
-                    <img src="imagen2_hover.jpg" alt="Producto 2 Hover" class="hover-img">
-                </div>
-                <h3>Nombre del Producto</h3>
-                <p>$60.00</p>
-            </div>
+            <?php endforeach;?>
         </div>
     </section>
+
+    <?php if (isset($totalPaginas) && $totalPaginas > 1): ?>
+                    <div class="pagination">
+                        <?php if ($paginaActual > 1): ?>
+                            <a href="<?php echo $listarCatalogo;?>&page=<?= $paginaActual - 1 ?>">&laquo; Anterior</a>
+                        <?php endif; ?>
+                
+                        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                            <a href="<?php echo $listarCatalogo;?>&page=<?= $i ?>" class="<?= $i == $paginaActual ? 'active' : '' ?>">
+                                <?= $i ?>
+                            </a>
+                        <?php endfor; ?>
+                
+                        <?php if ($paginaActual < $totalPaginas): ?>
+                            <a href="<?php echo $listarCatalogo;?>&page=<?= $paginaActual + 1 ?>">Siguiente &raquo;</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
     <?php include_once 'viewFooter.php'?>
 </body>
 </html>

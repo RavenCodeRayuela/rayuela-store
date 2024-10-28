@@ -44,6 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     $action(1);
                 }
                 break;
+            case 'mostrarProductos':
+
+                $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : 'all';
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                $action($categoria,$page);
+                break;
             default:
                 $action();
                 break;

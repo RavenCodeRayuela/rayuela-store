@@ -13,6 +13,7 @@
     $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
     $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
     $agregarCategoria= URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarCategoria';
+    $listarCategorias= URL_PATH.'/index.php?controller=controllerGestion&action=listarCategorias';
 
 ?>
 

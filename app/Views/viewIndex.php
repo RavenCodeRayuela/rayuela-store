@@ -5,6 +5,7 @@
     $jsCategorias= URL_PATH.'/public/js/carrusel-categorias.js';
     $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
     $registro= URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro';
+    $productosURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos';
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -47,7 +48,7 @@
                     <?php else:?>
                     <div>
                         <h3>Mira nuestros productos</h3>
-                        <a href="" class="btn productos">Productos</a>
+                        <a href="<?php echo $productosURL;?>" class="btn productos">Productos</a>
                     </div>
                     <?php endif;?>   
             </div>
