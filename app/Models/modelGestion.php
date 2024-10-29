@@ -56,7 +56,7 @@ class Producto{
     public function setDescripcion($descripcion){
         $this->descripcion=$descripcion;
     }
-
+    //Modificar getPrecio para incluir descuento 
     public function getPrecio(){
         return $this->precio;
     }
@@ -90,6 +90,10 @@ class Producto{
 
     public function getTotalDeImagenes(){
         return count($this->imagenes);
+    }
+
+    public function getImagenes(){
+        return $this->imagenes;
     }
 
     //public function getImagen($)
@@ -323,12 +327,57 @@ class Producto{
         
             return $productos;
         }
-
+        public function getProductosPaginadosPorCategoria($paginaActual, $elementosPorPagina = 10, $idCategoria) {
+            $conexion = ConexionBD::getInstance();
+        
+            $offset = ($paginaActual - 1) * $elementosPorPagina;
+        
+            $stmt = $conexion->prepare("
+                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
+                FROM productos AS prod
+                JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
+                JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 
+                WHERE prod.Id_categoria = :idCategoria
+                GROUP BY prod.Id_producto
+                LIMIT :limit OFFSET :offset
+            ");
+        
+            $stmt->bindParam(':idCategoria', $idCategoria, PDO::PARAM_INT);
+            $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        
+            $stmt->execute();
+        
+            $productos = array();
+        
+            while ($producto = $stmt->fetch()) {
+                $producto['imagenes'] = explode(',', $producto['imagenes']);
+                unset($producto[6]);
+                $productos[] = $producto;
+            }
+        
+            return $productos;
+        }
         public function contarTotalProductos() {
             $conexion = ConexionBD::getInstance();
             $stmt = $conexion->query("SELECT COUNT(*) as total FROM productos");
             $total = $stmt->fetch()['total'];
             return $total;
+        }
+
+        public function contarTotalProductosPorCategoria($idCategoria){
+            $conexion = ConexionBD::getInstance();
+            $stmt = $conexion->prepare("SELECT COUNT(*) as total FROM productos WHERE Id_categoria = :Id_categoria");
+            
+
+            
+            if ($stmt->execute([':Id_categoria' => $idCategoria])) {
+                $total = $stmt->fetch()['total']; 
+                return $total;
+            }else{
+                return false;
+            }
+           
         }
 
 }

@@ -41,13 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'listarProductos':
 
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-                $action=($page);
+                $action($page);
                 break;
 
             case 'listarCategorias':
                 
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-                $action=($page);
+                $action($page);
                 break;
 
             case 'mostrarProductos':

@@ -6,8 +6,6 @@
             exit();
         }
     }
-    //Quitar require cuando se maneje todo desde el controlador.
-    require_once dirname(__DIR__,2)."/config/paths.php";
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
 ?>

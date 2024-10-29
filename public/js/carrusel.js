@@ -10,7 +10,7 @@ function moveCarousel() {
 }
 
 setInterval(() => {
-    if (contador >= carouselImages.length - 1) {
+    if (contador >= carouselImages.length - 7) {
         contador = -1;
     }
     contador++;

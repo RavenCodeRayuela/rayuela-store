@@ -7,6 +7,8 @@
     $registro= URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro';
     $productosURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos';
 
+    $productosPorCategoriaURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria=';
+
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
@@ -70,7 +72,8 @@
                         <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
                     </div>
                     <a href="<?php echo $singleProduct;?>"><?php echo $producto['Nombre']?></a>
-                    <p><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                    <p class ="precio-cancel-oferta"><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                    <p class="precio-oferta"><?php echo 'UYU '.($producto['Precio_actual']-($producto['Precio_actual']*($producto['Descuento']/100)))?></p>
                     <p><?php echo $producto['Descuento'].'% Descuento'?></p>
                 </div>
                 <?php endforeach;?>
@@ -90,7 +93,7 @@
                 <div class="categorias-container" id="categorias-container">
                 <?php foreach($categorias as $categoria):?>
                     <div class="categoria-item">
-                        <a href=#><img class="img-categoria" src= <?php echo URL_PATH. $categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
+                        <a href=<?php echo $productosPorCategoriaURL.$categoria->getId(); ?>><img class="img-categoria" src= <?php echo URL_PATH. $categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
                             <div class="txt-categoria"><?php echo $categoria->getNombre();?></div>
                     </div>
                 <?php endforeach;?>

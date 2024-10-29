@@ -31,17 +31,28 @@ function mostrarHome(){
 function mostrarProductos($categoria, $paginaActual){
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
 
-    $cat= new Categoria();
-    $categorias= $cat->getCategorias();
 
     $productosPorPagina = 9;
     
     $producto = new Producto();
 
     if($categoria=='all'){
+        //Categorias para la sidebar
+        $cat= new Categoria();
+        $categorias= $cat->getCategorias();
+        
         $totalProductos= $producto->contarTotalProductos();
         $totalPaginas = ceil($totalProductos / $productosPorPagina);
         $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
+    }else{
+        //Categorias para la sidebar y nombre de página
+        $category= new Categoria($categoria);
+        $categorias= $category->getCategorias();
+        
+        $totalProductos= $producto->contarTotalProductosPorCategoria($categoria);
+        $totalPaginas = ceil($totalProductos / $productosPorPagina);
+
+        $productos = $producto->getProductosPaginadosPorCategoria($paginaActual,$productosPorPagina,$categoria);
     }
 
 
@@ -49,6 +60,15 @@ function mostrarProductos($categoria, $paginaActual){
 }
 
 function mostrarSingleProduct($id){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    $producto = new Producto($id);
+    $idCategoria= $producto->getCategoria();
+
+    $imagenes= $producto->getImagenes();
+    $categoria= new Categoria($idCategoria);
+
+
     require_once ROOT_PATH.'/app/Views/viewSingleProduct.php';
 }
 function mostrarLogin(){
@@ -71,11 +91,9 @@ function mostrarAgregarCategoria(){
     require_once ROOT_PATH.'/app/Views/viewAdminAgregarCategoria.php';
 }
 
-function mostrarNosotros(){
-
+function mostrarCarrito(){
+    require_once ROOT_PATH.'/app/Views/viewCarrito.php';
 }
-
-function mostrarInfoContacto(){}
 function mostrarPerfil(){
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
