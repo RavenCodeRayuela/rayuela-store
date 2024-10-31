@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-10-2024 a las 06:46:53
+-- Tiempo de generación: 31-10-2024 a las 17:41:26
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -48,7 +48,7 @@ CREATE TABLE `categorias` (
   `Id_categoria` int(11) NOT NULL,
   `Id_admin` int(11) NOT NULL,
   `Nombre_categoria` varchar(60) DEFAULT NULL,
-  `Descripcion_categoria` varchar(300) DEFAULT NULL,
+  `Descripcion_categoria` varchar(125) DEFAULT NULL,
   `Ruta_imagen_categoria` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -57,9 +57,11 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`Id_categoria`, `Id_admin`, `Nombre_categoria`, `Descripcion_categoria`, `Ruta_imagen_categoria`) VALUES
-(10, 1, 'Buzo', 'Abrigado', '/public/storage/uploads/buzo.jpg'),
-(12, 1, 'Camiseta', 'Para el cuerpo', '/public/storage/uploads/camiseta.jpg'),
-(13, 1, 'Zapatos', 'Para los pies', '/public/storage/uploads/zapatos.jpg');
+(18, 1, 'Buzos', 'Para el invierno', '/public/storage/uploads/buzo.jpg'),
+(19, 1, 'Camiseta', 'Camisetas', '/public/storage/uploads/camiseta.jpg'),
+(20, 1, 'Zapatos', 'Zapatos', '/public/storage/uploads/zapatos.jpg'),
+(21, 1, 'Sombreros', 'Sombreros', '/public/storage/uploads/sombrero.png'),
+(22, 1, 'Medias', 'Medias', '/public/storage/uploads/medias.jpg');
 
 -- --------------------------------------------------------
 
@@ -80,18 +82,15 @@ CREATE TABLE `celulares` (
 
 CREATE TABLE `clientes` (
   `Id_cliente` int(11) NOT NULL,
-  `Suscripcion_newsletter` tinyint(1) NOT NULL,
-  `Ciudad` varchar(60) DEFAULT 'Ciudad no asignada',
-  `Calle` varchar(60) DEFAULT 'Calle no asignada',
-  `NroCasa` varchar(60) DEFAULT 'Nro de casa no asignada'
+  `Suscripcion_newsletter` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`Id_cliente`, `Suscripcion_newsletter`, `Ciudad`, `Calle`, `NroCasa`) VALUES
-(3, 0, 'Ciudad no asignada', 'Calle no asignada', 'Nro de casa no asignada');
+INSERT INTO `clientes` (`Id_cliente`, `Suscripcion_newsletter`) VALUES
+(3, 0);
 
 -- --------------------------------------------------------
 
@@ -103,7 +102,10 @@ CREATE TABLE `compras` (
   `Id_compra` int(11) NOT NULL,
   `Id_cliente` int(11) NOT NULL,
   `Costo_total` double(9,2) DEFAULT NULL,
-  `Valoracion` varchar(300) DEFAULT NULL
+  `Valoracion` varchar(300) DEFAULT NULL,
+  `Estado` varchar(30) DEFAULT NULL,
+  `Tipo_de_pago` varchar(30) DEFAULT NULL,
+  `Id_direccion` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -117,8 +119,56 @@ CREATE TABLE `compra_contiene_producto` (
   `Id_producto` int(11) NOT NULL,
   `Fecha` date DEFAULT NULL,
   `Cantidad_producto` int(11) DEFAULT NULL,
-  `Precio_por_producto` double(8,2) DEFAULT NULL
+  `Precio_por_producto` double(7,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `direcciones_de_envio`
+--
+
+CREATE TABLE `direcciones_de_envio` (
+  `Id_direccion` int(11) NOT NULL,
+  `Ciudad` varchar(60) DEFAULT 'Ciudad no asignada',
+  `Calle` varchar(60) DEFAULT 'Calle no asignada',
+  `NroCasa` varchar(60) DEFAULT 'Nro de casa no asignada',
+  `Id_cliente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imagen_producto`
+--
+
+CREATE TABLE `imagen_producto` (
+  `Ruta_imagen_producto` varchar(300) NOT NULL,
+  `Id_imagen` int(11) NOT NULL,
+  `Id_producto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `imagen_producto`
+--
+
+INSERT INTO `imagen_producto` (`Ruta_imagen_producto`, `Id_imagen`, `Id_producto`) VALUES
+('/public/storage/uploads/rayuela.png', 1, 22),
+('/public/storage/uploads/buzo.jpg', 2, 22),
+('/public/storage/uploads/rayuela.png', 3, 23),
+('/public/storage/uploads/camisetavestir.jpg', 4, 23),
+('/public/storage/uploads/rayuela.png', 5, 24),
+('/public/storage/uploads/camiseta.jpg', 6, 24),
+('/public/storage/uploads/rayuela.png', 7, 25),
+('/public/storage/uploads/camisetaroja.jpg', 8, 25),
+('/public/storage/uploads/rayuela.png', 9, 26),
+('/public/storage/uploads/zapatos.jpg', 10, 26),
+('/public/storage/uploads/rayuela.png', 11, 27),
+('/public/storage/uploads/medias.jpg', 12, 27),
+('/public/storage/uploads/rayuela.png', 13, 28),
+('/public/storage/uploads/mediasnegras.jpg', 14, 28),
+('/public/storage/uploads/rayuela.png', 15, 29),
+('/public/storage/uploads/sombrero.png', 16, 29);
 
 -- --------------------------------------------------------
 
@@ -131,10 +181,9 @@ CREATE TABLE `productos` (
   `Id_admin` int(11) NOT NULL,
   `Id_categoria` int(11) NOT NULL,
   `Nombre` varchar(60) DEFAULT NULL,
-  `Precio_actual` double(8,2) DEFAULT NULL,
+  `Precio_actual` double(7,2) DEFAULT NULL,
   `Descuento` double(5,2) DEFAULT NULL,
   `Descripcion_producto` varchar(300) DEFAULT NULL,
-  `Ruta_imagen_producto` varchar(300) DEFAULT NULL,
   `Cantidad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -142,10 +191,15 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `Precio_actual`, `Descuento`, `Descripcion_producto`, `Ruta_imagen_producto`, `Cantidad`) VALUES
-(16, 1, 10, 'BuzoMo', 300.00, 1.00, 'Desc', '/public/storage/uploads/buzo.jpg', 30),
-(17, 1, 13, 'ZapatosMO', 200.00, 0.00, 'Desc', '/public/storage/uploads/zapatos.jpg', 10),
-(18, 1, 12, 'CamisetaMO', 200.00, 0.00, 'Desc', '/public/storage/uploads/camiseta.jpg', 10);
+INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `Precio_actual`, `Descuento`, `Descripcion_producto`, `Cantidad`) VALUES
+(22, 1, 18, 'Buzo', 1400.00, 5.00, 'Descubre tu nuevo buzo favorito: diseñado para brindarte el máximo confort y estilo en cualquier momento del día. Confeccionado con algodón premium, este buzo es tan suave que querrás usarlo una y otra vez.', 25),
+(23, 1, 19, 'Camisa de vestir rosa', 2400.00, 0.00, 'Elegancia y frescura se encuentran en esta camiseta de vestir rosa, ideal para quienes buscan un estilo clásico con un toque de color.', 5),
+(24, 1, 19, 'Camiseta de andar negra', 1100.00, 8.00, 'Dale un giro urbano a tu estilo diario con esta camiseta negra de mangas blancas, diseñada para quienes buscan un look casual sin perder el toque moderno.', 25),
+(25, 1, 19, 'Camiseta de andar de mangas rojas', 1100.00, 8.00, 'Combina estilo y comodidad con nuestra camiseta de andar de mangas rojas, pensada para quienes no se conforman con lo básico.', 25),
+(26, 1, 20, 'Zapatos de cuero', 3400.00, 0.00, 'Lleva tu estilo a otro nivel con estos zapatos de cuero, perfectos para quienes buscan elegancia y durabilidad en cada paso.', 10),
+(27, 1, 22, 'Medias de rayas azules', 100.00, 0.00, 'Añade un toque vibrante a tus pasos con estas medias de rayas azules. Su diseño llamativo es ideal para quienes buscan un detalle diferente y moderno.', 50),
+(28, 1, 22, 'Medias de rayas negras', 100.00, 0.00, 'Aporta un toque de estilo y elegancia a tu outfit con estas medias de rayas negras. Su diseño clásico y moderno las hace perfectas para cualquier ocasión.', 50),
+(29, 1, 21, 'Sombrero de paja', 750.00, 5.00, 'Este sombrero de paja es el complemento ideal para tus días soleados, ya sea en la playa o en la ciudad.', 15);
 
 -- --------------------------------------------------------
 
@@ -223,13 +277,28 @@ ALTER TABLE `clientes`
 --
 ALTER TABLE `compras`
   ADD PRIMARY KEY (`Id_compra`),
-  ADD KEY `Id_cliente` (`Id_cliente`);
+  ADD KEY `Id_cliente` (`Id_cliente`),
+  ADD KEY `Id_direccion` (`Id_direccion`);
 
 --
 -- Indices de la tabla `compra_contiene_producto`
 --
 ALTER TABLE `compra_contiene_producto`
   ADD PRIMARY KEY (`Id_compra`,`Id_producto`),
+  ADD KEY `Id_producto` (`Id_producto`);
+
+--
+-- Indices de la tabla `direcciones_de_envio`
+--
+ALTER TABLE `direcciones_de_envio`
+  ADD PRIMARY KEY (`Id_direccion`),
+  ADD KEY `Id_cliente` (`Id_cliente`);
+
+--
+-- Indices de la tabla `imagen_producto`
+--
+ALTER TABLE `imagen_producto`
+  ADD PRIMARY KEY (`Id_imagen`,`Id_producto`),
   ADD KEY `Id_producto` (`Id_producto`);
 
 --
@@ -261,7 +330,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `compras`
@@ -270,10 +339,16 @@ ALTER TABLE `compras`
   MODIFY `Id_compra` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `imagen_producto`
+--
+ALTER TABLE `imagen_producto`
+  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -313,7 +388,8 @@ ALTER TABLE `clientes`
 -- Filtros para la tabla `compras`
 --
 ALTER TABLE `compras`
-  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`Id_cliente`) REFERENCES `clientes` (`Id_cliente`);
+  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`Id_cliente`) REFERENCES `clientes` (`Id_cliente`),
+  ADD CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`Id_direccion`) REFERENCES `direcciones_de_envio` (`Id_direccion`);
 
 --
 -- Filtros para la tabla `compra_contiene_producto`
@@ -321,6 +397,18 @@ ALTER TABLE `compras`
 ALTER TABLE `compra_contiene_producto`
   ADD CONSTRAINT `compra_contiene_producto_ibfk_1` FOREIGN KEY (`Id_compra`) REFERENCES `compras` (`Id_compra`),
   ADD CONSTRAINT `compra_contiene_producto_ibfk_2` FOREIGN KEY (`Id_producto`) REFERENCES `productos` (`Id_producto`);
+
+--
+-- Filtros para la tabla `direcciones_de_envio`
+--
+ALTER TABLE `direcciones_de_envio`
+  ADD CONSTRAINT `direcciones_de_envio_ibfk_1` FOREIGN KEY (`Id_cliente`) REFERENCES `clientes` (`Id_cliente`);
+
+--
+-- Filtros para la tabla `imagen_producto`
+--
+ALTER TABLE `imagen_producto`
+  ADD CONSTRAINT `imagen_producto_ibfk_1` FOREIGN KEY (`Id_producto`) REFERENCES `productos` (`Id_producto`);
 
 --
 -- Filtros para la tabla `productos`

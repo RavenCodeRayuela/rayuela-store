@@ -27,6 +27,7 @@
                 <img id="mainImage" src="<?php echo URL_PATH.$imagenes[0]; ?>" alt="Imagen principal de <?php echo $producto->getNombre(); ?>">
             </div>
             <div class="thumbnail-images">
+                <!--Cambiar por un foreach-->
                 <img src="<?php echo URL_PATH.$imagenes[0]; ?>" alt="Miniatura 1" onclick="changeMainImage(this)">
                 <img src="<?php echo URL_PATH.$imagenes[1]; ?>" alt="Miniatura 2" onclick="changeMainImage(this)">
                 <img src="<?php echo URL_PATH.$imagenes[2]; ?>" alt="Miniatura 3" onclick="changeMainImage(this)">
