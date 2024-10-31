@@ -91,6 +91,7 @@ function loginUsuario(){
                         $_SESSION['rol'] ="cliente";
                         $cliente = new Cliente($usuario ->getId(), $usuario ->getEmail(),$usuario ->getPassword(),$usuario ->getTipoDeUsuario() );
                         $_SESSION['nombre'] = $cliente->getNombre();
+                        $_SESSION['carrito'] = [];
 
                         // Redirigir al usuario
                         header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');

@@ -2,6 +2,7 @@
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
     $js =URL_PATH.'/public/js/single-product.js';
+    $agregarAcarrito = URL_PATH.'/index.php?controller=controllerCompra&action=agregarProductoCarrito';
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
@@ -42,7 +43,7 @@
                     <?php endfor; ?>
                 </select>
             </div>
-            <button class="add-to-cart">Agregar al carrito</button>
+            <a class="add-to-cart" href="<?php echo $agregarAcarrito."&id=".$producto->getId()."&cantidad=1"; ?>">Agregar al carrito</a>
             <div class="descripcion-producto">
                 <h2>Descripción del Producto</h2>
                 <p><?php echo $producto->getDescripcion(); ?></p>

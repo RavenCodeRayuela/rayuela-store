@@ -9,6 +9,8 @@
         $singleProduct= URL_PATH.'/index.php?controller=controllerHome&action=mostrarSingleProduct&id=';
         
         $listarCatalogo =URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria='.$categoria;
+
+        $productosPorCategoriaURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria=';
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +33,7 @@
             <hr>
             <nav class="category-list">
                 <?php foreach ($categorias as $cat):?>
-                <a href="#"><?php echo $cat['Nombre_categoria'];?></a>
+                <a href="<?php echo $productosPorCategoriaURL.$cat['Id_categoria']; ?>"><?php echo $cat['Nombre_categoria'];?></a>
                 <?php endforeach;?>
             </nav>
         </aside>
@@ -49,17 +51,23 @@
         <div class="product-grid">
 
             <?php foreach ($productos as $producto):?>
-                
-            <div class="product-item">
-                <div class="product-image">
-                    <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
-                    <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+
+           <a class="product-item-container" href="<?php echo $singleProduct.$producto['Id_producto'];?>" >
+                <div class="product-item">
+                    <div class="product-image">
+                        <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
+                        <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+                    </div>
+                    <p><?php echo $producto['Nombre']?></p>
+                    <?php if($producto['Descuento']!=0):?>
+                    <p class ="precio-cancel-oferta"><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                        <p class="precio-oferta"><?php echo 'UYU '.($producto['Precio_actual']-($producto['Precio_actual']*($producto['Descuento']/100)))?></p>
+                        <p><?php echo $producto['Descuento'].'% Descuento'?></p>
+                    <?php else:?>
+                        <p><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                    <?php endif;?>
                 </div>
-
-                <a href="<?php echo $singleProduct.$producto['Id_producto'];?>"><?php echo $producto['Nombre']?></a>
-                <p><?php echo 'UYU '.$producto['Precio_actual']?></p>
-
-            </div>
+            </a>
             <?php endforeach;?>
 
         </div>

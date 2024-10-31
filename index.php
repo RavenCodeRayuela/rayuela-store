@@ -60,7 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'mostrarSingleProduct':
 
                 $action($_GET[ 'id' ]);
-                break;                
+                break;
+            
+            case 'agregarProductoCarrito':
+                $action($_GET['id'],$_GET['cantidad']);
+                break;
 
             default:
                 $action();

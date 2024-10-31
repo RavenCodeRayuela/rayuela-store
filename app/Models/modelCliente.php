@@ -1,12 +1,13 @@
 <?php
 require_once 'modelUsuario.php';
+require_once 'modelCompra.php';
 
 class Cliente extends Usuario {
 
     
     private $celulares;
 
-    private $direccionesDeEnvio;
+    private array $direccionesDeEnvio;
 
     private $suscripcion;
     private $carrito;
@@ -24,7 +25,7 @@ class Cliente extends Usuario {
     }
 
     public function addDireccionDeEnvio($calle, $numeroPuerta, $ciudad){
-        $this->direccionesDeEnvio.= new DireccionDeEnvio($calle,$numeroPuerta,$ciudad);
+        $this->direccionesDeEnvio[]= new DireccionDeEnvio($calle,$numeroPuerta,$ciudad);
     }
     public function removeDireccionDeEnvio($idDireccion){
         //Desarrollar
@@ -92,31 +93,5 @@ class Cliente extends Usuario {
     }
    
 }
-
-class DireccionDeEnvio{
-    private $idDireccion;
-    private $calle;
-
-    private $numeroPuerta;
-
-    private $ciudad;
-
-    public function __construct($calle,$numeroPuerta,$ciudad){
-        $this->calle = $calle;
-        $this->numeroPuerta = $numeroPuerta;
-        $this->ciudad = $ciudad;
-    }
-
-}
-
-class Carrito{
-    private $productos;
-    private $costoAcumulado;
-
-
-    public function generarPedido(){}
-    public function addProducto(){}
-}
-
 
 ?>

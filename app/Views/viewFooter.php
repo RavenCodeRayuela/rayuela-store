@@ -1,4 +1,7 @@
 <!-- Pie de página -->
+ <?php
+    $raven= URL_PATH."/public/empresa/indexEmpresa.php";
+ ?>
 <footer>
             <div class="social-icons">
                 <a href="https://facebook.com" target="_blank" aria-label="Facebook"><img src="<?php echo $img;?>facebook.png" alt="Facebook" width="5%"></a>
@@ -10,5 +13,6 @@
                 <li>Teléfono: ...</li>
                 <li>Email: ...</li>
                 <li>Dirección: ...</li>
+                <li>Sitio Web desarrollado por: <a href="<?php echo $raven;?>" target="_blank">Raven code ©</a></li>
             </ul>
     </footer>

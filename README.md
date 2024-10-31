@@ -24,3 +24,11 @@
 #### General
 
 - Corregir faltas de ortografía en msj a usuarios.
+
+#### BBDD
+
+- Modificar "Compras" para agregar direccion de envio.
+
+#### ADA
+
+- Modificar Diagrama de clases para que represente la realidad actual.

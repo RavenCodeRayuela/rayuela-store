@@ -37,18 +37,21 @@ function mostrarProductos($categoria, $paginaActual){
     $producto = new Producto();
 
     if($categoria=='all'){
+
         //Categorias para la sidebar
         $cat= new Categoria();
         $categorias= $cat->getCategorias();
-        
+        //Todos los productos
         $totalProductos= $producto->contarTotalProductos();
         $totalPaginas = ceil($totalProductos / $productosPorPagina);
         $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
     }else{
+
         //Categorias para la sidebar y nombre de página
         $category= new Categoria($categoria);
         $categorias= $category->getCategorias();
         
+        //Todos los productos de la categoria
         $totalProductos= $producto->contarTotalProductosPorCategoria($categoria);
         $totalPaginas = ceil($totalProductos / $productosPorPagina);
 
@@ -92,9 +95,28 @@ function mostrarAgregarCategoria(){
 }
 
 function mostrarCarrito(){
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+        //$prod= new Producto();
+        //$imgProd= $prod->getProductos();    
+        $productos= array();
+        
+    if($_SESSION!=[] && $_SESSION['carrito']!=null){
+        foreach ($_SESSION['carrito'] as $idProducto) {
+            $producto = new Producto($idProducto);
+            $productos[] = $producto;
+        }
+        
+    }else{
+        $mensaje= 'Aún no hay productos en tu carrito';
+    }
     require_once ROOT_PATH.'/app/Views/viewCarrito.php';
 }
 function mostrarPerfil(){
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
+
 ?>

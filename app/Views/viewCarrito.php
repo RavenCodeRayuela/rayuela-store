@@ -40,7 +40,7 @@
                         <label for="cantidad">Cantidad:</label>
                         <input type="number" id="cantidad" min="1" value="1">
                     </div>
-                    <button class="remove-btn">Eliminar</button>
+                    <a class="remove-btn">Eliminar</a>
                 </div>
             </div>
             
@@ -52,7 +52,7 @@
                 <span>Total:</span>
                 <span class="precio-cart-total">UYU 450</span>
             </div>
-            <button class="checkout-btn">Proceder a la Compra</button>
+            <a class="checkout-btn">Comprar</a>
         </div>
     </main>
 <?php include_once 'viewFooter.php'?>
