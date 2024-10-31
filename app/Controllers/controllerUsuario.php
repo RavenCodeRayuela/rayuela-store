@@ -32,6 +32,10 @@ function registrarUsuario(){
             $cliente = new Cliente();
             if ($cliente->registrarCliente($email, $password, $suscripcion)) {
                 echo "Usuario registrado correctamente";
+                
+                  // Redirigir al usuario
+                  header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
+                  exit();
             } else {
                 echo "Error al registrar el usuario";
             }

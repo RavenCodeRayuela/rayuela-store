@@ -851,13 +851,14 @@ section {
 .add-to-cart {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #196911;
-  color: white;
+  background-color: #fefffe62;
+  color: black;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   border: none;
   cursor: pointer;
   border-radius: 4px;
   margin-bottom: 20px;
-  transition: all 0.5s ease-in
+  transition: all 0.3s ease-in-out
 }
 
 .add-to-cart:hover{

@@ -13,6 +13,7 @@
     
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
+    $eliminarItem= URL_PATH.'/index.php?controller=controllerCompra&action=eliminarProductoCarrito&id=';;
 ?>
 
 <!DOCTYPE html>
@@ -30,27 +31,27 @@
         <h1>Carrito de Compras</h1>
         
         <div class="cart-items">
-            
-            <div class="cart-item">
-                <img src="ruta/imagen-producto.jpg" alt="Producto 1">
-                <div class="product-details">
-                    <h2>Nombre del Producto</h2>
-                    <p class="precio-cart">UYU 450</p>
-                    <div class="cantidad-cart">
-                        <label for="cantidad">Cantidad:</label>
-                        <input type="number" id="cantidad" min="1" value="1">
+            <?php foreach ($productos as $item):?>
+                <div class="cart-item">
+                    <img src="ruta/imagen-producto.jpg" alt="Producto 1">
+                    <div class="product-details">
+                        <h2><?php echo $item['producto']->getNombre();?></h2>
+                        <p class="precio-cart">Costo de producto/s: <?php echo $item['producto']->getPrecio()*$item['cantidad'];?> UYU</p>
+                        <div class="cantidad-cart">
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" id="cantidad" min="1" value="<?php echo $item['cantidad']?>">
+                        </div>
+                        <a class="remove-btn" href="<?php echo $eliminarItem.$item['producto']->getId();?>">Eliminar</a>
                     </div>
-                    <a class="remove-btn">Eliminar</a>
                 </div>
-            </div>
-            
+            <?php endforeach;?>
         </div>
         
         <div class="resumen-cart">
             <h3>Resumen del Pedido</h3>
             <div class="item-resumen">
                 <span>Total:</span>
-                <span class="precio-cart-total">UYU 450</span>
+                <span class="precio-cart-total"></span>
             </div>
             <a class="checkout-btn">Comprar</a>
         </div>

@@ -105,9 +105,14 @@ function mostrarCarrito(){
         $productos= array();
         
     if($_SESSION!=[] && $_SESSION['carrito']!=null){
-        foreach ($_SESSION['carrito'] as $idProducto) {
+
+        foreach ($_SESSION['carrito'] as $item) {
+            $idProducto = $item['id'];
             $producto = new Producto($idProducto);
-            $productos[] = $producto;
+             $productos[] = [
+            'producto' => $producto,
+            'cantidad' => $item['cantidad']
+        ];
         }
         
     }else{
