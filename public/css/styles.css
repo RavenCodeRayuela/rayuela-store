@@ -381,7 +381,7 @@ footer {
   align-items: center;
   text-align: center;
   filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.5));
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .hero::before {
@@ -730,6 +730,13 @@ section {
   text-decoration: none;
   color: #000;
   
+}
+
+.product-item-ofertas{
+  display: block;
+  text-decoration: none;
+  color: #000;
+  margin: 10px 15px;
 }
 
 .product-item {

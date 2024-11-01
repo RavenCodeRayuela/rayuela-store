@@ -3,9 +3,11 @@
     $jsOfertas = URL_PATH.'/public/js/carrusel.js';
     $img = URL_PATH.'/public/img/';
     $jsCategorias= URL_PATH.'/public/js/carrusel-categorias.js';
+
     $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
     $registro= URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro';
     $productosURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos';
+    $singleProduct= URL_PATH.'/index.php?controller=controllerHome&action=mostrarSingleProduct&id=';
 
     $productosPorCategoriaURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria=';
 
@@ -66,15 +68,22 @@
         <div class="carousel-container">
             <div class="carousel-slide">
                 <?php foreach ($productos as $producto):?>
-                <div class="product-item-ofertas">
-                    <div class="product-image">
-                        <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
-                        <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
-                    </div>
-                    <a href="<?php echo $singleProduct;?>"><?php echo $producto['Nombre']?></a>
-                    <p class ="precio-cancel-oferta"><?php echo 'UYU '.$producto['Precio_actual']?></p>
-                    <p class="precio-oferta"><?php echo 'UYU '.($producto['Precio_actual']-($producto['Precio_actual']*($producto['Descuento']/100)))?></p>
-                    <p><?php echo $producto['Descuento'].'% Descuento'?></p>
+                <div >
+                  
+                    <a class="product-item-ofertas" href="<?php echo $singleProduct.$producto['Id_producto'];?>" >
+                            <div class="product-item">
+                                <div class="product-image">
+                                    <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
+                                    <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+                                </div>
+                                <p><?php echo $producto['Nombre']?></p>
+                                <?php if($producto['Descuento']!=0):?>
+                                <p class ="precio-cancel-oferta"><?php echo 'UYU '.$producto['Precio_actual']?></p>
+                                    <p class="precio-oferta"><?php echo 'UYU '.($producto['Precio_actual']-($producto['Precio_actual']*($producto['Descuento']/100)))?></p>
+                                    <p><?php echo $producto['Descuento'].'% Descuento'?></p>
+                                <?php endif;?>
+                            </div>
+                        </a>
                 </div>
                 <?php endforeach;?>
             </div>

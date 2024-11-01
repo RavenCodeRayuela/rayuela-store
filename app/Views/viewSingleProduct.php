@@ -3,7 +3,8 @@
     $img = URL_PATH.'/public/img/';
     $js =URL_PATH.'/public/js/single-product.js';
     $agregarAcarrito= URL_PATH.'/index.php?controller=controllerCompra&action=agregarProductoCarrito&';
-
+    $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
+    
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
@@ -41,6 +42,7 @@
             <div class="precio-producto"><?php echo 'UYU '.$producto->getPrecio(); ?></div>
             
             <div class="cantidad-producto">
+                <?php if(isset($_SESSION['carrito'])):?>
                 <form method="POST" action="<?php echo $agregarAcarrito;?>">
 
                     <input type="hidden" name="id" value="<?php echo $producto->getId(); ?>">
@@ -54,6 +56,9 @@
                 
                     <input type="submit" class="add-to-cart" value="Agregar al carrito">
                 </form>
+                <?php else:?>
+                    <a class="btn loguearse" href="<?php echo $login;?>">Logueate para empezar comprar</a>
+                <?php endif;?>
             </div>
             <div class="descripcion-producto">
                 <h2>Descripción del Producto</h2>
