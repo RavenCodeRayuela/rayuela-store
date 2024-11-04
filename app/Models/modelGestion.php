@@ -1,6 +1,11 @@
 <?php
 require_once "config/conexionBD.php";
 require_once "modelAdministrador.php";
+
+/**
+ * Clase producto contiene lo referente a los productos y las funciónes necesarias
+ * para realizar el CRUD de productos
+ */
 class Producto{
 
     private $id;
@@ -12,7 +17,12 @@ class Producto{
     private $cantidad;
 
     private array $imagenes;
-    
+    /**
+     * El constructor puede recibir el id o ser vacio, dependiendo del uso necesario.
+     * en caso de tener el id busca en la base de datos los datos correspondientes a dicho id
+     * y los aplica al objeto
+     * @param mixed $id
+     */
     public function __construct($id=null){
 
         if($id!=null){
@@ -99,6 +109,14 @@ class Producto{
     //public function getImagen($)
 
     //Funciones de BBDD
+
+    /**
+     * Permite añadir imagenes a un producto utiliza el id para vincular las tablas.
+     * En caso de exito retorna true de lo contrario false
+     * @param mixed $imagenes
+     * @param mixed $idProducto
+     * @return bool
+     */
     private function addImagenes($imagenes, $idProducto) {
         if (empty($imagenes) || empty($idProducto)) {
             return false;
@@ -117,6 +135,13 @@ class Producto{
         return true; 
     }
     
+    /**
+     * Modifica las imagenes existentes, mediante el id.
+     * En caso de exito modifica las imagenes y retorna true
+     * @param mixed $imagenes
+     * @param mixed $idProducto
+     * @return bool
+     */
     private function updateImagenes($imagenes, $idProducto) {
 
         $conexion = ConexionBD::getInstance();
@@ -148,6 +173,12 @@ class Producto{
         return true; 
     }
 
+    /**
+     * Busca mediante un id en la BBDD y retorna un arreglo con
+     * las filas correspondientes a esa id de producto.
+     * @param mixed $idProducto
+     * @return array|bool
+     */
     public function selectImagenes($idProducto){
         if (empty($idProducto)) {
             return false;
@@ -161,7 +192,22 @@ class Producto{
 
         return $stmtSelect->fetchAll();
     }
-
+    /**
+     * Agrega productos a la base de datos, recibe todos los parametros ya saneados
+     * del controller y los inserta en la BD, utiliza transacciones para asegurarse
+     * de la integridad de la información, haciendo un roll-back en caso de error
+     * retorna true en caso de exito tira una excepcion en caso de fallo
+     * @param mixed $nombre
+     * @param mixed $descripcion
+     * @param mixed $precio
+     * @param mixed $descuento
+     * @param mixed $categoria
+     * @param mixed $cantidad
+     * @param mixed $imagenes
+     * @param mixed $idAdmin
+     * @throws \Exception
+     * @return bool
+     */
     public function addProducto($nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes, $idAdmin){
         try{
             $conexion=ConexionBD::getInstance();
@@ -196,7 +242,12 @@ class Producto{
         }
     }
 
-    
+    /**
+     * Remueve un producto buscando por su id.
+     * Retorna true en caso de exito, caso contrario tira una excepción
+     * @param mixed $idProducto
+     * @return bool
+     */
     public function removeProducto($idProducto){
         try {
         $conexion=ConexionBD::getInstance();
@@ -220,6 +271,20 @@ class Producto{
             echo "Transacción fallida: " . $e->getMessage();
         }
     }
+    /**
+     * Realiza una modificacion en la BD en las tablas de imagenes y productos
+     * utiliza el id para distinguir entre los productos.
+     * @param mixed $id
+     * @param mixed $nombre
+     * @param mixed $descripcion
+     * @param mixed $precio
+     * @param mixed $descuento
+     * @param mixed $categoria
+     * @param mixed $cantidad
+     * @param mixed $imagenes
+     * @throws \Exception
+     * @return bool
+     */
     public function updateProducto($id,$nombre,$descripcion,$precio,$descuento, $categoria, $cantidad, $imagenes){
         
         try {
@@ -255,6 +320,12 @@ class Producto{
         }
     }
 
+    /**
+     * Obtiene y retorna un array asociativo con los productos almacenados en la BD
+     * Obtiene datos de varias tablas(productos, categoria e imagen_producto), las imagenes y sus ids las 
+     * almacena en un array interno con la clave asociativa 'imagenes'
+     * @return array
+     */
     public function getProductos(){
         
             $conexion=ConexionBD::getInstance();
@@ -279,7 +350,11 @@ class Producto{
             }
                 return $productos;
         }
-    
+        /**
+         * Obtiene un producto especifico de la BD mediante su id
+         * @param mixed $idProducto
+         * @return mixed
+         */
         public function getProducto($idProducto){
             $conexion = ConexionBD::getInstance();
         
@@ -292,7 +367,14 @@ class Producto{
             return false; 
         }
 
-
+        /**
+         * Obtiene los productos de la base de datos para poder paginarlos,
+         * recibe como parametros la pagina actual, la cantidad de elementos a mostrar por pagina(que puede ser null)
+         * Utiliza el limit y el offset para obtener datos de la BD.
+         * @param mixed $paginaActual
+         * @param mixed $elementosPorPagina
+         * @return array
+         */
         public function getProductosPaginados($paginaActual, $elementosPorPagina = 10) {
             $conexion = ConexionBD::getInstance();
         
@@ -327,6 +409,16 @@ class Producto{
         
             return $productos;
         }
+        /**
+         * Obtiene los productos de una categoria de la base de datos para poder paginarlos,
+         * recibe como parametros la pagina actual, la cantidad de elementos a mostrar por pagina(que puede ser null),
+         * y la categoria por la cual filtrara.
+         * Utiliza el limit y el offset para obtener datos de la BD, tambien  
+         * @param mixed $paginaActual
+         * @param mixed $elementosPorPagina
+         * @param mixed $idCategoria
+         * @return array
+         */
         public function getProductosPaginadosPorCategoria($paginaActual, $elementosPorPagina = 10, $idCategoria) {
             $conexion = ConexionBD::getInstance();
         
@@ -358,13 +450,21 @@ class Producto{
         
             return $productos;
         }
+        /**
+         * Cuenta el total de productos en la BBDD
+         * @return mixed
+         */
         public function contarTotalProductos() {
             $conexion = ConexionBD::getInstance();
             $stmt = $conexion->query("SELECT COUNT(*) as total FROM productos");
             $total = $stmt->fetch()['total'];
             return $total;
         }
-
+        /**
+         * Cuenta el total de productos por categoría en la BD
+         * @param mixed $idCategoria
+         * @return mixed
+         */
         public function contarTotalProductosPorCategoria($idCategoria){
             $conexion = ConexionBD::getInstance();
             $stmt = $conexion->prepare("SELECT COUNT(*) as total FROM productos WHERE Id_categoria = :Id_categoria");
@@ -382,7 +482,9 @@ class Producto{
 
 }
 
-
+/**
+ * Contiene lo referente a las categorias de los productos
+ */
 class Categoria{
     private $id;
     private $nombre;
@@ -390,6 +492,11 @@ class Categoria{
 
     private $rutaImagenCategoria;
     
+    /**
+     * El constructor admite el parametro id o ningun parametro,
+     * en caso de tener el id busca en la BD para aplicar los datos al objeto. 
+     * @param mixed $id
+     */
     public function __construct($id=null){
         
         if($id!=null){
@@ -435,7 +542,15 @@ class Categoria{
     }
 
 
-
+    /**
+     * Agrega una categoria a la BD, recibe del controlador parametros saneados
+     * y mediante un insert persiste los datos.
+     * @param mixed $nombre
+     * @param mixed $descripcion
+     * @param mixed $rutaImagen
+     * @param mixed $idAdmin
+     * @return bool
+     */
     public function addCategoria($nombre, $descripcion,$rutaImagen,$idAdmin){
         try{
             $conexion=ConexionBD::getInstance();
@@ -461,6 +576,11 @@ class Categoria{
             echo "Error: ". $e -> getMessage();
         }
     }
+    /**
+     * Elimina una categoria seleccionada, recibe el id de la categoria como parametro.
+     * @param mixed $idCategoria
+     * @return bool
+     */
     public function removeCategoria($idCategoria){
         $conexion=ConexionBD::getInstance();
 
@@ -468,6 +588,15 @@ class Categoria{
             return $stmt->execute([':id' => $idCategoria ]);
 
     }
+    /**
+     * Actualiza una categoría, buscando por id que se inserta como parametro en la funcion.
+     * @param mixed $nombre
+     * @param mixed $descripcion
+     * @param mixed $rutaImagen
+     * @param mixed $id
+     * @throws \Exception
+     * @return bool
+     */
     public function updateCategoria($nombre,$descripcion,$rutaImagen,$id){
         try {
             $conexion=ConexionBD::getInstance();
@@ -494,7 +623,14 @@ class Categoria{
             echo "Transacción fallida: " . $e->getMessage();
         }
     }
-
+    /**
+     * Obtiene la categoría por id o por nombre, en caso de no pasar
+     * ninguno de los dos por parametro, retorna falso.
+     * En caso de exito retorna la fila correspondiente a la categoría
+     * @param mixed $id
+     * @param mixed $nombre
+     * @return mixed
+     */
     public function getCategoria($id=null,$nombre=null){
         
         $conexion=ConexionBD::getInstance();
@@ -530,6 +666,10 @@ class Categoria{
         }
     }
 
+    /**
+     * Obtiene todas las categorias de la base de datos.
+     * @return array
+     */
     public function getCategorias(){
         
         $conexion=ConexionBD::getInstance();
@@ -545,7 +685,10 @@ class Categoria{
         
             return $categorias;
     }
-
+    /**
+     * Cuenta el total de las categorias en la BD
+     * @return mixed
+     */
     public function contarTotalCategorias() {
         $conexion = ConexionBD::getInstance();
         $stmt = $conexion->query("SELECT COUNT(*) as total FROM categorias");
@@ -553,7 +696,14 @@ class Categoria{
         return $total;
     }
 
-
+    /**
+     * Obtiene las categorias con formato para paginar,
+     * recibe la pagina actual y los elementos por pagina como parametros
+     * En caso de exito retorna un array con las categorias
+     * @param mixed $paginaActual
+     * @param mixed $elementosPorPagina
+     * @return array
+     */
     public function getCategoriasPaginadas($paginaActual, $elementosPorPagina = 10) {
         
         $conexion = ConexionBD::getInstance();

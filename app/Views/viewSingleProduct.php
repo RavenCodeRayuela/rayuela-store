@@ -3,6 +3,7 @@
     $img = URL_PATH.'/public/img/';
     $js =URL_PATH.'/public/js/single-product.js';
     $agregarAcarrito= URL_PATH.'/index.php?controller=controllerCompra&action=agregarProductoCarrito&';
+    $productosPorCategoriaURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria=';
     $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
     
     if (session_status() === PHP_SESSION_NONE) {
@@ -60,12 +61,12 @@
                     <a class="btn loguearse" href="<?php echo $login;?>">Logueate para empezar comprar</a>
                 <?php endif;?>
             </div>
-            <div class="descripcion-producto">
+            <div class="descripcion-single-product">
                 <h2>Descripción del Producto</h2>
                 <p><?php echo $producto->getDescripcion(); ?></p>
             </div>
             <div class="categoria-s-producto">
-                Categoría: <span><?php echo $categoria->getNombre(); ?></span>
+                Categoría <a href="<?php echo $productosPorCategoriaURL.$categoria->getId()?>"><?php echo $categoria->getNombre(); ?></a>
             </div>
 
             <?php if(isset($_SESSION['msjProdAgregadoACarrito'])):?>

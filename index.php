@@ -1,7 +1,4 @@
 <?php
-//Las rutas
-
-require_once __DIR__."/config/paths.php";
 
 //La carpeta donde buscaremos los controladores
 define ('CONTROLLERS_FOLDER', "app/Controllers/");
@@ -13,7 +10,7 @@ define ('DEFAULT_ACTION', "mostrarHome");
 $controller =  obtenerControlador();
 $action = obtenerAction();
 
-
+//Si la accion es un get, mediante el nombre obtenemos los parametros necesarios para ejecutar la función
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ( is_callable ($action) ){

@@ -30,7 +30,7 @@
     
    <?php include_once 'viewHeaderAdmin.php'?>
         <!-- Listar Categorias -->
-        <div id="listar" class="container-listar">
+    <div id="listar" class="container-listar">
             <div class="header-lista">
                 <h1>Lista de categorías</h1><a href="<?php echo $agregarCategoria;?>" class="btn listar">Agregar Categoría</a>
             </div>    
@@ -56,7 +56,7 @@
                     }
             ?>
         </div>
-    </div>
+    
 
         <?php if (isset($totalPaginas) && $totalPaginas > 1): ?>
                     <div class="pagination">
@@ -76,8 +76,6 @@
                     </div>
                 <?php endif; ?>
     </div>
-</div>
-   
 <?php
         // Mostrar errores si existen
             if (!empty($errores)) {

@@ -1,11 +1,20 @@
 /*General*/
 
+/*
+Se le asigna a todos los elementos margen y padding 0px y se aplica box-sizing para poder manejar más facil 
+el contenido al agregar los bordes y padding a las medidas de cajas.
+*/
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     
 }
+
+/*
+Se modifica el elemento hr para que no ocupe toda la pantalla, este centrado 
+y tenga un degrade(linear-gradient) con extremos invisibles
+*/
 hr{
     border: 0;
     height: 1px;
@@ -16,13 +25,18 @@ hr{
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
+/*
+Se modifica el outline de los elementos a e input para que al momento de ser seleccionados
+se muestre un bordes redondeados solidos de 2px de ancho, y se selecciona el color mediante la función oklch 
+seleccionando la luminosidad(l), la saturación(c), y el tono de color en grados(h) o numero.
+*/
     a:focus-visible, input:focus-visible {
       outline: 2px solid oklch(60% 0.15 210); 
+      border-radius: 5px;
     }
 
     a:hover, input[type="submit"]:hover{
-       
+      border-radius: 5px;
         border-color: black;
     }
 
@@ -30,19 +44,27 @@ hr{
       text-decoration: none;
       border-radius: 5px;
     }
-
+/*
+Se le asigna a main una propiedad flex de 1 para que ocupe la parte central del documento
+*/
 main{
   flex: 1;
 }
+/*Scroll behavior en el html para que las transiciones sean suaves en la página*/
 html, body{
   height: 100%;
+  scroll-behavior: smooth;
 }
+
 /*Fuentes y texto*/
   .titulo-centrado{
     text-align: center;
     padding: 1%;
   }
 
+  /*
+  Aviso off y se declaran para aplicar con Javascript
+  */
   .aviso-off{
     display: none;
   }
@@ -51,11 +73,18 @@ html, body{
     display: inline;
     color: red;
   }
+  /*
+  Se crea esta clase para crear un margen superior del tamaño del header si es necesario para no superponer elementos.
+  */
   .comienzoPagina{
     margin-top: 124px;
   }
-/*Background*/
 
+/*Background*/
+/*
+Se coloca un color al body celeste claro, el display flex con direccion columna y con espaciado entre elementos
+La idea es empujar el footer para abajo y el header hacia arriba mientras el main ocupa la parte central.
+*/
 body{
     background-color:#d3eaf2;
     display: flex;
@@ -65,16 +94,10 @@ body{
   
 
   /*Elementos del Login*/
-  .header-login{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .logo-login{
-    text-align: center;
-  }
-
-  
+/*
+Se crea un form de login que ocupa un 65% del ancho y se centra, a su vez como contenedor dispone a sus elementos hijos
+en formato flex de direccion columna se realiza un centrado "perfecto" con align-items y justify-content en center.
+*/
   .form{
     width: 65%;
     margin-left: auto;
@@ -85,21 +108,26 @@ body{
     align-items: center;
     padding: 2%;
   }
+
   .item-form{
     padding: 1%;
     margin: 0.5%;
   }
 
-  .form-login input[type="submit"]{
-    min-width: 200px;
-    width:40% ;
+  .form input[type="submit"]{
+    margin-top: 15px;
+    width: 20%;
   }
 
-  .form-login input{
-    border-radius: 5px;
-    
-  }
   /*Header y nav*/
+
+  /*
+  Se aplica un background en degrade al header aumentando la transparencia al acercarse al contenido central,
+  Se le asigna formato flex, por defecto en direccion row, se situa en el margen superior izquierdo con top y left 0,
+  Se determina una altura de 124px, que utilice todo el ancho de la página, se le agrega un box-shadow para darle
+  difuminado extra y por las dudas se lo trae al frente con z-index 1000, se declara una posición fixed para que siga
+  el scroll del usuario.
+  */
   header {
     background:linear-gradient(180deg, rgba(0,0,0,0.8),rgba(0,0,0,0.4));
     padding: 10px 30px;
@@ -121,10 +149,20 @@ body{
 
 .user{
   height: 50px;
+  transition: all 0.2s ease-in;
 }
+
+.user:hover{
+  transform: translateY(-7px);
+}
+
+/*
+Para la navegación, se declara flex al contenedor y la lista, sin  estilo para las listas.
+Se agrega una propiedad transition de color para que al realizar el hover sobre el elemento
+se de una transición de color con un breve delay
+*/
 nav {
     display: flex;
-
 }
 nav ul {
     list-style-type: none;
@@ -148,7 +186,9 @@ nav ul li a:hover {
     color: #f4b400;
 }
 
-
+/*
+Para separar los elementos referentes al usuario(Carrito, login y logout) y a los de navegación
+*/
 #nav-parte-dos{
   margin-left: 120px;
 }
@@ -159,7 +199,7 @@ nav ul li a:hover {
   padding-top: 20px;
   text-align: center;
 }
-
+/*Estilo para los form de productos y categorias*/
 .form-container-productos{  
   display: block;
   margin: 15px auto;
@@ -181,6 +221,7 @@ nav ul li a:hover {
 .button-forms{
   padding: 10px;
 }
+
 .form-container-productos input{
   width: 100%;
   padding: 6px 10px;
@@ -213,6 +254,7 @@ nav ul li a:hover {
   margin-right: auto;
   padding-top: 20px;
   padding-bottom: 20px;
+  
 }
 .container-listar h1{
   margin-bottom: 20px;
@@ -237,6 +279,7 @@ nav ul li a:hover {
   
 }
 
+/*Se determina un tamaño de imagen de vista previa*/
 .img-thumbnail {
   width: 50px; 
   height: 50px; 
@@ -245,7 +288,7 @@ nav ul li a:hover {
   border-radius: 5px; 
 }
 
-
+/*Para que a medida que se van agregando imagenes se comporte de manera flex*/
 .td-imagenes {
   display: flex;
   flex-wrap: wrap;
@@ -281,6 +324,9 @@ nav ul li a:hover {
 
 /*Footer*/
 
+/*
+Similar al header pero en el footer
+*/
 footer {
   background:linear-gradient(180deg, rgba(0,0,0,0.4),rgba(0,0,0,0.8));
   color: white;
@@ -292,6 +338,10 @@ footer {
   width: 100%;
   bottom: 0;
 }
+
+/*
+Se le saca el estilo a las listas utilizadas
+*/
 .contact-info {  
     list-style-type: none;
     padding: 0;
@@ -301,7 +351,11 @@ footer {
 .contact-info li {
     margin-bottom: 5px;
 }
-
+/*
+Se coloca los inline block a los elementos a del footer para que tengan apariencia de botones.
+Se coloca una transicion de estilo all(varios cambios) para al realizar el hover cambie de color de fondo
+y se "levante ligeramente" de manera "suave" 
+*/
 .contact-info a{
   display: inline-block;
   padding: 7px;
@@ -317,12 +371,21 @@ footer {
 }
 .social-icons {
     margin-top: 10px;
+   
 }
+
 .social-icons a {
     color: white;
     text-decoration: none;
     margin: 0 10px;
     font-size: 24px;
+}
+
+.social-icons img{
+  transition: all 0.2s ease-in;
+}
+.social-icons img:hover{
+  transform: translateY(-10px);
 }
 
 /*Perfil de usuario*/
@@ -344,7 +407,7 @@ footer {
 .sidebar h3 {
   margin-bottom: 20px;
 }
-
+/*Dos efectos de transición, uno para el fondo y otro para el color de la letra*/
 .sidebar a {
   display: block;
   color: white;
@@ -374,6 +437,10 @@ footer {
 }
 
 /* Pagina principal/index */
+
+/*La clase hero se le asigna un espacio de 400px de ancho, con estilo flex y alineación perfecta(align-items
+ y justify-content center), se le asigna un filter a la caja con la función drop shadow
+ para agregar un sombrado externo*/
 .hero {
   height: 400px;
   display: flex;
@@ -384,6 +451,7 @@ footer {
   margin-bottom: 0px;
 }
 
+/*Se utiliza el seudoelemento ::before para colocar la imagen de fondo, con sombra interna utilizando box-shadow inset*/
 .hero::before {
   content: '';
   position: absolute;
@@ -428,6 +496,9 @@ footer {
   opacity: 0.85;
 }
 
+/*
+Estilo para convertir los elementos a en botones, o look-alike, cambia el cursor a pointer(manito)
+*/
 .btn {
   display: inline-block; 
   text-decoration: none; 
@@ -490,7 +561,7 @@ footer {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Botón de Productos con borde y transparencia */
+/* Botón de Productos con borde y transparencia, al realizar el hover se rellena el background del boton */
 .btn.productos {
   background-color: transparent;
   border: 2px solid #00b894;
@@ -525,7 +596,7 @@ section {
 .carrusel {
   background-color: #2c2b2b65;
 }
-
+/*Se coloca overflow hidden para manegar con javascript el desplazamiento del contenido*/
 .carousel-container {
   width: 100%;
   overflow: hidden;
@@ -561,6 +632,8 @@ section {
   
 }
 
+/*Se coloca overflow hidden para manegar con javascript el desplazamiento del contenido
+,se utiliza todo el ancho de caja*/
 .categorias-carrusel {
   display: flex;
   position: relative;
@@ -568,9 +641,10 @@ section {
   margin: 0 auto;
   overflow: hidden;
   align-items: center;
-
 }
 
+/*Se coloca scroll smooth para suavizar el desplazamiento 
+y scrollbar width none para eliminar la barra de desplazamiento*/
 .categorias-container {
   display: flex;
   scroll-behavior: smooth;
@@ -589,9 +663,11 @@ section {
   border-radius: 5px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 
-  flex: 0 0 auto; /* Evita que se encojan o crezcan */
+  flex: 0 0 auto; /* Evita que se encojan o crezcan los items*/
 }
 
+/*Al realizar hover sobre un item se le coloca opacidad 1 mostrando el texto,
+ a su vez se levanta el item y se le reduce la opacidad para hacer un efecto de trasluz*/
 .categoria-item:hover .img-categoria{
   transform: translateY(-3px);
   filter: drop-shadow();
@@ -626,6 +702,10 @@ section {
 }
 
 /* Botones de navegación */
+/*
+Se colocan centrados mediante top 50% y translateY-50% para centrar nuevamente,
+se le pone cursor pointer y se traen hacia adelante con el z-index 
+*/
 .carrusel-btn {
   position: absolute;
   top: 50%;
@@ -659,6 +739,10 @@ section {
 }
 
 /* Sección lateral de categorías */
+/*
+Se le coloca un min-height para evitar que cuando hayan pocos productos
+no queden espacios en blanco.
+*/
 .sidebar-productos {
   background-color: #333;
   color: #fff;
@@ -717,11 +801,13 @@ section {
   justify-content: space-between;
   margin-bottom: 20px;
 }
-
+/*
+Para los productos se utiliza un display grid con 3 elementos por fila
+*/
 .product-grid {
   margin-top: 30px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -782,7 +868,10 @@ section {
   border-radius: 5px;
   object-fit: cover;
 }
-
+/*
+ Se utiliza opacity 0 para la imagen hover, luego al hacer hover se revierten las
+ opacidades para mostrar la imagen por defecto
+*/
 .product-image .hover-img {
   position: absolute;
   top: 0;
@@ -843,6 +932,7 @@ section {
 
 .single-product-details h1 {
   font-size: 24px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -858,7 +948,7 @@ section {
 .add-to-cart {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #fefffe62;
+  background-color: transparent;
   color: black;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
   border: none;
@@ -880,7 +970,23 @@ section {
 }
 
 .categoria-s-producto{
-  margin-top: 5px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.categoria-s-producto a{
+  display: inline-block;
+  padding: 5px;
+  text-decoration: none;
+  color: black;
+  border: solid #000 1px;
+  background-image: linear-gradient(135deg, #2bbfe4,#eaecc6);
+  transition: all 0.3s ease-in;
+}
+
+.categoria-s-producto a:hover{
+  transform: translateY(-5px);
+  background-image: linear-gradient(135deg,#eaecc6, #2bbfe4);
 }
 
 /*Carrito de compras*/
@@ -1007,3 +1113,4 @@ section {
 .checkout-btn:hover {
   background-color: #219150;
 }
+
