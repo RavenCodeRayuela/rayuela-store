@@ -2,7 +2,9 @@
     require_once (dirname(__FILE__,3) ."/config/paths.php");
     
 function registrarUsuario(){
-    require_once ROOT_PATH.'/app/Views/viewFormRegistro.php';
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email'] && !empty($_POST['password']) && !empty($_POST['passwordCh']))) {
 
@@ -13,37 +15,43 @@ function registrarUsuario(){
         $email= htmlspecialchars($_POST['email']);
         $password= htmlspecialchars($_POST['password']);
         $passwordCh= htmlspecialchars($_POST['passwordCh']);
-
+        
         //Pasar a booleano el valor de la suscripcion.
         if(!empty($_POST['suscripcion']) && $_POST['suscripcion'] == 'on'){
         $suscripcion= true;
         }else{
             $suscripcion= false;
         }
-
         //Se validan los campos
         $errores= validarFormRegistro($email, $password, $passwordCh);
         
         if ($errores != '') {
-            // Si hay errores, pasarlos a la vista
-            require_once ROOT_PATH.'/app/Views/viewFormRegistro.php';
+            setMensaje($errores,'error');
+            header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro');
+            exit();
         } else {
             // Si no hay errores, interactuar con el modelo
             $cliente = new Cliente();
+
             if ($cliente->registrarCliente($email, $password, $suscripcion)) {
-                echo "Usuario registrado correctamente";
                 
+                setMensaje("Usuario registrado correctamente","exito");
                   // Redirigir al usuario
                   header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
                   exit();
-            } else {
-                echo "Error al registrar el usuario";
+            }else {
+                setMensaje("Error al registrar el usuario","error");
+                require_once ROOT_PATH . '/app/Views/viewFormRegistro.php';
+                exit();
             }
         }
         
     }
 }
 function loginUsuario(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
      
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email'] && !empty($_POST['password']))){
         //Requires
@@ -60,6 +68,7 @@ function loginUsuario(){
 
         if ($errores != '') {
             // Si hay errores, pasarlos a la vista
+            setMensaje($errores,'error');
             require_once ROOT_PATH.'/app/Views/viewFormLogin.php';
          } else {
             $usuario = new Usuario();
@@ -104,6 +113,7 @@ function loginUsuario(){
             } else {
                 // Mostrar un mensaje de error
                 $errores .= "El usuario al que intenta acceder no existe en la base de datos";
+                setMensaje($errores,'error');
                 require_once ROOT_PATH.'/app/Views/viewFormLogin.php';
             }
 

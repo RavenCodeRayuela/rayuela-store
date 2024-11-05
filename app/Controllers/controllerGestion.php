@@ -18,10 +18,13 @@ function agregarProducto(){
             $descuento =$_POST["descuento"];
             $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
+            $errores="";
             
         //Procesos    
             $nombre = sanearTexto($nombre);
+            $errores.= textoSinCaracteresEspeciales($nombre);
             $descripcion = sanearTexto($descripcion);
+            $errores.= textoSinCaracteresEspeciales($descripcion);
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
@@ -30,7 +33,7 @@ function agregarProducto(){
             $categoriaId = validarInt($categoriaId);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $errores ==""){
                        
                 if (isset($_SESSION['usuario'])) {
                     
@@ -38,7 +41,7 @@ function agregarProducto(){
                     $admin ->agregarProducto($nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
                     
                     $mensajeExito="El producto ha sido ingresado.";
-                    
+                    setMensaje($mensajeExito, 'exito');
                     $producto= new Producto();
 
                     $_SESSION['Productos'] = $producto -> getProductos();
@@ -49,7 +52,8 @@ function agregarProducto(){
                     echo "Error al obtener el usuario";
                 }
             }else{
-                $errores= "Todo el formulario debe ser completado";
+                $errores.= "Todo el formulario debe ser completado, no se admiten 0 o valores negativos excepto en el campo descuento";
+                setMensaje($errores, 'error');
                 require_once ROOT_PATH.'/app/Views/viewAdminAgregarProducto.php'; 
             }
          }
@@ -88,10 +92,12 @@ function modificarProducto(){
             $imagenes = $_FILES['imagen'];
             $categoriaId = $_POST["categoria"];
             $id = $_POST['id'];
-            
+            $errores="";
         //Procesos    
             $nombre = sanearTexto($nombre);
+            $errores.= textoSinCaracteresEspeciales($nombre);
             $descripcion = sanearTexto($descripcion);
+            $errores.= textoSinCaracteresEspeciales($descripcion);
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
@@ -101,7 +107,7 @@ function modificarProducto(){
             $id = validarInt($id);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false && $errores=""){
                        
                 if (isset($_SESSION['Productos'])) {
 
@@ -110,7 +116,7 @@ function modificarProducto(){
                     $producto ->updateProducto($id ,$nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
                     
                     $mensajeExito="El producto ha sido modificado.";
-                    
+                    setMensaje($mensajeExito,'exito');
                     
 
                     $_SESSION['Productos'] = $producto -> getProductos();
@@ -118,11 +124,14 @@ function modificarProducto(){
                     header("Location: index.php?controller=controllerGestion&action=listarProductos");
                     exit();
                 }else{
-                    echo "Error al obtener el producto";
+                    setMensaje("Error al obtener el producto",'error');
                 }
             }else{
-                $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH.'/app/Views/viewAdminProductos.php'; 
+                $errores.="Todo el formulario debe ser completado, no se admiten 0 o valores negativos excepto en el campo descuento, verificar tambien que no se hayan introducido caracteres especiales";
+                setMensaje($errores,"error");
+                
+                header("Location:".URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto&id='.$id);
+                exit();
             }
          }
 }
@@ -148,13 +157,15 @@ function eliminarProducto($id){
                 $producto ->removeProducto($id);
                 
                 $mensajeExito="El producto ha sido eliminado.";
-                
+                setMensaje($mensajeExito, 'exito');
+
                 $_SESSION['Productos'] = $producto -> getProductos();
+
                 header("Location: index.php?controller=controllerGestion&action=listarProductos");
                     exit();
              
             }else{
-            echo "Error al obtener el producto";
+            setMensaje("Error al obtener el producto", 'error');
             require_once ROOT_PATH.'/app/Views/viewAdminListarProductos.php'; 
         }
 }
@@ -189,22 +200,25 @@ function agregarCategoria(){
             $nombre = $_POST["nombre"];
             $descripcion = $_POST["descripcion"];
             $imagenSubida = $_FILES;
-            
+            $errores="";
         //Procesos    
             $nombre = sanearTexto($nombre);
+            $errores.= textoSinCaracteresEspeciales($nombre);
             $descripcion = sanearTexto($descripcion);
+            $errores.= textoSinCaracteresEspeciales($descripcion);
             $imagenSubida = validarImagen($imagenSubida);
             $imagenSubida = moverImagen($imagenSubida);
             
 
         //Modificar BD
-        if($nombre != false && $descripcion != false && $imagenSubida != false){
+        if($nombre != false && $descripcion != false && $imagenSubida != false && $errores ==""){
 
                 if (isset($_SESSION['usuario'])) {
                     $admin = unserialize($_SESSION['usuario']);
                     $admin ->agregarCategoria($nombre,$descripcion,$imagenSubida);
                     $mensajeExito =" Categoría agregada correctamente.";
 
+                    setMensaje($mensajeExito, 'exito');
                     $categoria = new Categoria();
 
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
@@ -215,7 +229,9 @@ function agregarCategoria(){
                     echo "Error al obtener el usuario";
                 }
             }else{
-                $errores= "Todo el formulario debe ser completado";
+                $errores.= "Todo el formulario debe ser completado";
+                setMensaje($errores, 'error');
+
                 require_once ROOT_PATH.'/app/Views/viewAdminAgregarCategoria.php'; 
             }
          }
@@ -248,16 +264,18 @@ function modificarCategoria(){
             $descripcion = $_POST["descripcion"];
             $imagenSubida = $_FILES;
             $id = $_POST['id'];
-            
+            $errores='';
         //Procesos    
             $nombre = sanearTexto($nombre);
+            $errores.= textoSinCaracteresEspeciales($nombre);
             $descripcion = sanearTexto($descripcion);
+            $errores.= textoSinCaracteresEspeciales($descripcion);
             $imagenSubida = validarImagen($imagenSubida);
             $imagenSubida = moverImagen($imagenSubida);
             $id = validarInt($id);
             
         //Modificar BD
-        if($nombre != false && $descripcion != false && $imagenSubida != false && $id != false){
+        if($nombre != false && $descripcion != false && $imagenSubida != false && $id != false && $errores == '' ){
                        
                 if (isset($_SESSION['Categorias'])) {
 
@@ -266,7 +284,8 @@ function modificarCategoria(){
                     $categoria ->updateCategoria($nombre ,$descripcion,$imagenSubida,$id);
                     
                     $mensajeExito="La categoría ha sido modificada.";
-                    
+                    setMensaje($mensajeExito, 'exito');
+
                     $_SESSION['Categorias'] = $categoria -> getCategorias();
 
                     header("Location: index.php?controller=controllerGestion&action=listarCategorias");
@@ -275,8 +294,11 @@ function modificarCategoria(){
                     echo "Error al obtener la categoría";
                 }
             }else{
-                $errores= "Todo el formulario debe ser completado";
-                require_once ROOT_PATH."/app/Views/viewAdminModificarCategoria.php";
+                $errores.= "Todo el formulario debe ser completado";
+                setMensaje($errores, 'error');
+
+                header("Location:".URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria&id='.$id);
+                exit(); 
             }
          }
 }
@@ -303,6 +325,7 @@ function eliminarCategoria($id){
                 $categoria ->removeCategoria($id);
 
                 $mensajeExito="La categoria ha sido eliminada.";
+                setMensaje($mensajeExito, 'exito');
                 
                 $_SESSION['Categorias'] = $categoria -> getCategorias();
                 

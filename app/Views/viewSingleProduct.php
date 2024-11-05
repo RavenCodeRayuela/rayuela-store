@@ -2,14 +2,13 @@
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
     $js =URL_PATH.'/public/js/single-product.js';
-    $agregarAcarrito= URL_PATH.'/index.php?controller=controllerCompra&action=agregarProductoCarrito&';
+    $agregarAcarrito= URL_PATH.'/index.php?controller=controllerCompra&action=agregarProductoCarrito';
     $productosPorCategoriaURL= URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos&categoria=';
     $login= URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin';
     
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
-         
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +22,7 @@
 <body>
 
     <?php include_once 'viewHeader.php'?>
+
     <main class="single-product-main comienzoPagina">
     <div class="single-product-container">
         <div class="single-product-images">
@@ -69,14 +69,14 @@
                 Categoría <a href="<?php echo $productosPorCategoriaURL.$categoria->getId()?>"><?php echo $categoria->getNombre(); ?></a>
             </div>
 
-            <?php if(isset($_SESSION['msjProdAgregadoACarrito'])):?>
-                <p style="color: green; font-size: large;" ><?php echo $_SESSION['msjProdAgregadoACarrito'];?></p>
-             <?php endif;?>
+            
         </div>
     </div>
-   
-</main>
-<script src="<?php echo $js;?>"></script>
+    
+    </main>
+    <?php include 'viewMensaje.php';?>
+    <script src="<?php echo $js;?>"></script>
+    
     <?php include_once 'viewFooter.php'?>
 </body>
 </html>

@@ -9,16 +9,15 @@ $serverName = $_SERVER['SERVER_NAME'];
 $port = ($_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443') ? ':' . $_SERVER['SERVER_PORT'] : '';
 
 // Obtener el directorio base (ruta relativa al servidor web)
-
 $baseDir = dirname(__DIR__);
 
-$baseDir= substr($baseDir,strpos($baseDir, 'htdocs')+6);
+// Convertir el separador de directorios a barras normales para URLs
+$baseDir = str_replace('\\', '/', substr($baseDir, strpos($baseDir, 'htdocs') + 6));
 
 // Construir la URL completa
 $baseURL = $protocol . $serverName . $port . $baseDir;
 
-
-//Defino las raices
+// Defino las raíces
 define('URL_PATH', $baseURL);
-define('ROOT_PATH', value: dirname(__DIR__));
+define('ROOT_PATH', dirname(__DIR__));
 ?>

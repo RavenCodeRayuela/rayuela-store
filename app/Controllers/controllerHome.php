@@ -1,5 +1,6 @@
 <?php
     require_once (dirname(__FILE__,3) ."/config/paths.php");
+    require_once ROOT_PATH.'/app/Controllers/validaciones.php';
 function mostrarHome(){
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
 
@@ -71,7 +72,7 @@ function mostrarSingleProduct($id){
     $imagenes= $producto->getImagenes();
     $categoria= new Categoria($idCategoria);
 
-
+    
     require_once ROOT_PATH.'/app/Views/viewSingleProduct.php';
 }
 function mostrarLogin(){
@@ -124,4 +125,11 @@ function mostrarPerfil(){
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
 
+function mostrarNosotros(){
+    require_once ROOT_PATH.'/app/Views/viewNosotros.php';
+}
+
+function mostrarInfoContacto(){
+    require_once ROOT_PATH.'/app/Views/viewContacto.php';
+}
 ?>

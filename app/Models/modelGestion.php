@@ -71,6 +71,11 @@ class Producto{
         return $this->precio;
     }
 
+    public function getPrecioConDescuento(){
+        $precioFinal = ($this->precio-$this->precio*($this->descuento/100));
+        return $precioFinal;
+    }
+
     public function setPrecio($precio){
         $this->precio=$precio;
     }
@@ -413,7 +418,8 @@ class Producto{
          * Obtiene los productos de una categoria de la base de datos para poder paginarlos,
          * recibe como parametros la pagina actual, la cantidad de elementos a mostrar por pagina(que puede ser null),
          * y la categoria por la cual filtrara.
-         * Utiliza el limit y el offset para obtener datos de la BD, tambien  
+         * Utiliza el limit y el offset para obtener datos de la BD, limit especifica el numero de filas maximo a
+         * devolver y offset especifica el numero de filas a saltar antes de empezar a devolver filas.  
          * @param mixed $paginaActual
          * @param mixed $elementosPorPagina
          * @param mixed $idCategoria

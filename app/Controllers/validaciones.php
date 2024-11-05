@@ -11,7 +11,7 @@ function validarFormRegistro($email, $password, $passwordCh){
     }
     //Password
     if(!preg_match($regex, $password) || $password != $passwordCh){
-        $mensajeDeError.='Hay un error en los campos relacionados con la contraseña.<br>Recuerde que la misma ha de ser de entre 8 y 30 caracteres y contener al menos 1 mayuscula, 1 minuscula y 1 numero';
+        $mensajeDeError.='Hay un error en los campos relacionados con la contraseña. Recuerde que la misma ha de ser de entre 8 y 30 caracteres y contener al menos 1 mayuscula, 1 minuscula y 1 numero';
     }
 
     return $mensajeDeError;
@@ -39,6 +39,17 @@ function sanearTexto($texto){
         return $texto;
     } else{
         return false;
+    }
+}
+
+function textoSinCaracteresEspeciales($texto){
+    $mensajeDeError='';
+    if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$/", $texto)) {
+        $mensajeDeError.="Alguno de los campos contiene caracteres especiales.";
+        
+        return $mensajeDeError;
+    }else{
+        return $mensajeDeError;
     }
 }
 
@@ -173,5 +184,38 @@ function eliminarImagenes($imagenes){
                 echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
             }
     }
+}
+/**
+ * Recibe el mensaje y su tipo, los tipos admitidos son 'exito' y 'error'
+ * @param mixed $mensaje
+ * @param mixed $tipo
+ * @return void
+ */
+function setMensaje($mensaje, $tipo) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    $_SESSION['mensaje'] = $mensaje;
+    $_SESSION['tipo_mensaje'] = $tipo;
+}
+/**
+ * Devuelve un array con el mensaje y su tipo en caso de que haya mensaje,
+ *  sino devuelve null
+ * @return array|null
+ */
+function getMensaje(){
+    
+        if (isset($_SESSION['mensaje'])) {
+            $mensaje = $_SESSION['mensaje'];
+            $tipoMensaje = $_SESSION['tipo_mensaje'];
+
+            unset($_SESSION['mensaje']);
+            unset($_SESSION['tipo_mensaje']);
+
+            return ['mensaje' => $mensaje, 'tipo' => $tipoMensaje];
+        }else{
+            return null;
+        }
+        
 }
 ?>

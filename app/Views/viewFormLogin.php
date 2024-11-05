@@ -1,11 +1,12 @@
 <?php
-
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if($_SESSION !=[]){
 if (isset($_SESSION['user_email']) && $_SESSION['rol']!="admin") {
     header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
     exit();
-}elseif (($_SESSION['user_email']) && $_SESSION['rol']=="admin") {
+}elseif (isset($_SESSION['user_email']) && $_SESSION['rol']=="admin") {
     header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarBackoffice');
     exit();
 }
@@ -31,7 +32,7 @@ $img = URL_PATH.'/public/img/';
     <main class="comienzoPagina">
         <h1 class="titulo titulo-centrado">Acceso a Rayuela Store</h1>
         <hr>
-
+        <?php include 'viewMensaje.php';?>
         <form class="form" id="form-login" method="POST" action=<?php echo $action;?>>
     
                 <label class="item-form" for="correo">Correo </label>
@@ -44,12 +45,6 @@ $img = URL_PATH.'/public/img/';
                 
                 <input class="item-form" type="submit" value="Acceder"/>
         </form>
-        <?php
-        // Mostrar errores si existen
-            if (!empty($errores)) {
-                echo "<p style='color:red; text-align:center;'>$errores</p>";
-            }
-        ?>
         <hr>
         <h3 class="titulo titulo-centrado">¿No eres usuario? <a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro'?>> Regístrate </a></h3>       
     </main>

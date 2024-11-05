@@ -6,6 +6,7 @@
 
     
         if (!isset($_SESSION['user_email']) || $_SESSION['rol']!="cliente") {
+            setMensaje("No eres cliente o no estas logueado, inicia sesion para comprar","error");
             header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin');
             exit();
         }
@@ -36,7 +37,15 @@
                     <img src="ruta/imagen-producto.jpg" alt="Producto 1">
                     <div class="product-details">
                         <h2><?php echo $item['producto']->getNombre();?></h2>
-                        <p class="precio-cart">Costo de producto/s: <?php echo $item['producto']->getPrecio()*$item['cantidad'];?> UYU</p>
+                            <span class="oferta-descuento">
+                                <?php echo "-".$item['producto']->getDescuento()."% ";?>
+                            </span>
+                            <span class="precio-cancel-carrito">
+                                <?php echo "UYU ".$item['producto']->getPrecio()*$item['cantidad'];?>
+                            </span>
+                            <p class="precio-cart">Costo de producto/s: 
+                                <?php echo $item['producto']->getPrecioConDescuento()*$item['cantidad'];?> UYU
+                            </p>
                         <div class="cantidad-cart">
                             <label for="cantidad">Cantidad:</label>
                             <input type="number" id="cantidad" min="1" value="<?php echo $item['cantidad']?>">
@@ -50,12 +59,19 @@
         <div class="resumen-cart">
             <h3>Resumen del Pedido</h3>
             <div class="item-resumen">
-                <span>Total:</span>
-                <span class="precio-cart-total"></span>
+                <span class="precio-cart-total">Total: <?php
+                $total=0;
+                foreach ($productos as $item){
+                    $total+=$item['producto']->getPrecioConDescuento()*$item['cantidad'];
+                }
+                echo $total.' UYU';
+                ?></span>
             </div>
             <a class="checkout-btn">Comprar</a>
         </div>
     </main>
+
+    <?php include 'viewMensaje.php';?>
 <?php include_once 'viewFooter.php'?>
 </body>
 </html>

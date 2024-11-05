@@ -1,5 +1,5 @@
 <?php
-
+require_once "config/paths.php";
 //La carpeta donde buscaremos los controladores
 define ('CONTROLLERS_FOLDER', "app/Controllers/");
 //Si no se indica un controlador, este es el controlador que se usará

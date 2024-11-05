@@ -1,9 +1,9 @@
-<?php 
-    
+<?php
     $css = URL_PATH.'/public/css/styles.css';
     $action = URL_PATH.'/index.php?controller=controllerUsuario&action=registrarUsuario';
     $js = URL_PATH.'/public/js/registro-script.js';
     $img = URL_PATH.'/public/img/';
+    
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,14 +16,15 @@
 </head>
 <body>
     
-    <?php include_once 'viewHeader.php'?>
+    <?php include_once 'viewHeader.php';?>
     
     <!-- Contenido Principal -->
     <main class="comienzoPagina">
         <h1 class="titulo titulo-centrado">Registro Rayuela Store</h1>
+
         <hr>
         
-        <form class="form" id="form-registro" method="POST" action=<?php echo $action;?>>
+        <form class="form" id="form-registro" method="POST" action=<?php echo htmlspecialchars($action);?>>
 
                 <label class="item-form" for="correo">Correo </label>
                 <input class="item-form" type="email" id="correo" name="email" autocomplete="email" required/>
@@ -43,18 +44,14 @@
                     
                 <input class="item-form" type="submit" value="Registrarse"/>
         </form>
-        <?php
-        // Mostrar errores si existen
-            if (!empty($errores)) {
-                echo "<p style='color:red;'>$errores</p>";
-            }
-        ?>
+        
+        <?php include 'viewMensaje.php';?>
         <hr>
         <h3 class="titulo titulo-centrado">¿Ya eres usuario? <a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarLogin'?>> Acceder </a></h3>
     </main>
     <script src=<?php echo $js;?>></script>
     
-    <?php include_once 'viewFooter.php'?>
+    <?php include_once 'viewFooter.php';?>
 
 
 </body>

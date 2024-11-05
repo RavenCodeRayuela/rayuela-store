@@ -66,17 +66,8 @@
             </div>
         </section>
     </main>
-    <?php
-        // Mostrar errores si existen
-            if (!empty($errores)) {
-                echo "<p id='mensajeEstado' style='color:red; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$errores</p>";
-            }
-        // Mostrar msj exito si existe
-            if(!empty($mensajeExito)){
-                echo "<p id='mensajeEstado' style='color:green; text-align:center; font-size:1.5rem; margin-bottom: 10px;'>$mensajeExito</p>";
-            }
-        
-        ?>
+    
+    <?php include 'viewMensaje.php'?>
     
     <?php include_once 'viewFooter.php'?>
 
