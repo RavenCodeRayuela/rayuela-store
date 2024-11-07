@@ -125,6 +125,32 @@ function mostrarPerfil(){
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
 
+function mostrarPerfilHistorial(){
+    require_once ROOT_PATH.'/app/Views/viewClienteHistorial.php';
+}
+function mostrarPerfilDirecciones(){
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+
+    $usuario= new Usuario(null,$_SESSION['user_email']);
+    $cliente= new Cliente($usuario->getId());
+
+    $direcciones = $cliente->getDireccionesDeEnvio();
+
+    require_once ROOT_PATH.'/app/Views/viewClienteDirecciones.php';
+}
+
+function mostrarAgregarDireccion(){
+    require_once ROOT_PATH.'/app/Views/viewClienteAgregarDireccion.php';
+}
+function mostrarPerfilEliminarCuenta(){
+    require_once ROOT_PATH.'/app/Views/viewClienteEliminarCuenta.php';
+}
+
 function mostrarNosotros(){
     require_once ROOT_PATH.'/app/Views/viewNosotros.php';
 }

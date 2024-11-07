@@ -31,13 +31,13 @@ se muestre un bordes redondeados solidos de 2px de ancho, y se selecciona el col
 seleccionando la luminosidad(l), la saturación(c), y el tono de color en grados(h) o numero.
 */
     a:focus-visible, input:focus-visible {
-      outline: 2px solid oklch(60% 0.15 210); 
+    
       border-radius: 5px;
     }
 
     a:hover, input[type="submit"]:hover{
       border-radius: 5px;
-        border-color: black;
+      
     }
 
     a{
@@ -54,6 +54,7 @@ main{
 html, body{
   height: 100%;
   scroll-behavior: smooth;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /*Fuentes y texto*/
@@ -71,7 +72,7 @@ html, body{
 
   .aviso-on{
     display: inline;
-    color: red;
+    color: #222;
   }
   /*
   Se crea esta clase para crear un margen superior del tamaño del header si es necesario para no superponer elementos.
@@ -336,7 +337,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 124px;
+  height: 150px;
   width: 100%;
   bottom: 0;
 }
@@ -409,6 +410,7 @@ y se "levante ligeramente" de manera "suave"
 .sidebar h3 {
   margin-bottom: 20px;
 }
+
 /*Dos efectos de transición, uno para el fondo y otro para el color de la letra*/
 .sidebar a {
   display: block;
@@ -427,10 +429,20 @@ y se "levante ligeramente" de manera "suave"
   color:#f4b400 ;
 }
 
-/* Estilo para el contenido principal */
+.sidebar a.active {
+  background-color: #dcdcdc; 
+  color: #333;
+  border: solid 1px rgba(0, 0, 0, 0.8);
+}
+/* Estilo para el contenido principal del perfil de usuario */
 .main-content {
   flex-grow: 1;
-  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  text-align: center;
   background-color:#d3eaf2;
 }
 
@@ -438,6 +450,97 @@ y se "levante ligeramente" de manera "suave"
   margin-top: 0;
 }
 
+.main-content h3{
+  margin: 10px;
+}
+
+/*Form perfil cambio de datos personales*/
+/*En el form container se introduce max-width para limitar el contenido a 600px,
+luego se pone width 100% para que ocupe esos 600px*/
+.form-container {
+  padding: 20px 30px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: left;
+  color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+
+.checkbox-container{
+  display: flex;
+}
+
+.checkbox-container input {
+  margin-left: 20px;
+  
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+  resize: none;
+}
+
+.form-group textarea:focus{
+  border-color: #007bff;
+  outline: none;
+}
+.submit-btn:hover {
+  background-color: #0056b3;
+}
 /* Pagina principal/index */
 
 /*La clase hero se le asigna un espacio de 400px de ancho, con estilo flex y alineación perfecta(align-items
@@ -1256,16 +1359,7 @@ Mensajes de error y acierto
 }
 
 .contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 0.8rem;
-  margin-bottom: 1rem;
-  resize: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: #333;
-}
+
 
 .contact-form input:focus,
 .contact-form textarea:focus {
@@ -1287,4 +1381,67 @@ Mensajes de error y acierto
 
 .contact-form input[type="submit"]:hover {
   background-color: #2baef0;
+}
+
+.text-info {
+  display: none;
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+
+
+input:focus + .text-info {
+  display: block;
+}
+
+textarea:focus +.text-info{
+  display: block;
+}
+
+.direccion-header{
+  display: flex;
+  justify-content: space-between;
+}
+.direccion-header p{
+  align-self: center;
+}
+
+.direccion-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+
+/* Estilo de cada tarjeta */
+.direccion-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition:  box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor sobre la tarjeta */
+.direccion-card:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo de los títulos */
+.direccion-card h3 {
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+/* Estilo de los párrafos */
+.direccion-card p {
+  color: #555;
+  font-size: 1em;
+  margin: 5px 0;
 }

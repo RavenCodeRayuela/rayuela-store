@@ -1,6 +1,6 @@
 <?php
 require_once 'modelUsuario.php';
-require_once 'modelCompra.php';
+
 
 class Cliente extends Usuario {
 
@@ -14,7 +14,9 @@ class Cliente extends Usuario {
 
 
     public function __construct($id = null, $email = null, $password = null, $tipoDeUsuario = null) {
+
         parent::__construct($id, $email, $password, $tipoDeUsuario);
+        $this->direccionesDeEnvio = array();
         
          if($this -> obtenerClienteBD($id)!= false){
             
@@ -22,13 +24,32 @@ class Cliente extends Usuario {
             $this -> suscripcion  = $clienteMom['Suscripcion_newsletter'];
 
              }
-    }
 
-    public function addDireccionDeEnvio($calle, $numeroPuerta, $ciudad){
-        $this->direccionesDeEnvio[]= new DireccionDeEnvio($calle,$numeroPuerta,$ciudad);
+        $dirs= new DireccionDeEnvio();
+
+        if($dirs->getDirecciones($id)){
+            $this->setDireccionesDeEnvio($id);
+        }
     }
-    public function removeDireccionDeEnvio($idDireccion){
-        //Desarrollar
+private function setDireccionesDeEnvio($id){
+        
+        $direccion= new DireccionDeEnvio();
+        
+        if($direccion->getDirecciones($id)){
+            $dirMom= $direccion->getDirecciones($id);
+
+            foreach ($dirMom as $direccion) {
+                $this->addDireccionDeEnvio($direccion['Id_direccion'],$direccion['Calle'],$direccion['NroCasa'],$direccion['Ciudad'],$direccion['Comentario']);
+            }
+        }
+
+    }
+    private function addDireccionDeEnvio($id,$calle, $numeroPuerta, $ciudad,$comentario){
+        $this->direccionesDeEnvio[]= new DireccionDeEnvio($id,$calle,$numeroPuerta,$ciudad,$comentario);
+    }
+    
+    public function getDireccionesDeEnvio(){
+        return $this->direccionesDeEnvio;
     }
 
     public function obtenerClienteBD($idUsuario){
@@ -92,6 +113,104 @@ class Cliente extends Usuario {
                 } 
     }
    
+}
+
+class DireccionDeEnvio{
+    private $idDireccion;
+    private $calle;
+
+    private $numeroPuerta;
+
+    private $ciudad;
+    private $comentario;
+
+    public function __construct($id=null,$calle=null,$numeroPuerta=null,$ciudad=null,$comentario=null){
+        $this->idDireccion = $id;
+        $this->calle = $calle;
+        $this->numeroPuerta = $numeroPuerta;
+        $this->ciudad = $ciudad;
+        $this->comentario = $comentario;
+    }
+
+    //Getters y setters
+
+    public function getIdDireccion(){
+        return $this->idDireccion;
+    }
+
+    public function setIdDireccion($idDireccion){
+        $this->idDireccion = $idDireccion;
+    }
+
+    public function getCalle(){
+        return $this->calle;
+    }
+
+    public function setCalle($calle){
+        $this->calle = $calle;
+    }
+
+    public function getNumeroPuerta(){
+        return $this->numeroPuerta;
+    }
+
+    public function setNumeroPuerta($numeroPuerta){
+        $this->numeroPuerta = $numeroPuerta;
+    }
+
+    public function getCiudad(){
+        return $this->ciudad;
+    }
+
+    public function setCiudad($ciudad){
+        $this->ciudad = $ciudad;
+    }
+    public function getComentario(){
+        return $this->comentario;
+    }
+    public function setComentario($comentario){
+        $this->comentario = $comentario;
+    }
+
+    public function getDirecciones($idCliente){
+
+        $conexion=ConexionBD::getInstance();
+            
+        $stmt = $conexion->prepare ("SELECT Id_direccion, Ciudad, Calle, NroCasa, Comentario FROM direcciones_de_envio WHERE Id_cliente = :Id_cliente");
+
+        if ($stmt->execute([':Id_cliente' => $idCliente])) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        return false; 
+    }
+
+    public function insertDireccion($idCliente,$calle,$numeroPuerta,$ciudad,$comentario){
+        try{
+            $conexion=ConexionBD::getInstance();
+            $conexion -> beginTransaction();
+
+            $sql = "INSERT INTO direcciones_de_envio (Ciudad, Calle, NroCasa, Comentario, Id_cliente) VALUES (:Ciudad, :Calle, :NroCasa, :Comentario, :Id_cliente)";
+            
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute([
+                ':Ciudad' => $ciudad,
+                ':Calle' => $calle,
+                ':NroCasa'=> $numeroPuerta,
+                ':Comentario'=> $comentario,
+                ':Id_cliente' => $idCliente,
+            ]);
+
+            $conexion-> commit();
+            return true;
+        } catch(Exception $e){
+            $conexion->rollBack();
+
+            echo "Error: ". $e -> getMessage();
+        }
+        
+    }
 }
 
 ?>

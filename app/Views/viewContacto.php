@@ -20,21 +20,27 @@ $img = URL_PATH.'/public/img/';
     </section>
 
     <!-- Formulario de contacto -->
-    <section class="contact-section">
-        <form action="#" method="POST" class="contact-form">
-            <label for="name">Nombre</label>
-            <input type="text" id="name" name="name" required>
+     <section class="main-content">
+    <div class="form-container">
+        <form action="#" method="POST">
 
-            <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" name="email" required>
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" required>
+            </div>
 
-            <label for="message">Mensaje</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-
-            <input type="submit" value="Enviar Mensaje">
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Mensaje</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <input type="submit" value="Enviar Mensaje" class="submit-btn">
         </form>
+    </div>
     </section>
-
     <!-- Footer -->
     <?php include_once 'viewFooter.php'?>
 </body>

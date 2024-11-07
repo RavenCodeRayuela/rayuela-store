@@ -17,7 +17,7 @@
         }
     }
 
-    $paginaActual = "datosPersonales";
+    $paginaActual = "historialDeCompras";
     
 ?>
 <!DOCTYPE html>
@@ -40,32 +40,8 @@
 
         <!-- Contenido principal -->
         <div class="main-content" id="contenido">
-            <h1>Datos personales</h1>
-            <h2>Añade información sobre tí</h2>
-                <hr>
-            <div class="form-container">
-                <h3>Información básica</h3>
-                <form action="#" method="POST">
-
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input type="text" id="name" name="name" placeholder="Ingresa tu nombre" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">Celular</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Ingresa tu número de celular" required>
-                    </div>
-
-                    <div class="form-group checkbox-container">
-                        <label for="newsletter">Suscribirse al Newsletter</label>
-                        <input type="checkbox" id="newsletter" name="newsletter">
-                        
-                    </div>
-
-                    <input type="submit" value="Guardar" class="submit-btn">
-                </form>
-            </div>
+            <h1>Título de subnavegación</h1>
+            <p>Aquí irá todo lo relacionado a la opción seleccionada en el menú de subnavegación.</p>
         </div>
 
     </main>

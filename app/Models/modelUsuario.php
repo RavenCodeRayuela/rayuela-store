@@ -32,6 +32,10 @@ class Usuario {
             if($this -> obtenerUsuarioBD($email)){
                 $usuarioMom= $this->obtenerUsuarioBD($email);
                 $this -> nombre = $usuarioMom['Nombre'];
+                $this -> id = $usuarioMom['Id_usuario'];
+                $this -> email = $email;
+                $this -> password = $usuarioMom['password'];
+                $this ->tipoDeUsuario = $usuarioMom['Id_tipo'];
             }
         }
     }

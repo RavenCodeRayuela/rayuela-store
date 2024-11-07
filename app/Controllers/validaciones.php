@@ -43,12 +43,11 @@ function sanearTexto($texto){
 }
 
 function textoSinCaracteresEspeciales($texto){
-    $mensajeDeError='';
-    if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$/", $texto)) {
-        $mensajeDeError.="Alguno de los campos contiene caracteres especiales.";
-        
+    $mensajeDeError = '';
+    if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,!?;:'()\"_-]+$/", $texto)) {
+        $mensajeDeError .= "Alguno de los campos contiene caracteres especiales.";
         return $mensajeDeError;
-    }else{
+    } else {
         return $mensajeDeError;
     }
 }
@@ -217,5 +216,16 @@ function getMensaje(){
             return null;
         }
         
+}
+
+function validarNroPuerta($numeroEntero){
+
+    $numeroEntero = filter_var($numeroEntero, FILTER_VALIDATE_INT);
+
+    if ($numeroEntero !== false && $numeroEntero >= 0) {
+        return $numeroEntero;
+    }else{
+        return false;
+    }
 }
 ?>

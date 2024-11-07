@@ -1,19 +1,5 @@
 <?php
-class DireccionDeEnvio{
-    private $idDireccion;
-    private $calle;
-
-    private $numeroPuerta;
-
-    private $ciudad;
-
-    public function __construct($calle,$numeroPuerta,$ciudad){
-        $this->calle = $calle;
-        $this->numeroPuerta = $numeroPuerta;
-        $this->ciudad = $ciudad;
-    }
-
-}
+require_once 'modelCliente.php';
 
 
 

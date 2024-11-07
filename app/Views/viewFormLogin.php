@@ -33,18 +33,26 @@ $img = URL_PATH.'/public/img/';
         <h1 class="titulo titulo-centrado">Acceso a Rayuela Store</h1>
         <hr>
         <?php include 'viewMensaje.php';?>
-        <form class="form" id="form-login" method="POST" action=<?php echo $action;?>>
-    
-                <label class="item-form" for="correo">Correo </label>
-                <input class="item-form" type="email" id="correo" name="email" autocomplete="username" required/>
-                    <p class="aviso-off" id="avisoEmail"> *El campo correo es necesario, debe ser un formato de correo valido. <br> Ej: juan@gmail.com</p>
+        <div class="main-content">
+        <div class="form-container">
+            <form id="form-login" method="POST" action=<?php echo $action;?>>
 
-                <label class="item-form" for="password">Contraseña </label>
-                <input class="item-form" type="password" id="password" name="password" autocomplete="current-password" required/>
-                    <p class="aviso-off" id="avisoPassword"> *El campo contraseña es necesario, debe contener al menos 8 digitos, <br>mayusculas, minusculas y al menos un número, sin caracteres especiales.</p>
+                <div class="form-group">
+                    <label  for="correo">Correo </label>
+                    <input  type="email" id="correo" name="email" autocomplete="username" required/>
+                </div>
+                <p class="aviso-off" id="avisoEmail"> *El campo correo es necesario, debe ser un formato de correo valido. <br> Ej: juan@gmail.com</p>
                 
-                <input class="item-form" type="submit" value="Acceder"/>
-        </form>
+                <div class="form-group">
+                    <label for="password">Contraseña </label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required/>
+                </div>
+                <p class="aviso-off" id="avisoPassword"> *El campo contraseña es necesario, debe contener al menos 8 digitos, <br>mayusculas, minusculas y al menos un número, sin caracteres especiales.</p>
+                    
+                    <input type="submit" value="Acceder" class="submit-btn"/>
+            </form>
+        </div>
+        </div>
         <hr>
         <h3 class="titulo titulo-centrado">¿No eres usuario? <a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro'?>> Regístrate </a></h3>       
     </main>
