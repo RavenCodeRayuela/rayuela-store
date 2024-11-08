@@ -101,18 +101,23 @@ function mostrarCarrito(){
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
-        //$prod= new Producto();
+        
         //$imgProd= $prod->getProductos();    
         $productos= array();
         
     if($_SESSION!=[] && $_SESSION['carrito']!=null){
 
         foreach ($_SESSION['carrito'] as $item) {
+            
             $idProducto = $item['id'];
             $producto = new Producto($idProducto);
+            $img = $producto->getImagenes();
+            $img = $img[0] ?? null;
+
              $productos[] = [
             'producto' => $producto,
-            'cantidad' => $item['cantidad']
+            'cantidad' => $item['cantidad'],
+            'imagen' => $img
         ];
         }
         
@@ -146,6 +151,17 @@ function mostrarPerfilDirecciones(){
 
 function mostrarAgregarDireccion(){
     require_once ROOT_PATH.'/app/Views/viewClienteAgregarDireccion.php';
+}
+function mostrarModificarDireccion($id){
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+    
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+    
+    $direccion= new DireccionDeEnvio($id);
+    
+    require_once ROOT_PATH.'/app/Views/viewClienteModificarDireccion.php';
 }
 function mostrarPerfilEliminarCuenta(){
     require_once ROOT_PATH.'/app/Views/viewClienteEliminarCuenta.php';

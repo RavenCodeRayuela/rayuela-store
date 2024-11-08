@@ -63,6 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 $action($_GET[ 'id' ]);
                 break;
+            
+            case 'mostrarModificarDireccion':
+
+                $action($_GET[ 'id'] );
+                break;
+            
+            case 'eliminarDireccion':
+
+                $action($_GET[ 'id'] );
+                break;
                         
             default:
                 $action();
@@ -82,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die ('La accion no existe - 404 not found');
     }
 }
-
 
 
 

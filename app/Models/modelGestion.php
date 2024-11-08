@@ -244,6 +244,7 @@ class Producto{
             $conexion->rollBack();
 
             echo "Error: ". $e -> getMessage();
+            return false;
         }
     }
 
@@ -274,6 +275,7 @@ class Producto{
             
             $conexion->rollback();
             echo "Transacción fallida: " . $e->getMessage();
+            return false;
         }
     }
     /**
@@ -315,13 +317,14 @@ class Producto{
                 $conexion->commit();
                 return true;
             } else {
-                throw new Exception("Error en la actualización: " . $stmt->error);
+                throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
             }
         
         } catch (Exception $e) {
             
             $conexion->rollback();
             echo "Transacción fallida: " . $e->getMessage();
+            return false;
         }
     }
 
@@ -580,6 +583,7 @@ class Categoria{
             $conexion->rollBack();
 
             echo "Error: ". $e -> getMessage();
+            return false;
         }
     }
     /**
@@ -620,13 +624,14 @@ class Categoria{
                 $conexion->commit();
                 return true;
             } else {
-                throw new Exception("Error en la actualización: " . $stmt->error);
+                throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
             }
         
         } catch (Exception $e) {
             
             $conexion->rollback();
             echo "Transacción fallida: " . $e->getMessage();
+            return false;
         }
     }
     /**

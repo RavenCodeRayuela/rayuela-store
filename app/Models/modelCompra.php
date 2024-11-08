@@ -13,6 +13,7 @@ class Compra{
     private $tipoDePago;
     private $idDireccion;
 
+    //Contendra los detalles de compra
     private array $detalleArticulos;
 }
 

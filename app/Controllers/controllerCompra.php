@@ -84,4 +84,8 @@ function eliminarProductoCarrito($id){
      exit();
 }
 
+
+function procesarCompra(){
+    
+}
 ?>

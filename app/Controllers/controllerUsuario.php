@@ -49,6 +49,7 @@ function registrarUsuario(){
     }
 }
 function loginUsuario(){
+   
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -75,9 +76,7 @@ function loginUsuario(){
             $usuarioLogueado= $usuario ->loginUsuario($email, $password);
             
             if ($usuarioLogueado) {
-                // Iniciar sesión de PHP para mantener al usuario autenticado
-                session_start();
-                
+              
                 $usuario -> setId($usuarioLogueado['Id_usuario']);
                 $usuario -> setEmail($usuarioLogueado['Email']);
                 $usuario -> setPassword($usuarioLogueado['password']);

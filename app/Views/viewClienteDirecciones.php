@@ -19,6 +19,8 @@
 
     $paginaActual = "direccionesDeEnvio";
     $agregarDireccion = URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarDireccion';
+    $hrefModificar = URL_PATH.'/index.php?controller=controllerHome&action=mostrarModificarDireccion';
+    $hrefEliminar = URL_PATH.'/index.php?controller=controllerCliente&action=eliminarDireccion';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -59,8 +61,8 @@
                             <p><strong>Calle: </strong><?php echo htmlspecialchars($direccion->getCalle());?></p>
                             <p><strong>Nro casa:</strong><?php echo htmlspecialchars($direccion->getNumeroPuerta()); ?></p>
                             <p><strong>Comentario:</strong><?php echo htmlspecialchars($direccion->getComentario()); ?></p>
-                            <a class='btn modificar'>Modificar</a>
-                            <a class='btn eliminar' >Eliminar</a>
+                            <a class='btn modificar' href="<?php echo $hrefModificar."&id=".$direccion->getIdDireccion();?>">Modificar</a>
+                            <a class='btn eliminar' href="<?php echo $hrefEliminar."&id=".$direccion->getIdDireccion();?>">Eliminar</a>
                         </div>
                     <?php endforeach;?>
                 </div>

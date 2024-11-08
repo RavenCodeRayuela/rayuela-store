@@ -31,7 +31,7 @@ function agregarDireccion(){
     $errores.= textoSinCaracteresEspeciales($comentario);
 
 
-    if($ciudad != false && $calle != false && $nroCasa != false && $comentario != false && $errores==""){
+    if($ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
 
         $mensajeExito="La dirección ha sido ingresada.";
         setMensaje($mensajeExito, 'exito');
@@ -44,8 +44,100 @@ function agregarDireccion(){
         header("Location: ".URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones");
         exit();
     }else{
+        if($nroCasa == false){
+            $errores.= "Hay un error en el campo de número de casa";
+        }
         setMensaje($errores, 'error');
         require_once ROOT_PATH.'/app/Views/viewClienteAgregarDireccion.php';
     }
 }
+
+function modificarDireccion(){
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    $usuario= new Usuario(null,$_SESSION['user_email']);
+    $cliente = new Cliente($usuario->getId() );
+
+    $id = $_POST["id"];
+    $ciudad = $_POST["ciudad"];
+    $calle = $_POST["calle"];
+    $nroCasa = $_POST["nroCasa"];
+    $comentario = $_POST["comentario"];
+    $errores="";
+
+    $id= validarInt($id);
+    $ciudad = sanearTexto($ciudad);
+    $errores.= textoSinCaracteresEspeciales($ciudad);
+
+    $calle = sanearTexto($calle);
+    $errores.= textoSinCaracteresEspeciales($calle);
+
+    $nroCasa = validarNroPuerta($nroCasa);
+
+    $comentario = sanearTexto($comentario);
+    $errores.= textoSinCaracteresEspeciales($comentario);
+
+    
+    if($id != false && $ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
+
+        $mensajeExito="La dirección ha sido modificada.";
+        setMensaje($mensajeExito, 'exito');
+
+        $direccion = new DireccionDeEnvio();
+
+        $direccion->updateDireccion($id,$calle,$nroCasa,$ciudad,$comentario);
+
+
+        header("Location: ".URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones");
+        exit();
+
+    }else{
+        if($nroCasa == false){
+            $errores.= "Hay un error en el campo de número de casa";
+        }
+        setMensaje($errores, 'error');
+        
+        header("Location: ".URL_PATH.'/index.php?controller=controllerHome&action=mostrarModificarDireccion&id='.$id);
+        exit();
+    }
+}
+
+function eliminarDireccion($id){
+    
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+
+
+    $id = validarInt($id);
+
+    if($id != false){
+        
+            $direccion= new DireccionDeEnvio();
+    
+        $direccion->removeDireccion($id);
+            
+            $mensajeExito="La dirección ha sido eliminado.";
+            setMensaje($mensajeExito, 'exito');
+
+            header("Location: ".URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones");
+            exit();
+         
+        }else{
+            setMensaje("Algo ha salido mal al obtener la dirección", 'error');
+            header("Location: ".URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones");
+            exit();
+    }
+
+}
+
+
 ?>

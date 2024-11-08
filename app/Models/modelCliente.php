@@ -130,6 +130,18 @@ class DireccionDeEnvio{
         $this->numeroPuerta = $numeroPuerta;
         $this->ciudad = $ciudad;
         $this->comentario = $comentario;
+
+        if($id!=null && $calle==null && $numeroPuerta==null && $ciudad == null && $comentario  == null){
+            if($this->obtenerDireccionPorId($id)){
+                $dirMom= $this->obtenerDireccionPorId($id);
+
+                $this->idDireccion = $id;
+                $this->calle = $dirMom['Calle'];
+                $this->numeroPuerta = $dirMom['NroCasa'];
+                $this->ciudad = $dirMom['Ciudad'];
+                $this->comentario = $dirMom['Comentario'];
+            }
+        }
     }
 
     //Getters y setters
@@ -172,6 +184,19 @@ class DireccionDeEnvio{
         $this->comentario = $comentario;
     }
 
+    public function obtenerDireccionPorId($id){
+
+        $conexion=ConexionBD::getInstance();
+            
+        $stmt = $conexion->prepare ("SELECT Id_direccion, Ciudad, Calle, NroCasa, Comentario FROM direcciones_de_envio WHERE Id_direccion = :Id_direccion");
+
+        if ($stmt->execute([':Id_direccion' => $id])) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        
+        return false; 
+    }
+
     public function getDirecciones($idCliente){
 
         $conexion=ConexionBD::getInstance();
@@ -210,6 +235,41 @@ class DireccionDeEnvio{
             echo "Error: ". $e -> getMessage();
         }
         
+    }
+
+    public function updateDireccion($id,$calle,$numeroPuerta,$ciudad,$comentario){
+        try{
+            $conexion=ConexionBD::getInstance();
+            $conexion -> beginTransaction();
+
+            $sql = "UPDATE direcciones_de_envio SET Ciudad = :Ciudad, Calle = :Calle, NroCasa = :NroCasa, Comentario = :Comentario WHERE Id_direccion = :Id";
+            
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute([
+                ':Ciudad' => $ciudad,
+                ':Calle' => $calle,
+                ':NroCasa'=> $numeroPuerta,
+                ':Comentario'=> $comentario,
+                ':Id' => $id,
+            ]);
+
+            $conexion-> commit();
+            return true;
+
+        } catch(Exception $e){
+            $conexion->rollBack();
+
+            echo "Error: ". $e -> getMessage();
+        }
+        
+    }
+
+    public function removeDireccion($id){
+        $conexion=ConexionBD::getInstance();
+
+            $stmt = $conexion->prepare("DELETE FROM direcciones_de_envio WHERE Id_direccion = :id");
+            return $stmt->execute([':id' => $id ]);
     }
 }
 
