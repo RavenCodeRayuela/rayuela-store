@@ -17,7 +17,7 @@
         }
     }
 
-    $paginaActual = "direccionesDeEnvio";
+    $paginaActualSidebar = "direccionesDeEnvio";
     $action = URL_PATH.'/index.php?controller=controllerCliente&action=modificarDireccion';
     
 ?>

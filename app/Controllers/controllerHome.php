@@ -97,12 +97,23 @@ function mostrarAgregarCategoria(){
 
 function mostrarCarrito(){
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
 
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
         }
+
+        //Cliente, para obtener las direcciones del cliente.
+        $usuario= new Usuario(null,$_SESSION['user_email']);
+        $cliente= new Cliente($usuario->getId());
+    
+        //Direcciones
+        $direcciones = $cliente->getDireccionesDeEnvio();
         
-        //$imgProd= $prod->getProductos();    
+        //Tipos de pago
+        $pagoAlContadoEfectivo="Pago al contado en efectivo";
+        $pagoAlContadoTransferencia="Pago al contado por transferencia";
+
         $productos= array();
         
     if($_SESSION!=[] && $_SESSION['carrito']!=null){
@@ -130,7 +141,28 @@ function mostrarPerfil(){
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
 
-function mostrarPerfilHistorial(){
+function mostrarPerfilHistorial($paginaActual){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+
+    $usuario= new Usuario(null,$_SESSION['user_email']);
+    $idCliente= $usuario->getId();
+
+    $compra= new Compra();
+
+    $comprasPorPagina = 5;                
+        
+    $totalComprasCliente= $compra->contarTotalComprasPorId($idCliente);
+    $totalPaginas = ceil($totalComprasCliente / $comprasPorPagina);
+
+    $compras= $compra->getComprasDeClientePaginadas($idCliente,$paginaActual,$comprasPorPagina);
+
+
     require_once ROOT_PATH.'/app/Views/viewClienteHistorial.php';
 }
 function mostrarPerfilDirecciones(){

@@ -30,35 +30,34 @@ $action = URL_PATH ."/index.php?controller=controllerCompra&action=procesarCompr
     <h1>Carrito de Compras</h1>
     
     <form action="<?php echo $action; ?>" method="POST">
-    <div class="cart-items">
-        <?php foreach ($productos as $index => $item): ?>
-            <div class="cart-item">
-            <img src="<?php echo URL_PATH . $item['imagen']; ?>" alt="Imagen de <?php echo $item['producto']->getNombre(); ?>" class="img-thumbnail" style="width:100px; height:100px;">
-            <div class="product-details">
-                <h2><?php echo $item['producto']->getNombre(); ?></h2>
-                <span class="oferta-descuento">
-                    <?php echo "-" . $item['producto']->getDescuento() . "% "; ?>
-                </span>
-                <span class="precio-cancel-carrito">
-                    <?php echo "UYU " . $item['producto']->getPrecio() * $item['cantidad']; ?>
-                </span>
-                <p class="precio-cart">Costo de producto/s: 
-                    <?php echo $item['producto']->getPrecioConDescuento() * $item['cantidad']; ?> UYU
-                </p>
-                <div class="cantidad-cart">
-                    <label for="cantidad">Cantidad:</label>
-                    <span><?php echo $item['cantidad']; ?></span>
+        <div class="cart-items">
+            <?php foreach ($productos as $indice => $item): ?>
+                <div class="cart-item">
+                    <img src="<?php echo URL_PATH . $item['imagen']; ?>" alt="Imagen de <?php echo $item['producto']->getNombre(); ?>" class="img-thumbnail" style="width:100px; height:100px;">
+                    <div class="product-details">
+                        <h2><?php echo $item['producto']->getNombre(); ?></h2>
+                        <span class="oferta-descuento">
+                            <?php echo "-" . $item['producto']->getDescuento() . "% "; ?>
+                        </span>
+                        <span class="precio-cancel-carrito">
+                            <?php echo "UYU " . $item['producto']->getPrecio() * $item['cantidad']; ?>
+                        </span>
+                        <p class="precio-cart">Costo de producto/s: 
+                            <?php echo $item['producto']->getPrecioConDescuento() * $item['cantidad']; ?> UYU
+                        </p>
+                        <div class="cantidad-cart">
+                            <label for="cantidad">Cantidad:</label>
+                            <span><?php echo $item['cantidad']; ?></span>
+                        </div>
+                        <a class="remove-btn" href="<?php echo $eliminarItem . $item['producto']->getId(); ?>">Eliminar</a>
+                        
+                        <input type="hidden" name="productos[<?php echo $indice; ?>][idProducto]" value="<?php echo $item['producto']->getId(); ?>">
+                        <input type="hidden" name="productos[<?php echo $indice; ?>][cantidadProducto]" value="<?php echo $item['cantidad']; ?>">
+                        <input type="hidden" name="productos[<?php echo $indice; ?>][precioProducto]" value="<?php echo $item['producto']->getPrecioConDescuento(); ?>">
+                    </div>
                 </div>
-                <a class="remove-btn" href="<?php echo $eliminarItem . $item['producto']->getId(); ?>">Eliminar</a>
-                
-                <!-- Inputs ocultos para enviar los datos del carrito -->
-                <input type="hidden" name="productos[<?php echo $index; ?>][id]" value="<?php echo $item['producto']->getId(); ?>">
-                <input type="hidden" name="productos[<?php echo $index; ?>][cantidad]" value="<?php echo $item['cantidad']; ?>">
-                <input type="hidden" name="productos[<?php echo $index; ?>][precio]" value="<?php echo $item['producto']->getPrecioConDescuento(); ?>">
-            </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-    </div>
         
         <div class="resumen-cart">
             <h3>Resumen del Pedido</h3>
@@ -71,7 +70,41 @@ $action = URL_PATH ."/index.php?controller=controllerCompra&action=procesarCompr
                     echo $total . ' UYU';?>
                 </span>
             </div>
-            <input type="submit" class="checkout-btn" value="Comprar">
+
+            <?php if(!empty($direcciones)):?>
+                <h4>Selecciona una dirección de envío</h4>
+                <div class="direccion-lista">
+                <?php foreach ($direcciones as $key => $direccion): ?>
+                        <div class="direccion-card">
+                            <input type="radio" id="direccion-<?php echo $key; ?>" name="idDireccion" value="<?php echo $direccion->getIdDireccion(); ?>" required>
+                            <label for="direccion-<?php echo $key;?>">
+                                <h3><?php echo htmlspecialchars($direccion->getCiudad()); ?></h3>
+                                <p><strong>Calle: </strong><?php echo htmlspecialchars($direccion->getCalle()); ?></p>
+                                <p><strong>Nro casa:</strong><?php echo htmlspecialchars($direccion->getNumeroPuerta()); ?></p>
+                                <p><strong>Comentario:</strong><?php echo htmlspecialchars($direccion->getComentario()); ?></p>
+                            </label>
+                        </div>
+                <?php endforeach; ?>
+                </div>
+
+                <div>
+                    <h4>Selecciona un método de pago</h4>
+                    <div class="metodo-pago-container">
+                        <div class="metodo-pago">
+                            <input type="radio" id="pago-efectivo" name="metodoPago" value="efectivo" required>
+                            <label for="pago-efectivo">Pago al contado en efectivo</label>
+                        </div>
+                        <div class="metodo-pago">
+                            <input type="radio" id="pago-transferencia" name="metodoPago" value="transferencia" required>
+                            <label for="pago-transferencia">Pago al contado por transferencia</label>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="submit" class="checkout-btn" value="Comprar">
+            <?php else: ?>
+                <a class="checkout-btn" href="<?php echo URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones" ?>">No tienes direcciones de envío, por favor ingresa al menos una</a>
+            <?php endif; ?>
         </div>
     </form>
 </main>

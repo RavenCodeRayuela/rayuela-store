@@ -17,7 +17,7 @@
         }
     }
 
-    $paginaActual = "datosPersonales";
+    $paginaActualSidebar = "datosPersonales";
     
 ?>
 <!DOCTYPE html>

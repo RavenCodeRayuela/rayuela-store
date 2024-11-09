@@ -86,6 +86,93 @@ function eliminarProductoCarrito($id){
 
 
 function procesarCompra(){
-    
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    //Variables del form carrito.
+
+    //Para almacenar los errores.
+    $errores="";
+
+    //Usuario para obtener el id.
+    $usuario= new Usuario(null,$_SESSION['user_email']);
+    $idCliente= $usuario->getId();
+
+    //Arreglo de productos
+    $productos = array();
+    $productos = $_POST['productos'];
+
+    //Calculo de total de la compra
+    $total = 0.0;
+    foreach ($productos as $item) {
+        $total += $item['precioProducto'] * $item['cantidadProducto'];
+    }
+    validarFloatPositivo($total);
+
+    //Direccion de envio
+    $idDireccion= $_POST['idDireccion'];
+    validarInt($idDireccion);
+
+    //Metodo de pago
+    $metodoDePago = $_POST['metodoPago'];
+    sanearTexto($metodoDePago);
+    $errores=textoSinCaracteresEspeciales($metodoDePago);
+
+    if($errores=="" && $total !== false && $idDireccion !== false && !empty($productos)){
+
+        $valoracion="";
+        $estado="Preparandose";
+        $fecha = date("Y-m-d");
+
+        //Declarar la compra para poder utilizar sus métodos
+        $compra = new Compra();
+
+        $idCompra=$compra->addCompra($idCliente,$fecha,$total,$estado,$metodoDePago,$idDireccion);
+
+        var_dump($idCompra);
+        if($idCompra !== false){
+            $detalleCompra = new DetalleCompra();
+            //Por si una transaccion da problemas
+            $bandera = true;
+
+            foreach ($productos as $producto) {
+                if($detalleCompra->addDetalleCompra($idCompra, $producto['idProducto'],$producto['cantidadProducto'],$producto['precioProducto'] )){
+
+                }else{
+                    $bandera = false;
+                } 
+            }
+            if($bandera){
+                $mensajeExito="El pedido ha sido ingresado, ahora lo prepararemos.";
+                setMensaje($mensajeExito, 'exito');
+
+                $_SESSION['carrito'] = [];
+                contarCarrito();
+                
+                header("Location: index.php?controller=controllerHome&action=mostrarPerfilHistorial");
+                exit();
+            }else{
+
+                $mensajeError="Ha habido un problema al ingresar el pedido, lo sentimos";
+                setMensaje($mensajeError, 'error');
+
+                header("Location: index.php?controller=controllerHome&action=mostrarCarrito");
+                exit();
+            }
+        }
+       
+    }else{
+        $mensajeError="Ha habido un problema al ingresar el pedido, lo sentimos, compruebe que no haya campos sin completar, y que haya productos en el carrito.";
+                setMensaje($mensajeError, 'error');
+
+                header("Location: index.php?controller=controllerHome&action=mostrarCarrito");
+                exit();
+    }
+   
+
 }
 ?>

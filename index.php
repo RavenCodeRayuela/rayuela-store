@@ -73,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
                 $action($_GET[ 'id'] );
                 break;
+            
+            case 'mostrarPerfilHistorial':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($page);
+                break;
                         
             default:
                 $action();

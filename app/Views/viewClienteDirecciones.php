@@ -17,7 +17,7 @@
         }
     }
 
-    $paginaActual = "direccionesDeEnvio";
+    $paginaActualSidebar = "direccionesDeEnvio";
     $agregarDireccion = URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarDireccion';
     $hrefModificar = URL_PATH.'/index.php?controller=controllerHome&action=mostrarModificarDireccion';
     $hrefEliminar = URL_PATH.'/index.php?controller=controllerCliente&action=eliminarDireccion';
