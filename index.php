@@ -78,7 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $action($page);
                 break;
-                        
+
+            case 'mostrarBackoffice':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($page);
+                break;
+
+            case 'marcarPedidoEntregado':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($_GET[ 'id'],$page);
+                break;
+
+            case 'cancelarPedido':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($_GET[ 'id'],$page);
+                break;
+                
             default:
                 $action();
                 break;

@@ -328,6 +328,38 @@ class Producto{
         }
     }
 
+    public function actualizarStock($idProducto, $cantidad) {
+        try {
+            $conexion = ConexionBD::getInstance();
+            $conexion->beginTransaction();
+    
+            // Consulta que resta la cantidad al stock actual
+            $stmt = $conexion->prepare("
+                UPDATE productos 
+                SET Cantidad = Cantidad - :cantidad 
+                WHERE Id_producto = :id AND Cantidad >= :cantidad
+            ");
+            
+            if ($stmt->execute([
+                ':cantidad' => $cantidad,
+                ':id' => $idProducto
+            ])) {
+                // rowCount verifica si se afecta alguna fila durante la consulta SQL
+                if ($stmt->rowCount() > 0) {
+                    $conexion->commit();
+                    return true;
+                } else {
+                    throw new Exception("Stock insuficiente o producto no encontrado.");
+                }
+            } else {
+                throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
+            }
+        } catch (Exception $e) {
+            $conexion->rollback();
+            echo "Transacción fallida: " . $e->getMessage();
+            return false;
+        }
+    }
     /**
      * Obtiene y retorna un array asociativo con los productos almacenados en la BD
      * Obtiene datos de varias tablas(productos, categoria e imagen_producto), las imagenes y sus ids las 
@@ -433,8 +465,7 @@ class Producto{
         
             $offset = ($paginaActual - 1) * $elementosPorPagina;
         
-            $stmt = $conexion->prepare("
-                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
+            $stmt = $conexion->prepare("SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
                 FROM productos AS prod
                 JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
                 JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 

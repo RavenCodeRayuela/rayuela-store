@@ -1,4 +1,5 @@
  <!-- Encabezado con barra de navegación -->
+
  <header>
         <div class="logo">
             <a href="#inicio">
@@ -8,6 +9,7 @@
         <nav>
             <ul>
             <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome'?>>Inicio</a></li>
+            <li><a href=<?php echo URL_PATH."/index.php?controller=controllerHome&action=mostrarBackoffice"?>>Pedidos</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos'?>>Productos</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarCategorias'?>>Categorías</a></li>
                 <li><a href="#stock">Estadisticas</a></li>

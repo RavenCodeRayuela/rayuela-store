@@ -1,5 +1,4 @@
 <?php
-
 require_once ROOT_PATH.'/app/Controllers/validaciones.php';
 $mensajeData = getMensaje();
 $jsMsj = URL_PATH.'/public/js/mensajes-script.js';

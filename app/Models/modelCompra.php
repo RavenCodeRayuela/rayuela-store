@@ -166,143 +166,254 @@ class Compra{
             }
     }
     
-
-    public function getCompras(){
+    public function getCompra($idCompra) {
+        $conexion = ConexionBD::getInstance();
+    
+        // Consulta para obtener los detalles generales de la compra
+        $stmtCompra = $conexion->prepare("
+            SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
+                   dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario, us.Nombre AS cliente_nombre, us.Email AS cliente_email
+            FROM compras AS com
+            JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
+            JOIN usuarios AS us ON com.Id_cliente = us.Id_usuario
+            WHERE com.Id_compra = :idCompra
+        ");
         
-            $conexion=ConexionBD::getInstance();
-                
-            $stmt = $conexion->query ("SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago, prod.Nombre, det.Cantidad_producto, det.Precio_por_producto AS precio,
-            dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario
-            FROM compras AS com
-            JOIN compra_contiene_producto AS det ON com.Id_compra = det.Id_compra
-            JOIN productos AS prod ON det.Id_producto = prod.Id_producto 
-            JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
-            GROUP BY com.Id_compra;");
-    
-            $compras = array();
-    
-             while ( $compra = $stmt->fetch() ){
-                $compras[] = $compra;
-            }
-            
-                return $compras;
+        $stmtCompra->bindParam(':idCompra', $idCompra, PDO::PARAM_INT);
+        $stmtCompra->execute();
+        
+        // Obtener detalles generales de la compra
+        $compra = $stmtCompra->fetch(PDO::FETCH_ASSOC);
+        if (!$compra) {
+            return null;  // Si no se encuentra la compra, retorna null
         }
     
-        public function getComprasDeCliente($idCliente) {
-            $conexion = ConexionBD::getInstance();
-
-            $stmt = $conexion->prepare("SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
-                        dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario,
-                        prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
-                        FROM compras AS com
-                        JOIN compra_contiene_producto AS det ON com.Id_compra = det.Id_compra
-                        JOIN productos AS prod ON det.Id_producto = prod.Id_producto
-                        JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
-                        WHERE com.Id_cliente = :idCliente
-                        ORDER BY com.Id_compra;");
-            
-            $stmt->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $compras = array();
-            $comprasDetalle = array();
-            
-            
-            while ($compra = $stmt->fetch()) {
-                
-                if (!isset($comprasDetalle[$compra['Id_compra']])) {
-                    $comprasDetalle[$compra['Id_compra']] = [
-                        'Id_compra' => $compra['Id_compra'],
-                        'Id_cliente' => $compra['Id_cliente'],
-                        'Fecha' => $compra['Fecha'],
-                        'total' => $compra['total'],
-                        'Valoracion' => $compra['Valoracion'],
-                        'Estado' => $compra['Estado'],
-                        'Tipo_de_pago' => $compra['Tipo_de_pago'],
-                        'Ciudad' => $compra['Ciudad'],
-                        'Calle' => $compra['Calle'],
-                        'NroCasa' => $compra['NroCasa'],
-                        'Comentario' => $compra['Comentario'],
-                        'productos' => []
-                    ];
-                }
-            
-            
-                $comprasDetalle[$compra['Id_compra']]['productos'][] = [
-                    'Nombre' => $compra['producto_nombre'],
-                ];
-            }
-            
-            
-            foreach ($comprasDetalle as $compra) {
-                $compras[] = $compra;
-            }
-            
-            return $compras;
-        }
-
-        public function getComprasDeClientePaginadas($idCliente,$paginaActual, $elementosPorPagina) {
-            $conexion = ConexionBD::getInstance();
-
-            $offset = ($paginaActual - 1) * $elementosPorPagina;
-
-            $stmt = $conexion->prepare("SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
-            dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario,
-            prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
-            FROM compras AS com
-            JOIN compra_contiene_producto AS det ON com.Id_compra = det.Id_compra
+        // Consulta para obtener los productos asociados a la compra
+        $stmtProductos = $conexion->prepare("
+            SELECT prod.Nombre AS productoNombre, det.Cantidad_producto, det.Precio_por_producto AS precio, det.Id_producto
+            FROM compra_contiene_producto AS det
             JOIN productos AS prod ON det.Id_producto = prod.Id_producto
-            JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
-            WHERE com.Id_cliente = :idCliente
-            ORDER BY com.Id_compra
-            LIMIT :offset, :limit;");
-            
-            $stmt->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
-            $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
-            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+            WHERE det.Id_compra = :idCompra
+        ");
+    
+        $stmtProductos->bindParam(':idCompra', $idCompra, PDO::PARAM_INT);
+        $stmtProductos->execute();
+        
+        // Obtener los productos y agregarlos al array de compra
+        $compra['productos'] = $stmtProductos->fetchAll(PDO::FETCH_ASSOC);
+    
+        return $compra;
+    }
 
-            $stmt->execute();
+    public function getComprasPaginadas($paginaActual, $elementosPorPagina) {
+        $conexion = ConexionBD::getInstance();
+        
+        // Calcula el offset para la paginación
+        $offset = ($paginaActual - 1) * $elementosPorPagina;
+    
+        // Primera consulta: obtener detalles generales de cada compra
+        $stmtCompras = $conexion->prepare("
+            SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
+                   dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario, us.Nombre AS clienteNombre, us.Email AS clienteEmail
+            FROM compras AS com
+            JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
+            JOIN usuarios AS us ON com.Id_cliente = us.Id_usuario
+            ORDER BY com.Id_compra
+            LIMIT :limit OFFSET :offset;
+        ");
+        
+        $stmtCompras->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+        $stmtCompras->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmtCompras->execute();
+        
+        // Obtener resultados y preparar para unir con productos
+        $compras = $stmtCompras->fetchAll(PDO::FETCH_ASSOC);
+        if (!$compras) {
+            return [];
+        }
+        
+        // Obtener los IDs de compra para buscar productos especificos de cada compra
+        $compraIds = array_column($compras, 'Id_compra');
+        $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
+    
+        // Segunda consulta: obtener los productos de cada compra
+        $stmtProductos = $conexion->prepare("
+            SELECT det.Id_compra, det.Id_producto, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
+            FROM compra_contiene_producto AS det
+            JOIN productos AS prod ON det.Id_producto = prod.Id_producto
+            WHERE det.Id_compra IN ($placeholders);
+        ");
+    
+        foreach ($compraIds as $k => $id) {
+            $stmtProductos->bindValue($k + 1, $id, PDO::PARAM_INT);
+        }
+        
+        $stmtProductos->execute();
+        $productos = $stmtProductos->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Agrupar productos dentro de sus compras respectivas
+        $comprasDetalle = [];
+        foreach ($compras as $compra) {
+            $comprasDetalle[$compra['Id_compra']] = $compra;
+            $comprasDetalle[$compra['Id_compra']]['productos'] = [];
+        }
+    
+        foreach ($productos as $producto) {
+            $comprasDetalle[$producto['Id_compra']]['productos'][] = [
+                'Nombre' => $producto['producto_nombre'],
+                'Cantidad' => $producto['Cantidad_producto'],
+                'Precio' => $producto['precio'],
+                'IdProducto'=>$producto['Id_producto']
+            ];
+        }
+        
+        // Convertir el array asociativo en un array numerico para devolver
+        return array_values($comprasDetalle);
+    }
+
+    public function getComprasPaginadasPreparandose($paginaActual, $elementosPorPagina) {
+        $conexion = ConexionBD::getInstance();
+        
+        // Calcula el offset para la paginación
+        $offset = ($paginaActual - 1) * $elementosPorPagina;
+    
+        // Primera consulta: obtener detalles generales de cada compra con estado "Preparandose"
+        $stmtCompras = $conexion->prepare("
+            SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
+                   dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario, us.Nombre AS clienteNombre, us.Email AS clienteEmail
+            FROM compras AS com
+            JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
+            JOIN usuarios AS us ON com.Id_cliente = us.Id_usuario
+            WHERE com.Estado = 'Preparandose'
+            ORDER BY com.Id_compra
+            LIMIT :limit OFFSET :offset;
+        ");
+        
+        $stmtCompras->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+        $stmtCompras->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmtCompras->execute();
+        
+        // Obtener resultados y preparar para unir con productos
+        $compras = $stmtCompras->fetchAll(PDO::FETCH_ASSOC);
+        if (!$compras) {
+            return [];
+        }
+        
+        // Obtener los IDs de compra para buscar productos específicos de cada compra
+        $compraIds = array_column($compras, 'Id_compra');
+        $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
+    
+        // Segunda consulta: obtener los productos de cada compra
+        $stmtProductos = $conexion->prepare("
+            SELECT det.Id_compra, det.Id_producto, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
+            FROM compra_contiene_producto AS det
+            JOIN productos AS prod ON det.Id_producto = prod.Id_producto
+            WHERE det.Id_compra IN ($placeholders);
+        ");
+    
+        foreach ($compraIds as $k => $id) {
+            $stmtProductos->bindValue($k + 1, $id, PDO::PARAM_INT);
+        }
+        
+        $stmtProductos->execute();
+        $productos = $stmtProductos->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Agrupar productos dentro de sus compras respectivas
+        $comprasDetalle = [];
+        foreach ($compras as $compra) {
+            $comprasDetalle[$compra['Id_compra']] = $compra;
+            $comprasDetalle[$compra['Id_compra']]['productos'] = [];
+        }
+    
+        foreach ($productos as $producto) {
+            $comprasDetalle[$producto['Id_compra']]['productos'][] = [
+                'Nombre' => $producto['producto_nombre'],
+                'Cantidad' => $producto['Cantidad_producto'],
+                'Precio' => $producto['precio'],
+                'IdProducto' => $producto['Id_producto']
+            ];
+        }
+        
+        // Convertir el array asociativo en un array numerico para devolver
+        return array_values($comprasDetalle);
+    }
+    
+        public function getComprasDeClientePaginadas($idCliente, $paginaActual, $elementosPorPagina) {
+            $conexion = ConexionBD::getInstance();
             
-            $compras = array();
-            $comprasDetalle = array();
+            // Calcula el offset para la paginación
+            $offset = ($paginaActual - 1) * $elementosPorPagina;
+        
+            // Primera consulta: obtener detalles generales de cada compra
+            $stmtCompras = $conexion->prepare("
+                SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
+                       dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario
+                FROM compras AS com
+                JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion
+                WHERE com.Id_cliente = :idCliente
+                ORDER BY com.Id_compra
+                LIMIT :limit OFFSET :offset;
+            ");
             
+            $stmtCompras->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
+            $stmtCompras->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+            $stmtCompras->bindParam(':offset', $offset, PDO::PARAM_INT);
+            $stmtCompras->execute();
             
-            while ($compra = $stmt->fetch()) {
-                
-                if (!isset($comprasDetalle[$compra['Id_compra']])) {
-                    $comprasDetalle[$compra['Id_compra']] = [
-                        'Id_compra' => $compra['Id_compra'],
-                        'Id_cliente' => $compra['Id_cliente'],
-                        'Fecha' => $compra['Fecha'],
-                        'total' => $compra['total'],
-                        'Valoracion' => $compra['Valoracion'],
-                        'Estado' => $compra['Estado'],
-                        'Tipo_de_pago' => $compra['Tipo_de_pago'],
-                        'Ciudad' => $compra['Ciudad'],
-                        'Calle' => $compra['Calle'],
-                        'NroCasa' => $compra['NroCasa'],
-                        'Comentario' => $compra['Comentario'],
-                        'productos' => []
-                    ];
-                }
+            // Obtener resultados y preparar para unir con productos
+            $compras = $stmtCompras->fetchAll(PDO::FETCH_ASSOC);
+            if (!$compras) {
+                return [];
+            }
             
+            // Obtener los IDs de compra para buscar productos especificos de cada compra
+            $compraIds = array_column($compras, 'Id_compra');
+            $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
+        
+            // Segunda consulta: obtener los productos de cada compra
+            $stmtProductos = $conexion->prepare("
+                SELECT det.Id_compra, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
+                FROM compra_contiene_producto AS det
+                JOIN productos AS prod ON det.Id_producto = prod.Id_producto
+                WHERE det.Id_compra IN ($placeholders);
+            ");
+        
+            foreach ($compraIds as $i => $id) {
+                $stmtProductos->bindValue($i + 1, $id, PDO::PARAM_INT);
+            }
             
-                $comprasDetalle[$compra['Id_compra']]['productos'][] = [
-                    'Nombre' => $compra['producto_nombre'],
+            $stmtProductos->execute();
+            $productos = $stmtProductos->fetchAll(PDO::FETCH_ASSOC);
+        
+            
+            $comprasDetalle = [];
+            foreach ($compras as $compra) {
+                $comprasDetalle[$compra['Id_compra']] = $compra;
+                $comprasDetalle[$compra['Id_compra']]['productos'] = [];
+            }
+        
+            foreach ($productos as $producto) {
+                $comprasDetalle[$producto['Id_compra']]['productos'][] = [
+                    'Nombre' => $producto['producto_nombre'],
+                    'Cantidad' => $producto['Cantidad_producto'],
+                    'Precio' => $producto['precio']
                 ];
             }
             
-            
-            foreach ($comprasDetalle as $compra) {
-                $compras[] = $compra;
-            }
-            
-            return $compras;
+            // Convertir el array asociativo en un array numérico para devolver
+            return array_values($comprasDetalle);
         }
 
         public function contarTotalCompras() {
             $conexion = ConexionBD::getInstance();
             $stmt = $conexion->query("SELECT COUNT(*) as total FROM compras");
+            $total = $stmt->fetch()['total'];
+            return $total;
+        }
+
+        public function contarTotalComprasPreparandose() {
+            $conexion = ConexionBD::getInstance();
+            $stmt = $conexion->query("SELECT COUNT(*) as total FROM compras WHERE Estado ='Preparandose'");
             $total = $stmt->fetch()['total'];
             return $total;
         }

@@ -44,6 +44,7 @@
             
             <div class="cantidad-producto">
                 <?php if(isset($_SESSION['carrito'])):?>
+                    <?php if($producto->getCantidad()>0):?>
                 <form method="POST" action="<?php echo $agregarAcarrito;?>">
 
                     <input type="hidden" name="id" value="<?php echo $producto->getId(); ?>">
@@ -57,6 +58,9 @@
                 
                     <input type="submit" class="add-to-cart" value="Agregar al carrito">
                 </form>
+                <?php else:?>
+                    <h3 style="color:#e67e22;">Producto no disponible en stock</h3>
+                <?php endif;?>
                 <?php else:?>
                     <a class="btn loguearse" href="<?php echo $login;?>">Logueate para empezar comprar</a>
                 <?php endif;?>

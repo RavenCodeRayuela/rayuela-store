@@ -83,7 +83,25 @@ function mostrarRegistro(){
     require_once ROOT_PATH.'/app/Views/viewFormRegistro.php';
 }
 
-function mostrarBackoffice(){
+function mostrarBackoffice($paginaActual){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+
+    
+    $compra= new Compra();
+
+    $comprasPorPagina = 4;                
+        
+    $totalCompras= $compra->contarTotalComprasPreparandose();
+    $totalPaginas = ceil($totalCompras / $comprasPorPagina);
+
+    $compras= $compra->getComprasPaginadasPreparandose($paginaActual,$comprasPorPagina);
+    
+
     require_once ROOT_PATH.'/app/Views/viewAdmin.php';
 }
 
@@ -155,13 +173,14 @@ function mostrarPerfilHistorial($paginaActual){
 
     $compra= new Compra();
 
-    $comprasPorPagina = 5;                
+    $comprasPorPagina = 4;                
         
     $totalComprasCliente= $compra->contarTotalComprasPorId($idCliente);
     $totalPaginas = ceil($totalComprasCliente / $comprasPorPagina);
 
     $compras= $compra->getComprasDeClientePaginadas($idCliente,$paginaActual,$comprasPorPagina);
-
+    
+   
 
     require_once ROOT_PATH.'/app/Views/viewClienteHistorial.php';
 }

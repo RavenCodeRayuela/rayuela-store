@@ -172,7 +172,73 @@ function procesarCompra(){
                 header("Location: index.php?controller=controllerHome&action=mostrarCarrito");
                 exit();
     }
-   
+}
 
+function marcarPedidoEntregado($id, $page){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    //Cambiar estado y modificar stock
+    $compra = new Compra();
+    $producto= new Producto();
+    $estado = "Entregado"; 
+
+    $producto= new Producto();
+    $compraRealizada = $compra->getCompra($id);
+    $bandera= true;
+
+
+           
+            foreach ($compraRealizada['productos'] as $productoCompra) {    
+                $idProducto = $productoCompra['Id_producto'];
+                $cantidad = $productoCompra['Cantidad_producto'];
+        
+                if ($producto->actualizarStock($idProducto, $cantidad)) {
+                    // Siga siga diría un arbitro
+                } else {
+                    $bandera = false;  // Marca como falso si hay algún error
+                }
+            }
+        
+
+        if($bandera==true){
+            $compra->updateCompra($id,$estado);
+            setMensaje("Se ha cambiado el estado del pedido y actualizado el stock", 'exito');
+
+            
+            header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
+            exit();
+        }else{
+            setMensaje("Ha ocurrido un error al cambiar el estado del pedido.", 'error');
+            require_once ROOT_PATH.'/app/Views/viewAdmin.php';
+        }
+        
+}
+
+function cancelarPedido($id, $page){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+   
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    $compra = new Compra();
+
+    if($compra->removeCompra($id)){
+
+        //Agregar envio de correo a cliente
+        setMensaje("El pedido ha sido cancelado.", 'exito');
+
+                
+        header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
+        exit();
+    }else{
+        setMensaje("Ha ocurrido un error al eliminar el pedido.", 'error');
+        require_once ROOT_PATH.'/app/Views/viewAdmin.php';
+    }
+    
 }
 ?>
