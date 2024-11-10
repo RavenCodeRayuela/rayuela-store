@@ -156,6 +156,22 @@ function mostrarCarrito(){
     require_once ROOT_PATH.'/app/Views/viewCarrito.php';
 }
 function mostrarPerfil(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+    
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+
+    $usuario= new Usuario(null,$_SESSION['user_email']);
+    $cliente= new Cliente($usuario->getId());
+
+    $nombre= $usuario->getNombre();
+    $email= $usuario->getEmail();
+    $newsletter= $cliente->getSuscripcion();
+    $celulares = $cliente->getCelulares();
+    
+
     require_once ROOT_PATH.'/app/Views/viewClientePerfil.php';
 }
 

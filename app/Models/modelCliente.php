@@ -5,7 +5,7 @@ require_once 'modelUsuario.php';
 class Cliente extends Usuario {
 
     
-    private $celulares;
+    private array $celulares;
 
     private array $direccionesDeEnvio;
 
@@ -17,12 +17,18 @@ class Cliente extends Usuario {
 
         parent::__construct($id, $email, $password, $tipoDeUsuario);
         $this->direccionesDeEnvio = array();
+        $this->celulares = array();
         
-         if($this -> obtenerClienteBD($id)!= false){
+         if($this -> obtenerClienteBD($id)){
             
             $clienteMom = $this -> obtenerClienteBD($id);
-            $this -> suscripcion  = $clienteMom['Suscripcion_newsletter'];
-
+            $this ->setSuscripcion($clienteMom['Suscripcion_newsletter']);
+            
+            if($this->getNumerosCliente($id)){
+                $this ->setCelulares($this->getNumerosCliente($id));
+            }
+           
+            
              }
 
         $dirs= new DireccionDeEnvio();
@@ -31,7 +37,7 @@ class Cliente extends Usuario {
             $this->setDireccionesDeEnvio($id);
         }
     }
-private function setDireccionesDeEnvio($id){
+    private function setDireccionesDeEnvio($id){
         
         $direccion= new DireccionDeEnvio();
         
@@ -52,6 +58,25 @@ private function setDireccionesDeEnvio($id){
         return $this->direccionesDeEnvio;
     }
 
+    public function setSuscripcion($suscripcion){
+        $this->suscripcion = $suscripcion;
+    }
+    public function getSuscripcion(){
+        return $this->suscripcion;
+    }
+
+    public function addCelular($celular){
+        $this->celulares[] = $celular;
+    }
+
+    public function setCelulares($celulares){
+        $this->celulares = $celulares;
+    }
+
+    public function getCelulares(){
+        return $this->celulares;
+    }
+    //Operaciones con BD
     public function obtenerClienteBD($idUsuario){
         $conexion=ConexionBD::getInstance();
 
@@ -112,7 +137,106 @@ private function setDireccionesDeEnvio($id){
                     echo "Error: ". $e -> getMessage();
                 } 
     }
-   
+
+    public function getNumerosCliente($id){
+        $conexion=ConexionBD::getInstance();
+
+        $sql = "SELECT * FROM celulares WHERE Id_cliente = :Id_cliente";
+        $stmt = $conexion ->prepare($sql);
+     
+               
+        $stmt->execute([':Id_cliente' => $id]);
+     
+        
+        $celulares = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          return $celulares;
+    }
+
+    public function cuClienteNombre($id, $nombre) {
+        try{
+        $conexion = ConexionBD::getInstance();
+        $conexion -> beginTransaction();
+        
+        
+        $sql = "INSERT INTO usuarios (Id_usuario, Nombre) VALUES (:Id_usuario, :Nombre) 
+                     ON DUPLICATE KEY UPDATE Nombre = :Nombre";
+        
+        
+        $stmt = $conexion->prepare($sql);
+        
+        $stmt->bindValue(':Id_usuario', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':Nombre', $nombre, PDO::PARAM_STR);
+        
+        if ($stmt->execute()) {
+            $conexion->commit();
+            return true;
+        } else {
+            return false;
+        }
+    }catch (Exception $e) {       
+        // Revertir transaccion
+        $conexion->rollBack();
+        echo "Error: ". $e -> getMessage();
+        return false;
+    } 
+}
+
+    public function cuClienteCelular($id, $celular){
+        try{
+            $conexion = ConexionBD::getInstance();
+            $conexion -> beginTransaction();
+            
+            
+            $sql = "INSERT INTO celulares (Id_cliente, Numero_cel) VALUES (:Id_cliente, :Numero_cel) 
+                        ON DUPLICATE KEY UPDATE Numero_cel = :Numero_cel";
+            
+            
+            $stmt = $conexion->prepare($sql);
+            
+            $stmt->bindValue(':Id_cliente', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':Numero_cel', $celular, PDO::PARAM_STR);
+            
+            if ($stmt->execute()) {
+                $conexion->commit();
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception $e) {       
+            // Revertir transaccion
+            $conexion->rollBack();
+            echo "Error: ". $e -> getMessage();
+            return false;
+        } 
+    }
+
+    public function updateOpcionNewsletter($id,$newsletter){
+        try{
+            $conexion = ConexionBD::getInstance();
+            $conexion -> beginTransaction();
+
+            $sql = "UPDATE clientes SET Suscripcion_newsletter = :Suscripcion_newsletter
+            WHERE Id_cliente = :Id_cliente";
+
+
+            $stmt = $conexion->prepare($sql);
+
+            $stmt->execute([
+                ':Suscripcion_newsletter' => $newsletter,
+                ':Id_cliente' => $id,
+            ]);
+
+            $conexion-> commit();
+            return true;
+        }catch (Exception $e) {       
+            // Revertir transaccion
+            $conexion->rollBack();
+            echo "Error: ". $e -> getMessage();
+            return false;
+        } 
+
+    }
 }
 
 class DireccionDeEnvio{
@@ -242,7 +366,8 @@ class DireccionDeEnvio{
             $conexion=ConexionBD::getInstance();
             $conexion -> beginTransaction();
 
-            $sql = "UPDATE direcciones_de_envio SET Ciudad = :Ciudad, Calle = :Calle, NroCasa = :NroCasa, Comentario = :Comentario WHERE Id_direccion = :Id";
+            $sql = "UPDATE direcciones_de_envio SET Ciudad = :Ciudad, Calle = :Calle, NroCasa = :NroCasa,
+            Comentario = :Comentario WHERE Id_direccion = :Id";
             
             $stmt = $conexion->prepare($sql);
 

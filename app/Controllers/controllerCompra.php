@@ -197,9 +197,9 @@ function marcarPedidoEntregado($id, $page){
                 $cantidad = $productoCompra['Cantidad_producto'];
         
                 if ($producto->actualizarStock($idProducto, $cantidad)) {
-                    // Siga siga diría un arbitro
+                    // Siga siga diría un arbitro de futbol
                 } else {
-                    $bandera = false;  // Marca como falso si hay algún error
+                    $bandera = false;  // Marca como falso si hay algun error
                 }
             }
         

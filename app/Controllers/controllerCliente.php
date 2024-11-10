@@ -139,5 +139,59 @@ function eliminarDireccion($id){
 
 }
 
+function modificarInfoPerfil(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+    require_once ROOT_PATH.'/app/Models/modelCliente.php';
+
+    
+    $mensajesDeError='';
+    $nombre = htmlspecialchars($_POST['nombre']);
+    $newsletter= htmlspecialchars($_POST['newsletter']);
+    $celulares = array();
+    
+
+    $mensajesDeError.= validarNombre($nombre);
+
+
+    foreach ($_POST['celular'] as $celular) {
+        if(validarCelular($celular)==''){
+            $celulares[] = $celular;
+        }else{
+            $mensajesDeError.= validarCelular($celular);
+            break;
+        }
+    }
+
+    if($mensajesDeError== ''){
+        $usuario = new Usuario(null, $_SESSION['user_email']);
+        $idCliente = $usuario->getId();
+        $cliente = new Cliente($idCliente);
+        
+        
+        $newsletter = ($newsletter == "on") ? 1 : 0;
+
+        $cliente->cuClienteNombre($idCliente, $nombre);
+        $cliente->updateOpcionNewsletter($idCliente,$newsletter);
+
+        foreach ($celulares as $celular) {
+            $cliente->cuClienteCelular($idCliente, $celular);
+        }
+
+
+        setMensaje("Datos actualizados correctamente",'exito');
+        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
+        exit();
+    }else{
+
+        setMensaje($mensajesDeError,'error');
+        header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarPerfil');
+        exit();
+    }
+
+}
 
 ?>

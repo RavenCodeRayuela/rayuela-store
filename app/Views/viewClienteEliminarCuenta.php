@@ -17,7 +17,7 @@
         }
     }
 
-    $$paginaActualSidebar = "eliminarCuenta";
+    $paginaActualSidebar = "eliminarCuenta";
     
 ?>
 <!DOCTYPE html>

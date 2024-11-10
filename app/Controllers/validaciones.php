@@ -33,7 +33,7 @@ function sanearTexto($texto){
 
     if(!empty($texto)){
         
-        $texto= filter_var($texto, FILTER_SANITIZE_STRING) ;
+        $texto= htmlspecialchars($texto);
         $texto= trim($texto);
         
         return $texto;
@@ -52,6 +52,28 @@ function textoSinCaracteresEspeciales($texto){
     }
 }
 
+function validarNombre($nombre) {
+    $mensajeDeError = '';
+    
+    if (!preg_match("/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/", $nombre)) {
+        $mensajeDeError .= "El nombre contiene caracteres no permitidos.";
+        return $mensajeDeError;
+    } else {
+        return $mensajeDeError;
+    }
+}
+
+function validarCelular($celular) {
+    $mensajeDeError = '';
+    
+    
+    if (!preg_match("/^[0-9]{9}$/", $celular)) {
+        $mensajeDeError .= "El número de celular no es válido. Debe contener exactamente 9 dígitos, sin el código de pais(+598).";
+        return $mensajeDeError;
+    } else {
+        return $mensajeDeError;
+    }
+}
 function validarInt($numeroEntero){
     
     $numeroEntero = filter_var($numeroEntero, FILTER_VALIDATE_INT);
