@@ -241,4 +241,8 @@ function cancelarPedido($id, $page){
     }
     
 }
+
+function procesarFormComprobantePago($idCompra){
+
+}
 ?>

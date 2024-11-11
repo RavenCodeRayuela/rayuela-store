@@ -250,4 +250,11 @@ function validarNroPuerta($numeroEntero){
         return false;
     }
 }
+
+function validarLargoCampo($campo, $longitud) {
+    if (strlen($campo) !== $longitud) {
+        return "El campo debe tener exactamente $longitud caracteres.";
+    }
+    return "";
+}
 ?>

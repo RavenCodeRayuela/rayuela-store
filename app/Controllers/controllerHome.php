@@ -200,6 +200,10 @@ function mostrarPerfilHistorial($paginaActual){
 
     require_once ROOT_PATH.'/app/Views/viewClienteHistorial.php';
 }
+
+function mostrarFormComprobantePago(){
+    require_once ROOT_PATH.'/app/Views/viewClienteSubirComprobante.php';
+}
 function mostrarPerfilDirecciones(){
     require_once ROOT_PATH.'/app/Models/modelUsuario.php';
     require_once ROOT_PATH.'/app/Models/modelCliente.php';

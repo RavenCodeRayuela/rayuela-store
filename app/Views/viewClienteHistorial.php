@@ -19,6 +19,7 @@
 
     $paginaActualSidebar = "historialDeCompras";
     $mostrarHistorial= URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilHistorial";
+    $submitComprobante= URL_PATH."/index.php?controller=controllerHome&action=mostrarFormComprobantePago";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -72,7 +73,7 @@
                                 <td style="text-align:center;">
                                     <?= htmlspecialchars($compra['Tipo_de_pago']) ?>
                                     <?php if($compra['Tipo_de_pago']=="transferencia"):?>
-                                        <a href="" class="valoracion-link">Sube aquí el comprobante</a>
+                                        <a href="<?= htmlspecialchars($submitComprobante) ?>" class="valoracion-link">Sube aquí el comprobante</a>
                                     <?php endif;?>
                                 </td>
                                 <td>
@@ -89,7 +90,11 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                <a href="" class="valoracion-link">Generar e-ticket</a>
+                                    <?php if($compra['Estado']== "Entregado"):?>
+                                        <a href="" class="valoracion-link">Generar e-ticket</a>
+                                    <?php else:?>
+                                        <p>La compra todavía no ha sido entregada.</p>
+                                    <?php endif;?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

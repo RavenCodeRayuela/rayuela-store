@@ -1,7 +1,7 @@
  <!-- Encabezado con barra de navegación -->
  <header>
         <div class="logo">
-            <a href="#inicio">
+            <a href="<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome#incio'?>">
                 <img src="<?php echo $img;?>rayuela.png" alt="Logo Rayuela">
             </a>
         </div>
