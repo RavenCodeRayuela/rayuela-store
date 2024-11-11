@@ -520,6 +520,58 @@ class Producto{
            
         }
 
+        function obtenerImagenesProducto($idProducto) {
+            $conexion = ConexionBD::getInstance();
+            
+            $consulta = "SELECT Ruta_imagen_producto FROM imagen_producto WHERE Id_producto = :Id_producto";
+
+            $stmt = $conexion->prepare($consulta);
+        
+            $stmt->bindParam(':Id_producto', $idProducto, PDO::PARAM_INT);
+     
+            $stmt->execute(); 
+       
+            $imagenes = $stmt->fetchAll(PDO::FETCH_ASSOC);  
+         
+            if ($imagenes) {       
+                return $imagenes;
+            } else {
+                return false;
+            }
+        }
+
+        function comprobarUsoDeImagen($urlImagen) {
+            $conexion = ConexionBD::getInstance();
+            
+            $sqlTabla = "SELECT COUNT(*) AS cantidad FROM imagen_producto WHERE Ruta_imagen_producto = :Ruta_imagen_producto";
+            $stmt = $conexion->prepare($sqlTabla);
+
+            $stmt->bindParam(':urlImagen', $urlImagen, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $resultadoTabla = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+           
+            if ($resultadoTabla['cantidad'] > 0) {
+                return true;
+            }
+        
+          
+            $consultaTablaCategoria = "SELECT COUNT(*) AS cantidad FROM categorias WHERE Ruta_imagen_producto = :Ruta_imagen_producto";
+            $stmt = $conexion->prepare($consultaTablaCategoria);
+
+            $stmt->bindParam(':Ruta_imagen_producto', $urlImagen, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $resultadoTablaCategoria = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+          
+            if ($resultadoTablaCategoria['cantidad'] > 0) {
+                return true;
+            }
+        
+            return false;
+        }
 }
 
 /**
@@ -616,6 +668,42 @@ class Categoria{
             echo "Error: ". $e -> getMessage();
             return false;
         }
+    }
+
+    private function removeProductosDeCategoria($idCategoria){
+            try {
+                $conexion=ConexionBD::getInstance();
+            
+                $conexion -> beginTransaction();
+
+                $stmtGetProductoId = $conexion->prepare("SELECT Id_producto FROM productos WHERE Id_Categoria = :Id_Categoria");
+                $stmtGetProductoId->execute([':Id_Categoria' => $idCategoria ]);
+
+                $productoId = $stmtGetProductoId->fetch(PDO::FETCH_ASSOC);
+
+                if ($productoId) {
+                    $idProducto = $productoId['Id_producto']; 
+
+                    $stmtImagenes = $conexion->prepare("DELETE FROM imagen_producto WHERE Id_producto = :id");
+                    $stmtImagenes->execute([':id' => $idProducto ]);
+
+                } else {
+                   return false;
+                }
+
+                $stmtProducto = $conexion->prepare("DELETE FROM productos WHERE Id_Categoria = :Id_Categoria");
+                $stmtProducto->execute([':Id_Categoria' => $idCategoria ]);
+    
+    
+                $conexion->commit();
+                return true;
+            } catch (Exception $e) {
+                
+                $conexion->rollback();
+                echo "Transacción fallida: " . $e->getMessage();
+                return false;
+            }
+        
     }
     /**
      * Elimina una categoria seleccionada, recibe el id de la categoria como parametro.
@@ -774,6 +862,27 @@ class Categoria{
     }
 
 
+    function obtenerImagenCategoria($idCategoria) {
+       
+        $conexion = ConexionBD::getInstance();
+        
+        $sql = "SELECT Ruta_imagen_categoria FROM categorias WHERE Id_categoria = :Id_categoria";
+        
+        $stmt = $conexion->prepare($sql);
+        
+        $stmt->bindParam(':Id_categoria', $idCategoria, PDO::PARAM_INT);
+        
+        $stmt->execute();
+        
 
+        $imagen = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($imagen) {
+            return $imagen['Ruta_imagen_categoria'];
+        } else {
+
+            return false;
+        }
+    }
 
 ?>

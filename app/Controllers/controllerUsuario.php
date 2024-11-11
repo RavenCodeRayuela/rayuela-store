@@ -16,6 +16,10 @@ function registrarUsuario(){
         $password= htmlspecialchars($_POST['password']);
         $passwordCh= htmlspecialchars($_POST['passwordCh']);
         
+        $errores.=validarLargoCampo($email,95);
+        $errores.=validarLargoCampo($password,255);
+        $errores.=validarLargoCampo($passwordCh,255);
+
         //Pasar a booleano el valor de la suscripcion.
         if(!empty($_POST['suscripcion']) && $_POST['suscripcion'] == 'on'){
         $suscripcion= true;
@@ -23,7 +27,7 @@ function registrarUsuario(){
             $suscripcion= false;
         }
         //Se validan los campos
-        $errores= validarFormRegistro($email, $password, $passwordCh);
+        $errores.= validarFormRegistro($email, $password, $passwordCh);
         
         if ($errores != '') {
             setMensaje($errores,'error');
@@ -63,9 +67,11 @@ function loginUsuario(){
         require_once ROOT_PATH. '/app/Models/modelGestion.php';
 
         $email= htmlspecialchars($_POST['email']);
+        $errores=validarLargoCampo($email,95);
         $password= htmlspecialchars($_POST['password']);
+        $errores.=validarLargoCampo($password,255);
 
-        $errores= validarFormLogin($email);
+        $errores.= validarFormLogin($email);
 
         if ($errores != '') {
             // Si hay errores, pasarlos a la vista

@@ -93,7 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $action($_GET[ 'id'],$page);
                 break;
-                
+            case 'mostrarFormComprobantePago':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($_GET[ 'id'],$page);
+                break;
+             case 'mostrarFormValoracion':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($_GET[ 'id'],$page);
+                 break;
+                    
             default:
                 $action();
                 break;

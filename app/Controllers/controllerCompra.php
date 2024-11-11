@@ -12,7 +12,7 @@ function agregarProductoCarrito(){
 
         $productoExistente = false;
 
-        //Recordar & para poder aplicar cambios en el foreach
+        //Recordar & para poder aplicar cambios en el foreach!!
         foreach ($_SESSION['carrito'] as &$producto) {
             if ($producto['id'] == $id) {
                 $producto['cantidad'] += $cantidad; 
@@ -131,6 +131,7 @@ function procesarCompra(){
         //Declarar la compra para poder utilizar sus métodos
         $compra = new Compra();
 
+        //La compra devuelve un id de la compra, con el cual poder añadir los detalles a la tabla detalle de compra
         $idCompra=$compra->addCompra($idCliente,$fecha,$total,$estado,$metodoDePago,$idDireccion);
 
         var_dump($idCompra);
@@ -212,6 +213,7 @@ function marcarPedidoEntregado($id, $page){
             header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
             exit();
         }else{
+
             setMensaje("Ha ocurrido un error al cambiar el estado del pedido.", 'error');
             require_once ROOT_PATH.'/app/Views/viewAdmin.php';
         }
@@ -242,7 +244,74 @@ function cancelarPedido($id, $page){
     
 }
 
-function procesarFormComprobantePago($idCompra){
+function procesarFormComprobantePago(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    $idCompra=$_POST['idCompra'];
+    $pagina=$_POST['pagina'];
+
+    $imagenComprobante = $_FILES;
+
+     
+
+    $imagenComprobante = validarImagen($imagenComprobante);
+
+
+    if($imagenComprobante){
+        $imagenComprobante = moverImagen($imagenComprobante);
+        $compra= new Compra();
+
+        $compra->updateCompra($idCompra,null,null,null,$imagenComprobante);
+        
+        setMensaje("El comprobante ha sido subido.", 'exito');
+
+       
+        header("Location: index.php?controller=controllerHome&action=mostrarPerfilHistorial&page=".$pagina);
+        exit();
+        
+    }else{
+        setMensaje("Ha ocurrido un error al subir el comprobante.", 'error');
+        require_once ROOT_PATH.'/app/Views/viewClienteSubirComprobante.php';
+    }
+}
+
+function procesarValoracion(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    $idCompra=$_POST['idCompra'];
+    $pagina=$_POST['pagina'];
+    $errores="";
+
+    $comentario = sanearTexto($_POST['comentario']);
+    $errores.= textoSinCaracteresEspeciales($comentario);
+    $errores.= validarLargoCampo($comentario,300);
+
+
+    if($errores==""){
+
+        $compra= new Compra();
+
+        $compra->updateCompra($idCompra,null,null,$comentario);
+        
+        setMensaje("¡Gracias por compartirnos tu experiencia!", 'exito');
+
+       
+        header("Location: index.php?controller=controllerHome&action=mostrarPerfilHistorial&page=".$pagina);
+        exit();
+
+    }else{
+        setMensaje("Ha ocurrido un error al subir tu valoración.", 'error');
+        require_once ROOT_PATH.'/app/Views/viewClienteValorarCompra.php';
+    }
+
 
 }
 ?>

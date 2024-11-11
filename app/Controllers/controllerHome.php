@@ -8,6 +8,7 @@ function mostrarHome(){
     $catBD= $cat->getCategorias();
     $categorias= array();
     $prod = new Producto();
+    
     //Hacer logica para filtrar datos 
     $prodts = $prod->getProductos();
     $productos = array();
@@ -42,13 +43,14 @@ function mostrarProductos($categoria, $paginaActual){
         //Categorias para la sidebar
         $cat= new Categoria();
         $categorias= $cat->getCategorias();
+
         //Todos los productos
         $totalProductos= $producto->contarTotalProductos();
         $totalPaginas = ceil($totalProductos / $productosPorPagina);
         $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
     }else{
 
-        //Categorias para la sidebar y nombre de página
+        //Categorias para la sidebar y nombre de pagina
         $category= new Categoria($categoria);
         $categorias= $category->getCategorias();
         
@@ -141,6 +143,8 @@ function mostrarCarrito(){
             $idProducto = $item['id'];
             $producto = new Producto($idProducto);
             $img = $producto->getImagenes();
+
+            //Verificar si existe, sino se le asigna null a imagen
             $img = $img[0] ?? null;
 
              $productos[] = [
@@ -201,7 +205,12 @@ function mostrarPerfilHistorial($paginaActual){
     require_once ROOT_PATH.'/app/Views/viewClienteHistorial.php';
 }
 
-function mostrarFormComprobantePago(){
+function mostrarFormComprobantePago($idCompra,$pagina){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+    
+   
     require_once ROOT_PATH.'/app/Views/viewClienteSubirComprobante.php';
 }
 function mostrarPerfilDirecciones(){
@@ -244,5 +253,14 @@ function mostrarNosotros(){
 
 function mostrarInfoContacto(){
     require_once ROOT_PATH.'/app/Views/viewContacto.php';
+}
+function mostrarFormValoracion($idCompra,$pagina){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+    
+
+    require_once ROOT_PATH.'/app/Views/viewClienteValorarCompra.php';
+
 }
 ?>

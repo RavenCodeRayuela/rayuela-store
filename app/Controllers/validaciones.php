@@ -115,7 +115,7 @@ function validarImagen($imagen){
     if (!isset($imagen['imagen']) || $imagen['imagen']['error'] !== UPLOAD_ERR_OK) {
         return false;
     }else{
-        $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif");
+        $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif","image/webp");
         if (!in_array($imagen['imagen']['type'], $tiposPermitidos)) {
         return false;
         }
@@ -139,7 +139,7 @@ if($imagen == false){
 
 function validarImagenes($imagenes) {
 
-    $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif");
+    $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif","image/webp");
 
     
     for ($i = 0; $i < count($imagenes['name']); $i++) {
@@ -251,10 +251,10 @@ function validarNroPuerta($numeroEntero){
     }
 }
 
-function validarLargoCampo($campo, $longitud) {
-    if (strlen($campo) !== $longitud) {
-        return "El campo debe tener exactamente $longitud caracteres.";
+function validarLargoCampo($campo, $longitudMax) {
+    if (strlen($campo) > $longitudMax) {
+        return "El campo debe tener como máximo $longitudMax caracteres.";
     }
-    return "";
+    return "";  
 }
 ?>

@@ -20,6 +20,7 @@
     $paginaActualSidebar = "historialDeCompras";
     $mostrarHistorial= URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilHistorial";
     $submitComprobante= URL_PATH."/index.php?controller=controllerHome&action=mostrarFormComprobantePago";
+    $submitValoracion= URL_PATH."/index.php?controller=controllerHome&action=mostrarFormValoracion";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -66,14 +67,17 @@
                                 <td><?php if (($compra['Valoracion']!="")): ?>
                                     <?= htmlspecialchars($compra['Valoracion']) ?>
                                     <?php else:?>
-                                        <a href="" class="valoracion-link">Tu opinión importa. ¡Déjanos tu valoración!</a>
+                                        <a href="<?= $submitValoracion."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="valoracion-link">Tu opinión importa. ¡Déjanos tu valoración!</a>
                                     <?php endif;?>
                                 </td>
                                 <td><?= htmlspecialchars($compra['Estado']) ?></td>
                                 <td style="text-align:center;">
                                     <?= htmlspecialchars($compra['Tipo_de_pago']) ?>
-                                    <?php if($compra['Tipo_de_pago']=="transferencia"):?>
-                                        <a href="<?= htmlspecialchars($submitComprobante) ?>" class="valoracion-link">Sube aquí el comprobante</a>
+                                    <?php if($compra['Tipo_de_pago']=="transferencia" && $compra['Comprobante']=="No"):?>
+                                        <a href="<?= htmlspecialchars($submitComprobante)."&id=".$compra['Id_compra']."&page=".$paginaActual ?>" class="valoracion-link">Sube aquí el comprobante</a>
+                                        <?php elseif($compra['Tipo_de_pago']=="transferencia" && $compra['Comprobante']!="No"):?>
+                                            <p>Comprobante subido.</p>
+                                    <?php else:?>
                                     <?php endif;?>
                                 </td>
                                 <td>

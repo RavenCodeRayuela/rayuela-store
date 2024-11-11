@@ -21,15 +21,18 @@ function agregarDireccion(){
 
     $ciudad = sanearTexto($ciudad);
     $errores.= textoSinCaracteresEspeciales($ciudad);
+    $errores.= validarLargoCampo($ciudad,60);
 
     $calle = sanearTexto($calle);
     $errores.= textoSinCaracteresEspeciales($calle);
+    $errores.= validarLargoCampo($calle,60);
 
     $nroCasa = validarNroPuerta($nroCasa);
+    $errores.= validarLargoCampo($nroCasa,40);
 
     $comentario = sanearTexto($comentario);
     $errores.= textoSinCaracteresEspeciales($comentario);
-
+    $errores.= validarLargoCampo($comentario,280);
 
     if($ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
 
@@ -73,14 +76,18 @@ function modificarDireccion(){
     $id= validarInt($id);
     $ciudad = sanearTexto($ciudad);
     $errores.= textoSinCaracteresEspeciales($ciudad);
+    $errores.= validarLargoCampo($ciudad,60);
 
     $calle = sanearTexto($calle);
     $errores.= textoSinCaracteresEspeciales($calle);
+    $errores.= validarLargoCampo($calle,60);
 
     $nroCasa = validarNroPuerta($nroCasa);
+    $errores.= validarLargoCampo($nroCasa,40);
 
     $comentario = sanearTexto($comentario);
     $errores.= textoSinCaracteresEspeciales($comentario);
+    $errores.= validarLargoCampo($comentario,280);
 
     
     if($id != false && $ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
@@ -155,7 +162,7 @@ function modificarInfoPerfil(){
     
 
     $mensajesDeError.= validarNombre($nombre);
-
+    $mensajesDeError.= validarLargoCampo($nombre,50);
 
     foreach ($_POST['celular'] as $celular) {
         if(validarCelular($celular)==''){

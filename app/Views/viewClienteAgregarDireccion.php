@@ -63,7 +63,7 @@
                     <div class="form-group">
                         <label for="comentario">Comentario</label>
                         <textarea id="comentario" name="comentario" rows="5" required></textarea>
-                        <span class="text-info">Cualquier información que nos pueda ayudar en la entrega, el comentario debe tener un máximo de 280 caracteres que equivalen a aprox. 55 palabras o un tweet :D</span>
+                        <span class="text-info">Cualquier información que nos pueda ayudar en la entrega, el comentario puede tener un máximo de 280 caracteres que equivalen a aprox. 55 palabras o un tweet :D</span>
                     </div>
                     <input type="submit" value="Agregar direccion" class="submit-btn">
                 </form>

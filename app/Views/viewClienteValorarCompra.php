@@ -18,7 +18,7 @@
     }
 
     $paginaActualSidebar = "historialDeCompras";
-    $action = URL_PATH."/index.php?controller=controllerCompra&action=procesarFormComprobantePago";
+    $action = URL_PATH."/index.php?controller=controllerCompra&action=procesarValoracion";
     
 ?>
 <!DOCTYPE html>
@@ -27,7 +27,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Subir comprobante de pago</title>
+    <title>Valorar compra</title>
 </head>
 <body>
 
@@ -41,19 +41,21 @@
         
         <!-- Contenido principal -->
         <div class="main-content" id="contenido">
-            <h1>Subir comprobante de pago</h1>
+            <h1>¡Cuentanos como fue tu experiencia comprando!</h1>
             
-            <form action="<?php echo $action;?>" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="imagen">Selecciona una imagen (JPG, PNG, WEBP, GIF):</label>
-                    <input type="file" id="imagen" name="imagen" accept="image/*" required>
-                </div>
+            <form action="<?php echo $action;?>" method="POST" style="width:50%; margin-top:30px">
+
+            <div class="form-group">
+                <label for="comentario">Escribe tu comentario:</label>
+                <textarea id="comentario" name="comentario" rows="10" placeholder="Ingresa tu comentario aquí" required ></textarea>
+                <span class="text-info">El comentario debe tener un máximo de 300 caracteres que equivalen a aprox. Más o menos 58 palabras</span>
+           </div>
                 
                 
                 <input type="hidden" name="idCompra" value="<?php echo $idCompra; ?>">
                 <input type="hidden" name="pagina" value="<?php echo $pagina; ?>">
 
-                <input type="submit" value="Subir Comprobante" class="submit-btn">
+                <input type="submit" value="Subir Valoración" class="submit-btn">
             </form>
         </div>
 

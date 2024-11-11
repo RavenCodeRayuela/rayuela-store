@@ -97,12 +97,12 @@ class Compra{
         }
     }
 
-    public function updateCompra($idCompra,$estado=null,$idDireccion=null,$valoracion=null){
+    public function updateCompra($idCompra,$estado=null,$idDireccion=null,$valoracion=null, $comprobante =null){
         try {
             $conexion=ConexionBD::getInstance();
             $conexion -> beginTransaction();
-
-            if($estado!= null && $idDireccion==null && $valoracion==null){
+            
+            if($estado!= null && $idDireccion==null && $valoracion==null && $comprobante == null){
 
                 $stmt = $conexion->prepare("UPDATE compras SET Estado = :Estado WHERE Id_compra = :id");
                
@@ -112,7 +112,7 @@ class Compra{
                     } else {
                         throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
                     }
-            }elseif($estado== null && $idDireccion!=null && $valoracion==null){
+            }elseif($estado== null && $idDireccion!=null && $valoracion==null && $comprobante == null){
 
                 $stmt = $conexion->prepare("UPDATE compras SET Id_direccion = :Id_direccion WHERE Id_compra = :id");
 
@@ -122,7 +122,7 @@ class Compra{
                 } else {
                     throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
                 }
-            }elseif($estado== null && $idDireccion==null && $valoracion!=null){
+            }elseif($estado== null && $idDireccion==null && $valoracion!=null && $comprobante == null){
                 $stmt = $conexion->prepare("UPDATE compras SET Valoracion = :Valoracion WHERE Id_compra = :id");
 
                 if ($stmt->execute([':Valoracion' => $valoracion, ':id' => $idCompra])){
@@ -132,6 +132,15 @@ class Compra{
                     throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
                 }
             
+            }elseif($estado== null && $idDireccion==null && $valoracion==null && $comprobante != null){
+                $stmt = $conexion->prepare("UPDATE compras SET Comprobante = :Comprobante WHERE Id_compra = :id");
+
+                if ($stmt->execute([':Comprobante' => $comprobante, ':id' => $idCompra])){
+                    $conexion->commit();
+                    return true;
+                } else {
+                    throw new Exception("Error en la actualización: " . implode(", ", $stmt->errorInfo()));
+                }
             }
         } catch (Exception $e) {
             
@@ -346,7 +355,7 @@ class Compra{
         
             // Primera consulta: obtener detalles generales de cada compra
             $stmtCompras = $conexion->prepare("
-                SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,
+                SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,com.Comprobante,
                        dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario
                 FROM compras AS com
                 JOIN direcciones_de_envio AS dir ON com.Id_direccion = dir.Id_direccion

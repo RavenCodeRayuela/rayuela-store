@@ -23,21 +23,28 @@ function agregarProducto(){
         //Procesos    
             $nombre = sanearTexto($nombre);
             $errores.= textoSinCaracteresEspeciales($nombre);
+            $errores.= validarLargoCampo($nombre,55);
+
             $descripcion = sanearTexto($descripcion);
             $errores.= textoSinCaracteresEspeciales($descripcion);
+            $errores.= validarLargoCampo($descripcion,295);
+
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
+
             $imagenes = validarImagenes($imagenes);
-            $imagenes = moverImagenes($imagenes);
+           
+            
             $categoriaId = validarInt($categoriaId);
             
         //Modificar BD
         if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $errores ==""){
-                       
+            
                 if (isset($_SESSION['usuario'])) {
                     
                     $admin = unserialize($_SESSION['usuario']);
+                    $imagenes = moverImagenes($imagenes);
                     $admin ->agregarProducto($nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
                     
                     $mensajeExito="El producto ha sido ingresado.";
@@ -93,16 +100,23 @@ function modificarProducto(){
             $categoriaId = $_POST["categoria"];
             $id = $_POST['id'];
             $errores="";
+
         //Procesos    
             $nombre = sanearTexto($nombre);
             $errores.= textoSinCaracteresEspeciales($nombre);
+            $errores.= validarLargoCampo($nombre,55);
+
             $descripcion = sanearTexto($descripcion);
             $errores.= textoSinCaracteresEspeciales($descripcion);
+            $errores.= validarLargoCampo($descripcion,295);
+
             $cantidad = validarInt($cantidad);
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
+
             $imagenes = validarImagenes($imagenes);
-            $imagenes = moverImagenes($imagenes);
+           
+
             $categoriaId = validarInt($categoriaId);
             $id = validarInt($id);
             
@@ -111,6 +125,7 @@ function modificarProducto(){
                        
                 if (isset($_SESSION['Productos'])) {
 
+                    $imagenes = moverImagenes($imagenes);
                     $producto= new Producto();
                     
                     $producto ->updateProducto($id ,$nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
@@ -201,19 +216,25 @@ function agregarCategoria(){
             $descripcion = $_POST["descripcion"];
             $imagenSubida = $_FILES;
             $errores="";
+
         //Procesos    
             $nombre = sanearTexto($nombre);
             $errores.= textoSinCaracteresEspeciales($nombre);
+            $errores.= validarLargoCampo($nombre,55);
+
             $descripcion = sanearTexto($descripcion);
             $errores.= textoSinCaracteresEspeciales($descripcion);
+            $errores.= validarLargoCampo($descripcion,120);
+
             $imagenSubida = validarImagen($imagenSubida);
-            $imagenSubida = moverImagen($imagenSubida);
+            
             
 
         //Modificar BD
         if($nombre != false && $descripcion != false && $imagenSubida != false && $errores ==""){
 
                 if (isset($_SESSION['usuario'])) {
+                    $imagenSubida = moverImagen($imagenSubida);
                     $admin = unserialize($_SESSION['usuario']);
                     $admin ->agregarCategoria($nombre,$descripcion,$imagenSubida);
                     $mensajeExito =" Categoría agregada correctamente.";
@@ -268,10 +289,14 @@ function modificarCategoria(){
         //Procesos    
             $nombre = sanearTexto($nombre);
             $errores.= textoSinCaracteresEspeciales($nombre);
+            $errores.= validarLargoCampo($nombre,55);
+
             $descripcion = sanearTexto($descripcion);
+            $errores.= validarLargoCampo($descripcion,120);
             $errores.= textoSinCaracteresEspeciales($descripcion);
+
             $imagenSubida = validarImagen($imagenSubida);
-            $imagenSubida = moverImagen($imagenSubida);
+            
             $id = validarInt($id);
             
         //Modificar BD
@@ -279,6 +304,7 @@ function modificarCategoria(){
                        
                 if (isset($_SESSION['Categorias'])) {
 
+                    $imagenSubida = moverImagen($imagenSubida);
                     $categoria= new Categoria();
                     
                     $categoria ->updateCategoria($nombre ,$descripcion,$imagenSubida,$id);
