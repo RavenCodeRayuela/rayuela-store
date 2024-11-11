@@ -21,8 +21,8 @@ $action = URL_PATH ."/index.php?controller=controllerCompra&action=procesarCompr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/x-icon" href="<?= $img."favicon.png";?>">
     <title>Carrito de Compras</title>
-    <link rel="stylesheet" href="carrito.css">
 </head>
 <body>
 <?php include_once 'viewHeader.php' ?>

@@ -8,6 +8,7 @@ $img = URL_PATH.'/public/img/';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/x-icon" href="<?= $img."favicon.png";?>">
     <title>Sobre Rayuela</title>
 </head>
 <body>

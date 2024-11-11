@@ -28,7 +28,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href=<?php echo $css; ?> rel="stylesheet" type="text/css">
-    <title>Rayuela Store</title>
+    <link rel="icon" type="image/x-icon" href="<?= $img."favicon.png";?>">
+    <title>Direcciones de envio</title>
 </head>
 <body>
 
