@@ -58,7 +58,8 @@
 
                     echo "</td>";
                     echo "<td>" . $producto['categoria'] . "</td>";
-                    echo "<td><a class='btn modificar' href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a></td>";
+                    echo "<td><a class='btn modificar' href=".$editarProducto."&id=".$producto['Id_producto'].">"."Modificar"."</a>
+                    <a class='btn modificar' href=".$editarProducto."&id=".$producto['Id_producto']."&modImagen=false".">"."Modificar sin subir imagenes"."</a></td>";
                     echo "<td><a class='btn eliminar' href=".$eliminarProducto."&id=".$producto['Id_producto'].">"."Eliminar"."</a></td>";
                     echo "</tr>";
                 }

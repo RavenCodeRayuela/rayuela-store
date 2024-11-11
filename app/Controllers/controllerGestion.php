@@ -66,7 +66,7 @@ function agregarProducto(){
          }
 }
 
-function editarProducto($id){
+function editarProducto($id, $modificarImagen){
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
@@ -74,6 +74,7 @@ function editarProducto($id){
     require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
     $producto= new Producto($id);
     $categoria= new Categoria();
+    $categoriaSeleccionada= $producto->getCategoria();
     $categorias= $categoria -> getCategorias();
 
     require_once ROOT_PATH."/app/Views/viewAdminModificarProducto.php";
@@ -91,15 +92,21 @@ function modificarProducto(){
         require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
 
         //Asignaciones
+            $errores="";
             $nombre = $_POST["nombre"];
             $descripcion = $_POST["descripcion"];
             $cantidad = $_POST["cantidad"];
             $precioUnitario = $_POST["precio_unitario"];
             $descuento =$_POST["descuento"];
-            $imagenes = $_FILES['imagen'];
+
+            if(isset($_FILES['imagen'])){
+                $imagenes = $_FILES['imagen'];
+                $imagenes = validarImagenes($imagenes);
+            }
+            
             $categoriaId = $_POST["categoria"];
             $id = $_POST['id'];
-            $errores="";
+           
 
         //Procesos    
             $nombre = sanearTexto($nombre);
@@ -114,18 +121,23 @@ function modificarProducto(){
             $precioUnitario = validarFloatPositivo($precioUnitario);
             $descuento = validarFloatPorcentaje($descuento);
 
-            $imagenes = validarImagenes($imagenes);
-           
+            
 
             $categoriaId = validarInt($categoriaId);
             $id = validarInt($id);
             
+            
         //Modificar BD
-        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $imagenes != false && $categoriaId != false && $id != false && $cantidad != false && $errores=""){
+        if($nombre != false && $descripcion != false && $precioUnitario != false && is_float($descuento) && $categoriaId != false && $id != false && $cantidad != false && $errores==""){
                        
                 if (isset($_SESSION['Productos'])) {
 
-                    $imagenes = moverImagenes($imagenes);
+                    if($imagenes != false){
+                        $imagenes = moverImagenes($imagenes);
+                    }else{
+                        $imagenes= null;
+                    }
+                    
                     $producto= new Producto();
                     
                     $producto ->updateProducto($id ,$nombre,$descripcion,$precioUnitario,$descuento,$categoriaId,$cantidad,$imagenes);
@@ -174,26 +186,31 @@ function eliminarProducto($id){
                     }
                 }
 
-               if($banderaAcuadros){
-                eliminarImagenes($imagenes);
-               }
                 
                 
                 if(!$producto ->removeProducto($id)){
                     $mensajeError="El producto está relacionado a compras existentes en el sistema, por ello no se puede eliminar.";
                     setMensaje($mensajeError, 'error');
                     
+                    
+                    
+                    header("Location: index.php?controller=controllerGestion&action=listarProductos");
+                    exit();
+                }else{
+
+                    if($banderaAcuadros){
+                        eliminarImagenes($imagenes);
+                    }
+                    $mensajeExito="El producto ha sido eliminado.";
+                    setMensaje($mensajeExito, 'exito');
+
+                    $_SESSION['Productos'] = $producto -> getProductos();
+
                     header("Location: index.php?controller=controllerGestion&action=listarProductos");
                     exit();
                 }
                 
-                $mensajeExito="El producto ha sido eliminado.";
-                setMensaje($mensajeExito, 'exito');
-
-                $_SESSION['Productos'] = $producto -> getProductos();
-
-                header("Location: index.php?controller=controllerGestion&action=listarProductos");
-                    exit();
+                
              
             }else{
             setMensaje("Error al obtener el producto", 'error');
@@ -363,9 +380,6 @@ function eliminarCategoria($id){
 
                 $imagen= $categoria->getRutaImagenCategoria();
                 
-                if(!$producto->comprobarUsoDeImagen($imagen)){
-                    eliminarImagenes($imagen);
-                }
                 
                 if(!$categoria ->removeCategoria($id)){
                     $mensajeError="La categoría contiene productos que están relacionados con compras, por ello no se pueden eliminar";
@@ -373,15 +387,22 @@ function eliminarCategoria($id){
                     
                     header("Location: index.php?controller=controllerGestion&action=listarCategorias");
                     exit(); 
-                }
+                }else{
 
-                $mensajeExito="La categoria ha sido eliminada.";
+                    if(!$producto->comprobarUsoDeImagen($imagen)){
+                        eliminarImagenes($imagen);
+                    }
+      
+                    $mensajeExito="La categoria ha sido eliminada.";
                 setMensaje($mensajeExito, 'exito');
                 
                 $_SESSION['Categorias'] = $categoria -> getCategorias();
 
                 header("Location: index.php?controller=controllerGestion&action=listarCategorias");
                     exit(); 
+                }
+
+                
 
         }else{
             $mensajeError="Error al obtener la categoria";

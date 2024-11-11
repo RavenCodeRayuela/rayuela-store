@@ -261,6 +261,41 @@ function mostrarFormValoracion($idCompra,$pagina){
     
 
     require_once ROOT_PATH.'/app/Views/viewClienteValorarCompra.php';
+}
 
+function mostrarStock($paginaActual){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+   
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+
+    $productosPorPagina = 20;
+    
+    $producto = new Producto();
+    
+    $totalProductos= $producto->contarTotalProductos();
+    $totalPaginas = ceil($totalProductos / $productosPorPagina);
+
+    $productos = $producto->getProductosPaginados($paginaActual, $productosPorPagina);
+
+    require_once ROOT_PATH.'/app/Views/viewAdminStock.php';
+}
+
+function mostrarEstadisticasVentas(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+   
+    require_once ROOT_PATH.'/app/Models/modelGestion.php';
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    $compra = new Compra();
+    $productosVendidos = $compra->getTopProductosVendidos();
+    $ventasAnio= $compra->getGananciasPorPeriodo('anio');
+    $ventasMes= $compra->getGananciasPorPeriodo('mes');
+    $ventasSemana= $compra->getGananciasPorPeriodo('semana');
+
+    require_once ROOT_PATH.'/app/Views/viewAdminEstadisticas.php';
 }
 ?>

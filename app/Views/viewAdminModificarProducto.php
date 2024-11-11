@@ -52,9 +52,12 @@
                 <label for="categoria">Seleccionar categoría</label>
                 <select id="categoria_modificar" name="categoria" required>
                     <option value="">-- Selecciona una categoría --</option>
-                        <?php foreach ($categorias as $categoria): ?>
-                            <option value="<?php echo $categoria['Id_categoria']; ?>"><?php echo $categoria['Nombre_categoria']; ?></option>
-                        <?php endforeach; ?>
+                    <?php foreach ($categorias as $categoria): ?>
+                        <option value="<?php echo $categoria['Id_categoria']; ?>" 
+                            <?php echo ($categoria['Id_categoria'] == $categoriaSeleccionada) ? 'selected' : ''; ?>>
+                            <?php echo $categoria['Nombre_categoria']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             
@@ -73,10 +76,12 @@
                 <input type="number" id="descuento_modificar" name="descuento" step="0.01" min="0" max="100" value="<?php echo $producto->getDescuento();?>"><br><br>
             </div>
 
-            <div class="form-item">
-                 <label for="imagen">Subir imágenes del producto</label>
-                 <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
-            </div>
+            <?php if($modificarImagen != "false"):?>
+                <div class="form-item">
+                    <label for="imagen">Subir imágenes del producto</label>
+                    <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
+                </div>
+            <?php endif;?>
 
             <div class="form-item" style="display:none;">
                  <input type="text" id="id_producto" name="id" value="<?php echo $producto->getId();?>">

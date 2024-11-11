@@ -437,6 +437,48 @@ class Compra{
                 return false;
             }
         }
+
+        public function getTopProductosVendidos($limite = 5) {
+            $conexion = ConexionBD::getInstance();
+            
+            $stmt = $conexion->prepare("
+                SELECT prod.Id_producto, prod.Nombre, SUM(det.Cantidad_producto) AS total_vendido
+                FROM compra_contiene_producto AS det
+                JOIN productos AS prod ON det.Id_producto = prod.Id_producto
+                GROUP BY prod.Id_producto
+                ORDER BY total_vendido DESC
+                LIMIT :limite
+            ");
+            
+            $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function getGananciasPorPeriodo($periodo) {
+            $conexion = ConexionBD::getInstance();
+            
+            $intervalo = '';
+            if ($periodo == 'anio') {
+                $intervalo = 'YEAR';
+            } elseif ($periodo == 'mes') {
+                $intervalo = 'MONTH';
+            } elseif ($periodo == 'semana') {
+                $intervalo = 'WEEK';
+            }
+            
+            $stmt = $conexion->prepare("
+                SELECT SUM(com.Costo_total) AS ganancias
+                FROM compras AS com
+                WHERE YEAR(CURDATE()) = YEAR(com.Fecha)
+                AND $intervalo(CURDATE()) = $intervalo(com.Fecha)
+            ");
+            
+            $stmt->execute();
+            
+            return $stmt->fetchColumn();
+        }
 }
 
 class DetalleCompra{

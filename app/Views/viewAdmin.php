@@ -33,7 +33,7 @@
     <div class="main-content" id="contenido">
         <h1>Listado de pedidos para preparar</h1>
             <?php if (isset($compras) && count($compras) > 0): ?>
-                <table class="tabla-compras">
+                <table class="tabla-listar" style="margin-top: 15px;">
                     <thead>
                         <tr>
                             <th class="primer-columna">ID</th>
@@ -66,7 +66,7 @@
                                     <?php endif;?>
                                 </td>
                                 <td><?= htmlspecialchars($compra['Estado']) ?>
-                                    <a href="<?= $cambiarEntregado."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="valoracion-link">Cambiar a entregado</a>
+                                    <a href="<?= $cambiarEntregado."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="btn listar">Cambiar a entregado</a>
                                 </td>
                                 <td style="text-align:center;">
                                     <?= htmlspecialchars($compra['Tipo_de_pago']) ?> 
@@ -88,10 +88,10 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="" class="valoracion-link">Generar e-ticket</a>
+                                    <a href="" class="btn listar">Generar e-ticket</a>
                                 </td>
                                 <td>
-                                    <a href="<?= $cancelarPedido."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="valoracion-link">Cancelar pedido</a>
+                                    <a href="<?= $cancelarPedido."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="btn eliminar">Cancelar pedido</a>
                                 </td>
                             </tr>
                             <?php endif;?>

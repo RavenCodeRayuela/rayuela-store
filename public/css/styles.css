@@ -249,7 +249,8 @@ Para separar los elementos referentes al usuario(Carrito, login y logout) y a lo
 .header-lista{
   margin-top: 124px;
   display: flex;
-  justify-content: space-between;
+  justify-content:center;
+  gap: 100px;
 }
 /*Tabla listar*/
 .container-listar{
@@ -257,10 +258,15 @@ Para separar los elementos referentes al usuario(Carrito, login y logout) y a lo
   margin-right: auto;
   padding-top: 20px;
   padding-bottom: 20px;
+  width: 98%;
   
 }
 .container-listar h1{
   margin-bottom: 20px;
+}
+.tabla-listar{
+  margin-left: auto;
+  margin-right: auto;
 }
 .tabla-listar table{
   width: 100%;
@@ -872,7 +878,7 @@ y scrollbar width none para eliminar la barra de desplazamiento*/
   transition: opacity 0.3s ease;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 5px;
 }
 

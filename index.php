@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ( is_callable ($action) ){
         switch ($action) {
             case 'editarProducto':
-
-                $action($_GET[ 'id' ]);
+                $modificaImagen = isset($_GET['modImagen']) ? $_GET['modImagen'] : true;
+                $action($_GET[ 'id' ], $modificaImagen);
                 break;
 
             case 'eliminarProducto':
@@ -101,7 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 $page = isset($_GET['page']) ? $_GET['page'] : 1;
                 $action($_GET[ 'id'],$page);
                  break;
-                    
+            case 'mostrarStock':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($page);
+                break;
             default:
                 $action();
                 break;

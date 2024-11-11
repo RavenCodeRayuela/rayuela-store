@@ -310,10 +310,12 @@ class Producto{
                 ':id' => $id
             ])) {
 
-              
-            if (!$this->updateImagenes($imagenes, $id)) {
-                throw new Exception("Error al agregar imagenes, asegurese que el numero de imagenes sea igual al numero de imagenes anterior");
+            if($imagenes!=null){
+                if (!$this->updateImagenes($imagenes, $id)) {
+                    throw new Exception("Error al agregar imagenes, asegurese que el numero de imagenes sea igual al numero de imagenes anterior");
+                }
             }
+           
                 $conexion->commit();
                 return true;
             } else {
@@ -415,41 +417,36 @@ class Producto{
          * @param mixed $elementosPorPagina
          * @return array
          */
-        public function getProductosPaginados($paginaActual, $elementosPorPagina = 10) {
-            $conexion = ConexionBD::getInstance();
-        
-        
-            $offset = ($paginaActual - 1) * $elementosPorPagina;
-        
-            $stmt = $conexion->prepare("
-                SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
-                FROM productos AS prod
-                JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
-                JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 
-                GROUP BY prod.Id_producto
-                 LIMIT :limit OFFSET :offset
-                ");
+       public function getProductosPaginados($paginaActual, $elementosPorPagina = 10) {
+    $conexion = ConexionBD::getInstance();
 
-               
-                $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
-                $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+    $offset = ($paginaActual - 1) * $elementosPorPagina;
 
-        
-    
-            $stmt->execute();
-        
-            $productos = array();
-        
-            while ($producto = $stmt->fetch()) {
-                $producto['imagenes'] = explode(',', $producto['imagenes']);
-                // Para eliminar el string del cual se hizo el explode
-                unset($producto[6]);
-                $productos[] = $producto;
-            }
-        
-            return $productos;
-        }
-        /**
+    $stmt = $conexion->prepare("
+        SELECT prod.Id_producto, prod.Nombre, prod.Descripcion_producto, prod.Cantidad, prod.Precio_actual, prod.Descuento, GROUP_CONCAT(img.Ruta_imagen_producto) AS imagenes, cat.Nombre_categoria AS categoria
+        FROM productos AS prod
+        JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
+        JOIN imagen_producto AS img ON prod.Id_producto = img.Id_producto 
+        GROUP BY prod.Id_producto
+        ORDER BY prod.Cantidad ASC
+        LIMIT :limit OFFSET :offset
+    ");
+
+    $stmt->bindParam(':limit', $elementosPorPagina, PDO::PARAM_INT);
+    $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    $productos = array();
+
+    while ($producto = $stmt->fetch()) {
+        $producto['imagenes'] = explode(',', $producto['imagenes']);
+        unset($producto[6]);
+        $productos[] = $producto;
+    }
+
+    return $productos;
+} /**
          * Obtiene los productos de una categoria de la base de datos para poder paginarlos,
          * recibe como parametros la pagina actual, la cantidad de elementos a mostrar por pagina(que puede ser null),
          * y la categoria por la cual filtrara.
