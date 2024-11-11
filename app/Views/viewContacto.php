@@ -19,8 +19,10 @@ $img = URL_PATH.'/public/img/';
         <p>¿Tienes alguna pregunta o deseas más información? Escríbenos y te responderemos a la brevedad.</p>
     </section>
 
+<main class="container">
     <!-- Formulario de contacto -->
      <section class="main-content">
+     
     <div class="form-container">
         <form action="#" method="POST">
 
@@ -41,6 +43,7 @@ $img = URL_PATH.'/public/img/';
         </form>
     </div>
     </section>
+</main>
     <!-- Footer -->
     <?php include_once 'viewFooter.php'?>
 </body>

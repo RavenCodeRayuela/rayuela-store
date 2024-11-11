@@ -10,6 +10,7 @@
     
     $css = URL_PATH.'/public/css/styles.css';
     $img = URL_PATH.'/public/img/';
+    $js =  URL_PATH.'/public/js/categorias-listar-script.js';
     $editarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=editarCategoria';
     $eliminarCategoria = URL_PATH.'/index.php?controller=controllerGestion&action=eliminarCategoria';
     $agregarCategoria= URL_PATH.'/index.php?controller=controllerHome&action=mostrarAgregarCategoria';
@@ -47,7 +48,7 @@
                             echo "<td>" . $categoria['Descripcion_categoria'] . "</td>";
                             echo "<td><img src='" . URL_PATH.$categoria['Ruta_imagen_categoria'] . "'alt'='Imagen de categoria' width='100' class='img-thumbnail'></td>";
                             echo "<td><a class='btn modificar' href=".$editarCategoria."&id=".$categoria['Id_categoria'].">"."Modificar"."</a></td>";
-                            echo "<td><a class='btn eliminar' href=".$eliminarCategoria."&id=".$categoria['Id_categoria'].">"."Eliminar"."</a></td>";
+                            echo "<td><a class='btn eliminar' href='".$eliminarCategoria."&id=".$categoria['Id_categoria']."' onclick='return confirmarEliminacion();'>Eliminar</a></td>";
                             echo "</tr>";
                         }
                         echo "</table>";
@@ -77,6 +78,7 @@
                 <?php endif; ?>
     </div>
     
+    <script src="<?= $js;?>"></script>
     <?php include 'viewMensaje.php'?>
     <?php include_once 'viewFooter.php'?>
 

@@ -546,7 +546,7 @@ class Producto{
             $sqlTabla = "SELECT COUNT(*) AS cantidad FROM imagen_producto WHERE Ruta_imagen_producto = :Ruta_imagen_producto";
             $stmt = $conexion->prepare($sqlTabla);
 
-            $stmt->bindParam(':urlImagen', $urlImagen, PDO::PARAM_STR);
+            $stmt->bindParam(':Ruta_imagen_producto', $urlImagen, PDO::PARAM_STR);
             $stmt->execute();
 
             $resultadoTabla = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -679,13 +679,14 @@ class Categoria{
                 $stmtGetProductoId = $conexion->prepare("SELECT Id_producto FROM productos WHERE Id_Categoria = :Id_Categoria");
                 $stmtGetProductoId->execute([':Id_Categoria' => $idCategoria ]);
 
-                $productoId = $stmtGetProductoId->fetch(PDO::FETCH_ASSOC);
-
-                if ($productoId) {
-                    $idProducto = $productoId['Id_producto']; 
-
-                    $stmtImagenes = $conexion->prepare("DELETE FROM imagen_producto WHERE Id_producto = :id");
-                    $stmtImagenes->execute([':id' => $idProducto ]);
+                $productos = $stmtGetProductoId->fetchAll(PDO::FETCH_ASSOC);
+                var_dump($productos);
+                if ($productos) {
+                    foreach ($productos as $producto) {
+                        $idProducto = $producto['Id_producto']; 
+                        $stmtImagenes = $conexion->prepare("DELETE FROM imagen_producto WHERE Id_producto = :id");
+                        $stmtImagenes->execute([':id' => $idProducto ]);
+                    }
 
                 } else {
                    return false;
@@ -700,7 +701,6 @@ class Categoria{
             } catch (Exception $e) {
                 
                 $conexion->rollback();
-                echo "Transacción fallida: " . $e->getMessage();
                 return false;
             }
         
@@ -712,10 +712,13 @@ class Categoria{
      */
     public function removeCategoria($idCategoria){
         $conexion=ConexionBD::getInstance();
-
+        
+        if($this->removeProductosDeCategoria($idCategoria)){
             $stmt = $conexion->prepare("DELETE FROM categorias WHERE Id_categoria = :id");
             return $stmt->execute([':id' => $idCategoria ]);
-
+        }else{
+            return false;
+        }
     }
     /**
      * Actualiza una categoría, buscando por id que se inserta como parametro en la funcion.

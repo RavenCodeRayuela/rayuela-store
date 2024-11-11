@@ -166,10 +166,26 @@ function eliminarProducto($id){
                 $producto= new Producto();
 
                 $imagenes= $producto->selectImagenes($id);
+                $banderaAcuadros=true;
 
+                foreach ($imagenes as $imagen) {
+                    if($producto->comprobarUsoDeImagen($imagen['Ruta_imagen_producto'])){
+                       $bandera=false; 
+                    }
+                }
+
+               if($banderaAcuadros){
                 eliminarImagenes($imagenes);
+               }
                 
-                $producto ->removeProducto($id);
+                
+                if(!$producto ->removeProducto($id)){
+                    $mensajeError="El producto está relacionado a compras existentes en el sistema, por ello no se puede eliminar.";
+                    setMensaje($mensajeError, 'error');
+                    
+                    header("Location: index.php?controller=controllerGestion&action=listarProductos");
+                    exit();
+                }
                 
                 $mensajeExito="El producto ha sido eliminado.";
                 setMensaje($mensajeExito, 'exito');
@@ -343,23 +359,36 @@ function eliminarCategoria($id){
         if($id != false){
 
                 $categoria= new Categoria($id);
-                
+                $producto= new Producto();
+
                 $imagen= $categoria->getRutaImagenCategoria();
                 
-                eliminarImagenes($imagen);
+                if(!$producto->comprobarUsoDeImagen($imagen)){
+                    eliminarImagenes($imagen);
+                }
                 
-                $categoria ->removeCategoria($id);
+                if(!$categoria ->removeCategoria($id)){
+                    $mensajeError="La categoría contiene productos que están relacionados con compras, por ello no se pueden eliminar";
+                    setMensaje($mensajeError, 'error');
+                    
+                    header("Location: index.php?controller=controllerGestion&action=listarCategorias");
+                    exit(); 
+                }
 
                 $mensajeExito="La categoria ha sido eliminada.";
                 setMensaje($mensajeExito, 'exito');
                 
                 $_SESSION['Categorias'] = $categoria -> getCategorias();
-                
 
                 header("Location: index.php?controller=controllerGestion&action=listarCategorias");
-                exit();
+                    exit(); 
+
         }else{
-            echo "Error al obtener la categoria";
+            $mensajeError="Error al obtener la categoria";
+            setMensaje($mensajeError, 'error');
+                    
+            header("Location: index.php?controller=controllerGestion&action=listarCategorias");
+            exit();
             }
 }
 
