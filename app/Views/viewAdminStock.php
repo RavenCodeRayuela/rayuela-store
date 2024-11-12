@@ -43,11 +43,12 @@
                     </thead>
                     <tbody>
                         <?php foreach ($productos as $producto): ?>
-                            <tr>
+                            <tr <?php if($producto['Cantidad']<5){echo "style='background-color:red; color:white;'";}?>>
                                 <td class="primer-columna"><?= htmlspecialchars($producto['Id_producto']) ?></td>
                                 <td><?= htmlspecialchars($producto['Nombre']) ?></td>
-                                <td><?= htmlspecialchars($producto['Cantidad']) ?></td>
-                                <td><a  href="<?=URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto'."&id=".$producto['Id_producto']."&modImagen=false"?>">Modificar</a></td>
+                                <td>
+                                    <?= htmlspecialchars($producto['Cantidad']) ?></td>
+                                <td><a  href="<?=URL_PATH.'/index.php?controller=controllerGestion&action=editarProducto'."&id=".$producto['Id_producto']."&modImagen=false"?>" style="display:inline-block; width:100%; text-align:center;">Modificar</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

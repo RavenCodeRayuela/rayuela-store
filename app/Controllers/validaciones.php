@@ -257,4 +257,83 @@ function validarLargoCampo($campo, $longitudMax) {
     }
     return "";  
 }
-?>
+
+function enviarCorreo($destinatario, $asunto, $mensaje, $from = "Ovidiodiaz605@gmail.com") {
+    
+    $headers = "From: $from\r\n";
+    $headers .= "Reply-To: $from\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+
+    // Enviar el correo y verificar si fue exitoso
+    if (mail($destinatario, $asunto, $mensaje, $headers)) {
+        return "Correo enviado exitosamente";
+    } else {
+        return "Error al enviar el correo";
+    }
+}
+
+function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha, $detallesCompra,$total, $direccion,$comentario) {
+   
+    $html = "
+    <html>
+    <head>
+        <style>
+            body { font-family: Arial, sans-serif; }
+            .ticket { width: 80%; margin: auto; text-align: center; border: solid 1px #000; padding: 20px; }
+            .nombre{ text-align:left; font-weight:bolder}
+            .header { font-size: 20px; font-weight: bold; }
+            .rut {text-align: right; margin-bottom: 10px;}
+            .details { text-align: left; margin-top: 20px; }
+            .details p { margin: 5px 0; }
+            .items { margin-top: 20px; width: 100%; border-collapse: collapse; }
+            .items th, .items td { border: 1px solid #000; padding: 8px; text-align: center; }
+            .items th { background-color: #f2f2f2; }
+            .total{text-align:right; font-weight:bold}
+        </style>
+    </head>
+    <body>
+        <div class='ticket'>
+            <div class='nombre'>Rayuela Store</div>
+            <div class='rut'><strong>RUT:</strong> $rut</div>
+            <div class='rut'><strong>CONTADO</strong></div>
+            <div class='rut'><strong>Serie:</strong> $serie <strong>Nro:</strong> $numeroTicket</div>
+             <div class='rut'><strong>Fecha:</strong> $fecha</div>
+            <div class='header'>E-Ticket de Compra</div>
+            <hr>
+            <div class='details'>
+                <p><strong>Cliente:</strong> $nombreCliente</p>
+                <p><strong>Dirección:</strong> $direccion</p>
+                <p><strong>Comentario sobre dirección:</strong> $comentario</p>
+            </div>
+            <hr>
+            <table class='items'>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>";
+
+    
+    foreach ($detallesCompra as $detalle) {
+        $html .= "
+        <tr>
+            <td>{$detalle['productoNombre']}</td>
+            <td>{$detalle['Cantidad_producto']}</td>
+            <td>{$detalle['precio']}</td>
+        </tr>";
+    }
+
+    $html .= "<tr>
+            <td colspan='3'><p class='total'>Total: $total</p></td>    
+        </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    ";
+
+    header("Content-type: text/html");
+    header("Content-Disposition: attachment; filename=eticket.html");
+    // Mostrar el contenido HTML que se descarga como PDF
+    echo $html;
+}?>

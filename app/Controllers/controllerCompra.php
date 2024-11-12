@@ -148,9 +148,17 @@ function procesarCompra(){
                 } 
             }
             if($bandera){
+                //Preparar el mail y enviarlo
+                $asunto="Nuevo pedido";
+                $cuerpo= "<h1>Un nuevo pedido ha sido ingresado a Rayuela Store</h1><br>
+                <p>El pedido: $idCompra ha sido ingresado en el sistema en la fecha: $fecha <br>
+                 Por favor entra en el sistema para obtener más información</p>";
+
                 $mensajeExito="El pedido ha sido ingresado, ahora lo prepararemos.";
+                $mensajeExito.= enviarCorreo("juanletamendia22@gmail.com",$asunto,$cuerpo);
                 setMensaje($mensajeExito, 'exito');
 
+                
                 $_SESSION['carrito'] = [];
                 contarCarrito();
                 
@@ -206,10 +214,17 @@ function marcarPedidoEntregado($id, $page){
         
 
         if($bandera==true){
-            $compra->updateCompra($id,$estado);
-            setMensaje("Se ha cambiado el estado del pedido y actualizado el stock", 'exito');
+              //Preparar el mail y enviarlo
+              $asunto="Compra lista";
+              $cuerpo= "<h1>¡Tu compra en Rayuela Store esta lista y llegando a tí!</h1><br>
+              <p>La compra con el id: $id en el sistema ha sido marcada como entregada y debe estar en viaje<br>
+               Por favor entra en el sistema para obtener más información sobre tu compra</p>";
 
-            
+            $compra->updateCompra($id,$estado);
+            $mensajeExito="Se ha cambiado el estado del pedido y actualizado el stock";
+            $mensajeExito.= enviarCorreo("juanletamendia22@gmail.com",$asunto,$cuerpo);
+
+            setMensaje($mensajeExito, 'exito');
             header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
             exit();
         }else{
@@ -311,6 +326,37 @@ function procesarValoracion(){
         setMensaje("Ha ocurrido un error al subir tu valoración.", 'error');
         require_once ROOT_PATH.'/app/Views/viewClienteValorarCompra.php';
     }
+
+
+}
+
+function generarEticket($idCompra){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+
+    $compra = new Compra();
+    
+    $compraRealizada= $compra->getCompra($idCompra);
+    $rut= "043331230011";
+    $serie="A";
+    $numeroTicket="0321";
+   
+
+    $fecha = $compraRealizada['Fecha'];
+    $nombre = $compraRealizada['cliente_nombre'];
+    $detalleItems =$compraRealizada['productos'];
+    $direccion=$compraRealizada['Ciudad']." - Calle:".$compraRealizada['Calle']." - NºCasa: ".$compraRealizada['NroCasa'];
+    $comentario=$compraRealizada['Comentario']; 
+    $total=0.0;
+
+    foreach ($detalleItems as $item) {
+        $total+=$item['precio']*$item['Cantidad_producto'];
+    }
+
+    generarETicketHTML($nombre,$rut,$serie,$numeroTicket,$fecha,$detalleItems,$total,$direccion,$comentario);
 
 
 }

@@ -442,9 +442,10 @@ class Compra{
             $conexion = ConexionBD::getInstance();
             
             $stmt = $conexion->prepare("
-                SELECT prod.Id_producto, prod.Nombre, SUM(det.Cantidad_producto) AS total_vendido
+                SELECT prod.Id_producto, prod.Nombre, SUM(det.Cantidad_producto) AS total_vendido, cat.Nombre_categoria AS Categoria
                 FROM compra_contiene_producto AS det
                 JOIN productos AS prod ON det.Id_producto = prod.Id_producto
+                JOIN categorias AS cat ON prod.Id_categoria = cat.Id_categoria
                 GROUP BY prod.Id_producto
                 ORDER BY total_vendido DESC
                 LIMIT :limite

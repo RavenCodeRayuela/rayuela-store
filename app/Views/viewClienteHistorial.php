@@ -21,6 +21,7 @@
     $mostrarHistorial= URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilHistorial";
     $submitComprobante= URL_PATH."/index.php?controller=controllerHome&action=mostrarFormComprobantePago";
     $submitValoracion= URL_PATH."/index.php?controller=controllerHome&action=mostrarFormValoracion";
+    $generarEticket =URL_PATH."/index.php?controller=controllerCompra&action=generarEticket&id=";
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -96,7 +97,7 @@
                                 </td>
                                 <td>
                                     <?php if($compra['Estado']== "Entregado"):?>
-                                        <a href="" class="valoracion-link">Generar e-ticket</a>
+                                        <a href="<?= $generarEticket.$compra['Id_compra']?>" class="valoracion-link">Generar e-ticket</a>
                                     <?php else:?>
                                         <p>La compra todavía no ha sido entregada.</p>
                                     <?php endif;?>
