@@ -103,7 +103,7 @@
                 <div class="categorias-container" id="categorias-container">
                 <?php foreach($categorias as $categoria):?>
                     <div class="categoria-item">
-                        <a href=<?php echo $productosPorCategoriaURL.$categoria->getId(); ?>><img class="img-categoria" src= <?php echo URL_PATH. $categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
+                        <a href=<?php echo $productosPorCategoriaURL.$categoria->getId(); ?>><img class="img-categoria" src= <?php echo URL_PATH.$categoria->getRutaImagenCategoria();?> alt="Imagen de categoria" ></a> 
                             <div class="txt-categoria"><?php echo $categoria->getNombre();?></div>
                     </div>
                 <?php endforeach;?>

@@ -10,6 +10,7 @@
             <ul>
             <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome'?>>Inicio</a></li>
             <li><a href=<?php echo URL_PATH."/index.php?controller=controllerHome&action=mostrarBackoffice"?>>Pedidos</a></li>
+            <li><a href=<?php echo URL_PATH."/index.php?controller=controllerHome&action=mostrarHistorialCompras"?>>Historial de compras</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarProductos'?>>Productos</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerGestion&action=listarCategorias'?>>Categorías</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarStock'?>>Stock</a></li>

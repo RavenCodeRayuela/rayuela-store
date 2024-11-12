@@ -42,13 +42,10 @@
     <!-- Sección de productos -->
     <section class="products">
         <h2><?php echo $categoria == 'all' ? 'Todos los productos' : $category->getNombre()  ?></h2>
-        
-        <div class="sort-filter">
-            <span>Cantidad de artículos: <?php echo $totalProductos;?></span>
-            <button>Ordenar por</button>
-        </div>
-
+        <h3 class="no-compras"><?php echo $categoria == 'all' ? 'Aqui se muestran todos los productos sin filtrar.' : $category->getDescripcion();  ?></h3>
+        <p style="margin-left:auto; margin-right:auto;">Cantidad de artículos: <?php echo $totalProductos;?></p>
         <hr>
+        
         <div class="product-grid">
 
             <?php foreach ($productos as $producto):?>

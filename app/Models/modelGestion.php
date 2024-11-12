@@ -358,7 +358,6 @@ class Producto{
             }
         } catch (Exception $e) {
             $conexion->rollback();
-            echo "Transacción fallida: " . $e->getMessage();
             return false;
         }
     }
@@ -554,10 +553,10 @@ class Producto{
             }
         
           
-            $consultaTablaCategoria = "SELECT COUNT(*) AS cantidad FROM categorias WHERE Ruta_imagen_producto = :Ruta_imagen_producto";
+            $consultaTablaCategoria = "SELECT COUNT(*) AS cantidad FROM categorias WHERE Ruta_imagen_categoria = :Ruta_imagen_categoria";
             $stmt = $conexion->prepare($consultaTablaCategoria);
 
-            $stmt->bindParam(':Ruta_imagen_producto', $urlImagen, PDO::PARAM_STR);
+            $stmt->bindParam(':Ruta_imagen_categoria', $urlImagen, PDO::PARAM_STR);
             $stmt->execute();
 
             $resultadoTablaCategoria = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -677,7 +676,7 @@ class Categoria{
                 $stmtGetProductoId->execute([':Id_Categoria' => $idCategoria ]);
 
                 $productos = $stmtGetProductoId->fetchAll(PDO::FETCH_ASSOC);
-                var_dump($productos);
+               
                 if ($productos) {
                     foreach ($productos as $producto) {
                         $idProducto = $producto['Id_producto']; 

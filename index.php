@@ -108,6 +108,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             case 'generarEticket':
                 $action($_GET[ 'id']);;
                 break;
+            case 'mostrarHistorialCompras':
+                $page = isset($_GET['page']) ? $_GET['page'] : 1;
+                $action($page);
+                break;
             default:
                 $action();
                 break;

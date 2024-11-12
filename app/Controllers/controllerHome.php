@@ -298,4 +298,28 @@ function mostrarEstadisticasVentas(){
 
     require_once ROOT_PATH.'/app/Views/viewAdminEstadisticas.php';
 }
+
+
+function mostrarHistorialCompras($paginaActual){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+
+    
+    $compra= new Compra();
+
+    $comprasPorPagina = 4;                
+        
+    $totalCompras= $compra->contarTotalCompras();
+    $totalPaginas = ceil($totalCompras / $comprasPorPagina);
+
+    $compras= $compra->getComprasPaginadas($paginaActual,$comprasPorPagina);
+    
+
+    require_once ROOT_PATH.'/app/Views/viewAdminHistorial.php';
+}
+
 ?>

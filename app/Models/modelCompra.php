@@ -426,6 +426,7 @@ class Compra{
             $total = $stmt->fetch()['total'];
             return $total;
         }
+        
         public function contarTotalComprasPorId($idCliente) {
             $conexion = ConexionBD::getInstance();
             $stmt = $conexion->prepare("SELECT COUNT(*) as total FROM compras WHERE Id_cliente = :Id_cliente");
@@ -480,7 +481,26 @@ class Compra{
             
             return $stmt->fetchColumn();
         }
+        public function getCompras() {
+            $conexion = ConexionBD::getInstance();
+            
+            
+            $stmtCompras = $conexion->prepare("
+                SELECT Id_compra, Estado
+                FROM compras
+                ORDER BY Id_compra;
+            ");
+            
+            $stmtCompras->execute();
+            
+           
+            $compras = $stmtCompras->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $compras ?: []; 
+        }
 }
+
+
 
 class DetalleCompra{
     private $idCompra;

@@ -69,7 +69,7 @@
 
                 
             } else {
-                echo "No hay productos disponibles.";
+                echo "<p class='no-compras'>No hay productos disponibles.</p>";
             }
         ?>
         <?php if (isset($totalPaginas) && $totalPaginas > 1): ?>

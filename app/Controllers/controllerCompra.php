@@ -229,8 +229,10 @@ function marcarPedidoEntregado($id, $page){
             exit();
         }else{
 
-            setMensaje("Ha ocurrido un error al cambiar el estado del pedido.", 'error');
-            require_once ROOT_PATH.'/app/Views/viewAdmin.php';
+            setMensaje("Ha ocurrido un error al cambiar el estado del pedido, por favor comprobar stock de productos por posible falta de stock", 'error');
+            
+            header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
+            exit();
         }
         
 }
@@ -359,5 +361,42 @@ function generarEticket($idCompra){
     generarETicketHTML($nombre,$rut,$serie,$numeroTicket,$fecha,$detalleItems,$total,$direccion,$comentario);
 
 
+}
+
+function eliminarComprasEntregadas(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+        }
+ 
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
+    require_once ROOT_PATH.'/app/Models/modelUsuario.php';
+
+    
+    $compraModel= new Compra();
+
+    $comprasEntregadas= $compraModel->getCompras();
+    $contador=0;
+
+    foreach ($comprasEntregadas as $compra) {
+        if($compra['Estado']=="Entregado"){
+            $compraModel->removeCompra($compra['Id_compra']);
+            $contador++;
+        }else{
+            
+        }
+    }
+
+    if($contador!=0){
+        $mensajeExito="Las compras entregadas han sido eliminadas de la base de datos.";
+    
+        setMensaje($mensajeExito,"exito");    
+    }else{
+        $mensajeExito="No hay compras con estado de 'Entregado' para eliminar";
+    
+        setMensaje($mensajeExito,"exito");  
+    }
+   
+    header("Location: index.php?controller=controllerHome&action=mostrarHistorialCompras");
+    exit();
 }
 ?>
