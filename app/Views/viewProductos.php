@@ -42,7 +42,7 @@
     <!-- Sección de productos -->
     <section class="products">
         <h2><?php echo $categoria == 'all' ? 'Todos los productos' : $category->getNombre()  ?></h2>
-        <h3 class="no-compras"><?php echo $categoria == 'all' ? 'Aqui se muestran todos los productos sin filtrar.' : $category->getDescripcion();  ?></h3>
+        <h3 class="no-compras" style="margin-top:-30px"><?php echo $categoria == 'all' ? 'Aqui se muestran todos los productos sin filtrar.' : $category->getDescripcion();  ?></h3>
         <p style="margin-left:auto; margin-right:auto;">Cantidad de artículos: <?php echo $totalProductos;?></p>
         <hr>
         
@@ -53,8 +53,12 @@
            <a class="product-item-container" href="<?php echo $singleProduct.$producto['Id_producto'];?>" >
                 <div class="product-item">
                     <div class="product-image">
-                        <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
-                        <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+                        <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto" class="default-img">
+                        <?php if(isset($producto['imagenes'][1])):?>
+                            <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto Hover" class="hover-img">
+                        <?php else:?>
+                            <img src="<?php echo $img;?>rayuela.png" alt="Producto Back Hover" class="hover-img">
+                        <?php endif;?>
                     </div>
                     <p><?php echo $producto['Nombre']?></p>
                     <?php if($producto['Descuento']!=0):?>

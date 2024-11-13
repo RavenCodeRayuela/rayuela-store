@@ -75,8 +75,12 @@
                             <div class="product-item">
                                 <div class="product-image">
                                     <img src="<?php echo URL_PATH.$producto['imagenes'][0]?>" alt="Producto 1" class="default-img">
-                                    <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
-                                </div>
+                                    <?php if(isset($producto['imagenes'][1])):?>
+                                        <img src="<?php echo URL_PATH.$producto['imagenes'][1]?>" alt="Producto 1 Hover" class="hover-img">
+                                    <?php else:?>
+                                        <img src="<?php echo $img;?>rayuela.png" alt="Producto 1 Hover" class="hover-img">
+                                    <?php endif;?>
+                                    </div>
                                 <p><?php echo $producto['Nombre']?></p>
                                 <?php if($producto['Descuento']!=0):?>
                                 <p class ="precio-cancel-oferta"><?php echo 'UYU '.$producto['Precio_actual']?></p>

@@ -53,7 +53,7 @@
             </div>
             <div class="form-item">
                 <label for="descripcion">Descripción</label>
-                <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%;"></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%; padding:10px;"></textarea>
             </div>
             <div class="form-item">
                 <label for="categoria">Seleccionar categoría</label>

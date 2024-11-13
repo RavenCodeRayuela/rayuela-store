@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2024 a las 03:13:49
+-- Tiempo de generación: 13-11-2024 a las 06:24:13
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -182,7 +182,51 @@ INSERT INTO `imagen_producto` (`Ruta_imagen_producto`, `Id_imagen`, `Id_producto
 ('/public/storage/uploads/bolsitas_dinosaurio2.jpeg', 19, 31),
 ('/public/storage/uploads/bolsitas_dinosaurio3.jpeg', 20, 31),
 ('/public/storage/uploads/bolsitas_dinosaurio4.jpeg', 21, 31),
-('/public/storage/uploads/Bolsitas_tematicas.jpeg', 22, 31);
+('/public/storage/uploads/Bolsitas_tematicas.jpeg', 22, 31),
+('/public/storage/uploads/Funda_cel_1.jpeg', 23, 32),
+('/public/storage/uploads/contenedor_tul.jpeg', 24, 33),
+('/public/storage/uploads/cont_abiertos.jpeg', 25, 34),
+('/public/storage/uploads/funda_cel2.jpeg', 26, 35),
+('/public/storage/uploads/mascara_bruj.jpeg', 27, 36),
+('/public/storage/uploads/mascara_bat.jpeg', 28, 37),
+('/public/storage/uploads/masc1.jpeg', 29, 38),
+('/public/storage/uploads/masc2.jpeg', 30, 38),
+('/public/storage/uploads/moch_piola.jpeg', 31, 39),
+('/public/storage/uploads/bol1 (1).jpeg', 32, 40),
+('/public/storage/uploads/bol1 (2).jpeg', 33, 40),
+('/public/storage/uploads/bol2.jpeg', 34, 40),
+('/public/storage/uploads/bol3.jpeg', 35, 40),
+('/public/storage/uploads/bol4.jpeg', 36, 40),
+('/public/storage/uploads/bol5.jpeg', 37, 40),
+('/public/storage/uploads/bol6.jpeg', 38, 40),
+('/public/storage/uploads/org_amongus.jpeg', 39, 41),
+('/public/storage/uploads/babero1.jpeg', 40, 42),
+('/public/storage/uploads/babero2.jpeg', 41, 42),
+('/public/storage/uploads/Cambiador1.jpeg', 42, 43),
+('/public/storage/uploads/Cambiador2.jpeg', 43, 43),
+('/public/storage/uploads/Cambiador3.jpeg', 44, 43),
+('/public/storage/uploads/Delantal1.jpeg', 45, 44),
+('/public/storage/uploads/Delantal2.jpeg', 46, 44),
+('/public/storage/uploads/Delantal3.jpeg', 47, 44),
+('/public/storage/uploads/KitCom.jpeg', 48, 45),
+('/public/storage/uploads/KitCom2.jpeg', 49, 45),
+('/public/storage/uploads/KitCom3.jpeg', 50, 45),
+('/public/storage/uploads/KitCom4.jpeg', 51, 45),
+('/public/storage/uploads/KitHig1.jpeg', 52, 46),
+('/public/storage/uploads/KitHig2.jpeg', 53, 46),
+('/public/storage/uploads/pelotasInf.jpeg', 54, 47),
+('/public/storage/uploads/MochPio.jpeg', 55, 48),
+('/public/storage/uploads/Neccesser.jpeg', 56, 49),
+('/public/storage/uploads/Necesser.jpeg', 57, 49),
+('/public/storage/uploads/Necesser3.jpeg', 58, 49),
+('/public/storage/uploads/Mochila.jpeg', 59, 50),
+('/public/storage/uploads/ProtMam (2).jpeg', 60, 51),
+('/public/storage/uploads/ProtMam.jpeg', 61, 51),
+('/public/storage/uploads/PortaDoc (2).jpeg', 62, 52),
+('/public/storage/uploads/PortaDoc.jpeg', 63, 52),
+('/public/storage/uploads/KitBabto.jpeg', 64, 53),
+('/public/storage/uploads/body3m (2).jpeg', 65, 54),
+('/public/storage/uploads/OrganizadorF1.jpeg', 66, 55);
 
 -- --------------------------------------------------------
 
@@ -206,7 +250,31 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `Precio_actual`, `Descuento`, `Descripcion_producto`, `Cantidad`) VALUES
-(31, 1, 26, 'Bolsitas de dinosaurio', 20.00, 0.00, 'Bolsitas para cumpleaños con diseños en tela de dinosaurios, surtidas.', 15);
+(31, 1, 26, 'Bolsitas de dinosaurio', 20.00, 0.00, 'Bolsitas para cumpleaños con diseños en tela de dinosaurios, surtidas.', 15),
+(32, 1, 25, 'Funda Stitch', 100.00, 5.00, 'Funda para celular con este inolvidable personaje.', 10),
+(33, 1, 24, 'Contenedor con tul', 200.00, 5.00, 'Ideal para presentar esos panes caseros que tan bien te quedan.', 5),
+(34, 1, 24, 'Contenedores abiertos', 100.00, 0.00, 'Todo quedará suavemente contenido.\r\nSe vende el par.', 10),
+(35, 1, 25, 'Funda Tostada', 70.00, 0.00, 'Funda para celular con una tostada amigable.', 15),
+(36, 1, 27, 'Máscara de bruja', 60.00, 0.00, 'Que asustes y te diviertas!\r\nSe venden por unidad', 15),
+(37, 1, 27, 'Máscara de Batman', 70.00, 0.00, 'Que asustes y te diviertas! Se venden por unidad', 20),
+(38, 1, 27, 'Máscaras de Halloween', 60.00, 0.00, '¡Que asustes y te diviertas! Se venden por unidad.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 20),
+(39, 1, 29, 'Mochila de piola de dinosaurios', 70.00, 0.00, 'Suave, ligera y con dinos!', 10),
+(40, 1, 26, 'Bolsitas de animales', 80.00, 10.00, 'Para lo que quieras.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 30),
+(41, 1, 30, 'Organizador Among Us', 120.00, 0.00, '¡Donde está el infiltrado, compralo y descúbrelo!\r\n ¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos si quieres ponerle un nombre!', 8),
+(42, 1, 28, 'Baberos', 50.00, 10.00, '¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 10),
+(43, 1, 28, 'Cambiador', 250.00, 10.00, 'Para que cambies tranquilo a tu bebe.', 15),
+(44, 1, 28, 'Delantales', 300.00, 20.00, 'Para que los más peques puedan hacer y divertirse sin que te tengas preocupar(tanto) por la ropa.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos como quieres el tuyo!', 10),
+(45, 1, 28, 'Kit para las comidas', 350.00, 10.00, 'Para que los más peques tengan todo lo que precisan a la hora de comer.', 10),
+(46, 1, 28, 'Kit de higiene', 350.00, 5.00, 'Para que los más peques tengan todo lo que precisan a la hora de limpiarse los dientes y más.', 15),
+(47, 1, 28, 'Pelotas infantiles', 350.00, 0.00, 'Suaves, divertidas, simples o complejas.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 20),
+(48, 1, 29, 'Mochila de piola personalizada', 300.00, 0.00, 'Suaves, ligeras y adaptadas a tus peques.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos como quieres la tuya!', 10),
+(49, 1, 27, 'Neceser', 500.00, 20.00, 'Organiza tus productos de belleza con estilo y en tela suave.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 20),
+(50, 1, 27, 'Cartera', 400.00, 5.00, 'Cartera de suave y firme tela.', 10),
+(51, 1, 27, 'Protectores mamarios', 120.00, 16.00, '¡Protectores mamarios en tela, porque tambien nos preocupamos por ti!', 15),
+(52, 1, 28, 'Porta documentos', 350.00, 10.00, 'Para que tus peques tengan un lugar para sus documentos.', 10),
+(53, 1, 28, 'Kit babero y toalla', 200.00, 0.00, 'Para que tu peque pueda comer más libre, y tu más suelto.', 5),
+(54, 1, 28, 'Body y gorro', 400.00, 10.00, 'Body con diseño claro, suave y sencillo, con botones a presión en la entrepierna para su fácil apertura.', 20),
+(55, 1, 30, 'Organizador', 300.00, 0.00, 'Organiza tus accesorios, con listón a presión para poder colocar pulseras, colitas, etc. y que puedas verlas para hallarlas fácilmente.', 10);
 
 -- --------------------------------------------------------
 
@@ -357,13 +425,13 @@ ALTER TABLE `direcciones_de_envio`
 -- AUTO_INCREMENT de la tabla `imagen_producto`
 --
 ALTER TABLE `imagen_producto`
-  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

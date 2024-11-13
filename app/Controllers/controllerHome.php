@@ -14,7 +14,7 @@ function mostrarHome(){
     $productos = array();
 
     foreach ($prodts as $producto) {
-        if($producto['Descuento']>5){
+        if($producto['Descuento']>1){
             $productos[]=$producto;
         }
     }
@@ -34,7 +34,7 @@ function mostrarProductos($categoria, $paginaActual){
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
 
 
-    $productosPorPagina = 9;
+    $productosPorPagina = 12;
     
     $producto = new Producto();
 

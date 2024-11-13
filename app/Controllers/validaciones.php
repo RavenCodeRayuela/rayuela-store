@@ -44,7 +44,7 @@ function sanearTexto($texto){
 
 function textoSinCaracteresEspeciales($texto){
     $mensajeDeError = '';
-    if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,!?;:'()\"_-]+$/", $texto)) {
+    if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s.,¡!?;:'()\"_-]+$/", $texto)) {
         $mensajeDeError .= "Alguno de los campos contiene caracteres especiales.";
         return $mensajeDeError;
     } else {
