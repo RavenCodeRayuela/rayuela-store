@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2024 a las 06:59:33
+-- Tiempo de generación: 13-11-2024 a las 03:13:49
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -57,9 +57,13 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`Id_categoria`, `Id_admin`, `Nombre_categoria`, `Descripcion_categoria`, `Ruta_imagen_categoria`) VALUES
-(19, 1, 'Camiseta', 'Camisetas', '/public/storage/uploads/camiseta.jpg'),
-(21, 1, 'Sombreros', 'Sombreros', '/public/storage/uploads/sombrero.png'),
-(22, 1, 'Medias', 'Medias', '/public/storage/uploads/medias.jpg');
+(24, 1, 'Contenedores', 'Contenedores en tela', '/public/storage/uploads/Cont.jpeg'),
+(25, 1, 'Fundas', 'Fundas en tela', '/public/storage/uploads/Funda_cel_1.jpeg'),
+(26, 1, 'Bolsitas tematicas', 'Bolsitas temáticas en tela.', '/public/storage/uploads/Bolsitas_tematicas.jpeg'),
+(27, 1, 'Varios', 'Varios productos en tela, no te los pierdas!', '/public/storage/uploads/antifaz_bruj.jpeg'),
+(28, 1, 'Primera Infancia', 'Todo para la primera infancia en tela.', '/public/storage/uploads/body_blanco.jpeg'),
+(29, 1, 'Mochilas de piola', 'Lo mejor de las mochilas en tela.', '/public/storage/uploads/moch_piola.jpeg'),
+(30, 1, 'Organizadores', 'Suavemente organizado', '/public/storage/uploads/organizador1.jpeg');
 
 -- --------------------------------------------------------
 
@@ -78,6 +82,7 @@ CREATE TABLE `celulares` (
 
 INSERT INTO `celulares` (`Numero_cel`, `Id_cliente`) VALUES
 ('092123123', 16),
+('093129239', 17),
 ('099319123', 16);
 
 -- --------------------------------------------------------
@@ -97,7 +102,8 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`Id_cliente`, `Suscripcion_newsletter`) VALUES
 (3, 0),
-(16, 1);
+(16, 1),
+(17, 0);
 
 -- --------------------------------------------------------
 
@@ -117,16 +123,6 @@ CREATE TABLE `compras` (
   `Id_direccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `compras`
---
-
-INSERT INTO `compras` (`Id_compra`, `Id_cliente`, `Fecha`, `Costo_total`, `Valoracion`, `Estado`, `Tipo_de_pago`, `Comprobante`, `Id_direccion`) VALUES
-(29, 16, '2024-11-11', 712.50, 'Genial!', 'Preparandose', 'transferencia', '/public/storage/uploads/embroidery-942255_1280.jpg', 6),
-(30, 16, '2024-11-11', 200.00, NULL, 'Preparandose', 'efectivo', 'No', 5),
-(31, 16, '2024-11-11', 2024.00, NULL, 'Preparandose', 'transferencia', '/public/storage/uploads/Diagrama de clases v.3.0.drawio.png', 6),
-(32, 16, '2024-11-11', 1012.00, NULL, 'Preparandose', 'transferencia', '/public/storage/uploads/embroidery-942255_1280.jpg', 6);
-
 -- --------------------------------------------------------
 
 --
@@ -139,16 +135,6 @@ CREATE TABLE `compra_contiene_producto` (
   `Cantidad_producto` int(11) DEFAULT NULL,
   `Precio_por_producto` double(7,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `compra_contiene_producto`
---
-
-INSERT INTO `compra_contiene_producto` (`Id_compra`, `Id_producto`, `Cantidad_producto`, `Precio_por_producto`) VALUES
-(29, 29, 1, 712.50),
-(30, 28, 2, 100.00),
-(31, 24, 2, 1012.00),
-(32, 24, 1, 1012.00);
 
 -- --------------------------------------------------------
 
@@ -172,7 +158,8 @@ CREATE TABLE `direcciones_de_envio` (
 INSERT INTO `direcciones_de_envio` (`Id_direccion`, `Ciudad`, `Calle`, `NroCasa`, `Comentario`, `Id_cliente`) VALUES
 (5, 'Colonia Valdense', 'Guanabara', '103', 'Casa con paredes de ladrillo visto.', 16),
 (6, 'Colonia Valdense', 'Ala', '1', 'Nada', 16),
-(7, 'RosarioT', 'Axa', '103', 'A', 16);
+(7, 'RosarioT', 'Axa', '103', 'A', 16),
+(8, 'Colonia Valdense', 'Rincon del rey', '0', 'Los pinos sin numero antes del fin y despues del comienzo', 17);
 
 -- --------------------------------------------------------
 
@@ -191,16 +178,11 @@ CREATE TABLE `imagen_producto` (
 --
 
 INSERT INTO `imagen_producto` (`Ruta_imagen_producto`, `Id_imagen`, `Id_producto`) VALUES
-('/public/storage/uploads/rayuela.png', 5, 24),
-('/public/storage/uploads/camiseta.jpg', 6, 24),
-('/public/storage/uploads/rayuela.png', 7, 25),
-('/public/storage/uploads/camisetaroja.jpg', 8, 25),
-('/public/storage/uploads/rayuela.png', 11, 27),
-('/public/storage/uploads/medias.jpg', 12, 27),
-('/public/storage/uploads/rayuela.png', 13, 28),
-('/public/storage/uploads/mediasnegras.jpg', 14, 28),
-('/public/storage/uploads/rayuela.png', 15, 29),
-('/public/storage/uploads/sombrero.png', 16, 29);
+('/public/storage/uploads/bolsitas_dinosaurio.jpeg', 18, 31),
+('/public/storage/uploads/bolsitas_dinosaurio2.jpeg', 19, 31),
+('/public/storage/uploads/bolsitas_dinosaurio3.jpeg', 20, 31),
+('/public/storage/uploads/bolsitas_dinosaurio4.jpeg', 21, 31),
+('/public/storage/uploads/Bolsitas_tematicas.jpeg', 22, 31);
 
 -- --------------------------------------------------------
 
@@ -224,11 +206,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `Precio_actual`, `Descuento`, `Descripcion_producto`, `Cantidad`) VALUES
-(24, 1, 19, 'Camiseta de andar negra', 1100.00, 8.00, 'Dale un giro urbano a tu estilo diario con esta camiseta negra de mangas blancas, diseñada para quienes buscan un look casual sin perder el toque moderno.', 25),
-(25, 1, 19, 'Camiseta de andar de mangas rojas', 1100.00, 8.00, 'Combina estilo y comodidad con nuestra camiseta de andar de mangas rojas, pensada para quienes no se conforman con lo básico.', 25),
-(27, 1, 22, 'Medias de rayas azules', 100.00, 0.00, 'Añade un toque vibrante a tus pasos con estas medias de rayas azules. Su diseño llamativo es ideal para quienes buscan un detalle diferente y moderno.', 50),
-(28, 1, 22, 'Medias de rayas negras', 100.00, 0.00, 'Aporta un toque de estilo y elegancia a tu outfit con estas medias de rayas negras. Su diseño clásico y moderno las hace perfectas para cualquier ocasión.', 45),
-(29, 1, 21, 'Sombrero de paja', 750.00, 5.00, 'Este sombrero de paja es el complemento ideal para tus días soleados, ya sea en la playa o en la ciudad.', 6);
+(31, 1, 26, 'Bolsitas de dinosaurio', 20.00, 0.00, 'Bolsitas para cumpleaños con diseños en tela de dinosaurios, surtidas.', 15);
 
 -- --------------------------------------------------------
 
@@ -270,7 +248,8 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`Id_usuario`, `Nombre`, `Email`, `password`, `Id_tipo`) VALUES
 (1, 'Nombre no asignado', 'admin@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 1),
 (3, 'Nombre no asignado', 'usuario1@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 2),
-(16, 'Juan', 'juan22@gmail.com', '$2y$10$RD8Mmf.5/ltqRJ4rzX7qVu5yJQTRlSiTcaWxXbi86En6Hv9r3EKrG', 2);
+(16, 'Juan', 'juan22@gmail.com', '$2y$10$RD8Mmf.5/ltqRJ4rzX7qVu5yJQTRlSiTcaWxXbi86En6Hv9r3EKrG', 2),
+(17, 'Juan Letamendía', 'juanletamendia22@gmail.com', '$2y$10$dnzDCA7Go2ImTCONAEZH4.9DuuiK1Z/qJ7IDg.rQZxFh9CFU.Nwha', 2);
 
 --
 -- Índices para tablas volcadas
@@ -360,37 +339,37 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `Id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `direcciones_de_envio`
 --
 ALTER TABLE `direcciones_de_envio`
-  MODIFY `Id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `imagen_producto`
 --
 ALTER TABLE `imagen_producto`
-  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
