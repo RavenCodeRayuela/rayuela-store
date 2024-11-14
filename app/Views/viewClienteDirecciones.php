@@ -69,7 +69,7 @@
                 </div>
             <?php else:?>
                 <div>
-                    <p>No hay direcciones, por favor agrega una.</p>
+                    <p class="no-compras">No hay direcciones, por favor agrega una.</p>
                 </div>
             <?php endif;?>
         </div>

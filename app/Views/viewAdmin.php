@@ -13,7 +13,7 @@
     $mostrarBackoffice= URL_PATH."/index.php?controller=controllerHome&action=mostrarBackoffice";
     $cambiarEntregado= URL_PATH."/index.php?controller=controllerCompra&action=marcarPedidoEntregado";
     $cancelarPedido= URL_PATH."/index.php?controller=controllerCompra&action=cancelarPedido";
-    
+    $generarEticket =URL_PATH."/index.php?controller=controllerCompra&action=generarEticket&id=";
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +89,7 @@
                                     <?php endif; ?>
                                 </td>
                                 <td>
-                                    <a href="" class="btn listar">Generar e-ticket</a>
+                                    <a href="<?= $generarEticket.$compra['Id_compra']?>" class="btn listar">Generar e-ticket</a>
                                 </td>
                                 <td>
                                     <a href="<?= $cancelarPedido."&id=".$compra['Id_compra']."&page=".$paginaActual?>" class="btn eliminar">Cancelar pedido</a>

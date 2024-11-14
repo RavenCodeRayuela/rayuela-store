@@ -107,7 +107,7 @@
                     </tbody>
                 </table>
             <?php else: ?>
-                <p class="no-compras">No se encontraron compras para este cliente.</p>
+                <p class="no-compras">No se encontraron compras, puede ser que el administrador borrara el historial o que no hallas hecho una compra aún.</p>
             <?php endif; ?>
 
             <?php if (isset($totalPaginas) && $totalPaginas > 1): ?>

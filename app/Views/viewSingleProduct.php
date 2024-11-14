@@ -40,7 +40,20 @@
             
             <h1><?php echo $producto->getNombre(); ?></h1>
 
-            <div class="precio-producto"><?php echo 'UYU '.$producto->getPrecio(); ?></div>
+            <div class="precio-producto">
+                <p class="precio-cart">Costo de producto:
+                <?php if($producto->getDescuento() != 0):?>
+                    <span class="oferta-descuento">
+                        <?php echo "-" . $producto->getDescuento() . "% "; ?>
+                    </span>
+                    <span class="precio-cancel-carrito">
+                        <?php echo "UYU " . $producto->getPrecio(); ?>
+                    </span>
+                <?php endif;?>
+                <br>
+                    <?php echo $producto->getPrecioConDescuento(); ?> UYU
+                </p>
+            </div>
             
             <div class="cantidad-producto">
                 <?php if(isset($_SESSION['carrito'])):?>

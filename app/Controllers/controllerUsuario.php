@@ -12,6 +12,7 @@ function registrarUsuario(){
         require_once ROOT_PATH.'/app/Controllers/validaciones.php';
 
         //Datos del form
+        $errores="";
         $email= htmlspecialchars($_POST['email']);
         $password= htmlspecialchars($_POST['password']);
         $passwordCh= htmlspecialchars($_POST['passwordCh']);

@@ -41,8 +41,8 @@
         
         <!-- Contenido principal -->
         <div class="main-content" id="contenido">
-            <h1>Título de subnavegación</h1>
-            <p>Aquí irá todo lo relacionado a la opción seleccionada en el menú de subnavegación.</p>
+            <h1>Por favor no te vayas</h1>
+            <p>La opción de eliminar cuentas no está contemplada en esta versión, por favor pasate a prémium. :P</p>
         </div>
 
     </main>

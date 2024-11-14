@@ -266,13 +266,13 @@ function enviarCorreo($destinatario, $asunto, $mensaje, $from = "Ovidiodiaz605@g
 
     // Enviar el correo y verificar si fue exitoso
     if (mail($destinatario, $asunto, $mensaje, $headers)) {
-        return "Correo enviado exitosamente";
+        return "Se ha enviado un correo informando la operación.";
     } else {
         return "Error al enviar el correo";
     }
 }
 
-function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha, $detallesCompra,$total, $direccion,$comentario) {
+function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha, $detallesCompra,$subTotal,$valorIva, $direccion,$comentario) {
    
     $html = "
     <html>
@@ -310,23 +310,47 @@ function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha,
                 <tr>
                     <th>Producto</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
+                    <th>Precio unitario</th>
+                    <th>Total de linea</th>
                 </tr>";
 
     
     foreach ($detallesCompra as $detalle) {
+        $totalItem=$detalle['precio']*$detalle['Cantidad_producto'];
         $html .= "
         <tr>
             <td>{$detalle['productoNombre']}</td>
             <td>{$detalle['Cantidad_producto']}</td>
             <td>{$detalle['precio']}</td>
+            <td>{$totalItem}</td>
         </tr>";
     }
-
-    $html .= "<tr>
-            <td colspan='3'><p class='total'>Total: $total</p></td>    
+    $total=$subTotal+$valorIva;
+    $html .= "
+        <tr>
+            <td colspan='4'></td>
+        </tr>
+        <tr>
+            <td colspan='3' style='border:none;'></td>
+            <td><p class='total'>Sub-total: $subTotal</p></td>    
+        </tr>
+        <tr>
+            <td colspan='3' style='border:none;'></td>
+            <td><p class='total'>Iva: $valorIva</p></td>    
+        </tr>
+        <tr>
+            <td colspan='3' style='border:none;'></td>
+            <td><p class='total'>Total: $total</p></td>    
         </tr>
             </table>
+            <p class='nombre'>I.V.A al dia</p>
+            <div style='text-align:left;'>
+                <p>Imprenta Pepito s.r.l</p>
+                <p>Constancia: Nº43500</p>
+                <p>Boleta Serie $serie 123 al 2500</p>
+                <p>Imprenta autorizada</p>
+            </div>
+            <p style='text-align:right;'>Via 1 original cliente</p>
         </div>
     </body>
     </html>

@@ -498,6 +498,24 @@ class Compra{
             
             return $compras ?: []; 
         }
+
+        public function getComprasDirecciones() {
+            $conexion = ConexionBD::getInstance();
+            
+            
+            $stmtCompras = $conexion->prepare("
+                SELECT Id_compra, Estado, Id_direccion
+                FROM compras
+                ORDER BY Id_direccion;
+            ");
+            
+            $stmtCompras->execute();
+            
+           
+            $compras = $stmtCompras->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $compras ?: []; 
+        }
 }
 
 

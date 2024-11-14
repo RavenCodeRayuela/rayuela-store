@@ -153,9 +153,9 @@ function procesarCompra(){
                 $cuerpo= "<h1>Un nuevo pedido ha sido ingresado a Rayuela Store</h1><br>
                 <p>El pedido: $idCompra ha sido ingresado en el sistema en la fecha: $fecha <br>
                  Por favor entra en el sistema para obtener más información</p>";
-
-                $mensajeExito="El pedido ha sido ingresado, ahora lo prepararemos.";
-                $mensajeExito.= enviarCorreo("juanletamendia22@gmail.com",$asunto,$cuerpo);
+                
+                $mensajeExito="El pedido ha sido ingresado, ahora lo prepararemos.\n";
+                $mensajeExito.= enviarCorreo("admin@gmail.com",$asunto,$cuerpo,"rayuelaStore-noreply@gmail.com");
                 setMensaje($mensajeExito, 'exito');
 
                 
@@ -189,8 +189,7 @@ function marcarPedidoEntregado($id, $page){
     }
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
     require_once ROOT_PATH.'/app/Models/modelCompra.php';
-
-    //Cambiar estado y modificar stock
+ 
     $compra = new Compra();
     $producto= new Producto();
     $estado = "Entregado"; 
@@ -222,7 +221,7 @@ function marcarPedidoEntregado($id, $page){
 
             $compra->updateCompra($id,$estado);
             $mensajeExito="Se ha cambiado el estado del pedido y actualizado el stock";
-            $mensajeExito.= enviarCorreo("juanletamendia22@gmail.com",$asunto,$cuerpo);
+            $mensajeExito.= enviarCorreo($compraRealizada['cliente_email'],$asunto,$cuerpo,"rayuelaStore-noreply@gmail.com");
 
             setMensaje($mensajeExito, 'exito');
             header("Location: index.php?controller=controllerHome&action=mostrarBackoffice&page=".$page);
@@ -352,13 +351,17 @@ function generarEticket($idCompra){
     $detalleItems =$compraRealizada['productos'];
     $direccion=$compraRealizada['Ciudad']." - Calle:".$compraRealizada['Calle']." - NºCasa: ".$compraRealizada['NroCasa'];
     $comentario=$compraRealizada['Comentario']; 
-    $total=0.0;
+    $subTotal=0.0;
+    $ivaBasico=0.22;
+
 
     foreach ($detalleItems as $item) {
-        $total+=$item['precio']*$item['Cantidad_producto'];
+        $subTotal+=$item['precio']*$item['Cantidad_producto'];
     }
 
-    generarETicketHTML($nombre,$rut,$serie,$numeroTicket,$fecha,$detalleItems,$total,$direccion,$comentario);
+    $valorIva=$subTotal*$ivaBasico;
+
+    generarETicketHTML($nombre,$rut,$serie,$numeroTicket,$fecha,$detalleItems,$subTotal,$valorIva,$direccion,$comentario);
 
 
 }

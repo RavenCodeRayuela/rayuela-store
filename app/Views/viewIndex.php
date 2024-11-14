@@ -34,10 +34,10 @@
     <section id="inicio" class="hero comienzoPagina">
         <div class="hero-item">
             <h1>Rayuela Store</h1>
-            <p>La mejor tienda de ropa de diseñador, ahora a tu alcance.</p>
+            <p>La mejor tienda de artesanías en tela.</p>
             <?php if (!isset($_SESSION['user_email'])):?>
             <h3>¿Por qué elegirnos?</h3>
-            <p> Ofrecemos diseños exclusivos y calidad superior.<br>Nuestra prioridad es que luzcas bien.</p>
+            <p> Ofrecemos productos exclusivos y de calidad superior.<br>Nuestra prioridad es brindarte soluciones en tela.</p>
             <hr>
                 <div class="botones-container">
 

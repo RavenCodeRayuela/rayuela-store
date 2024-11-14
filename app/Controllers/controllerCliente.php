@@ -122,9 +122,17 @@ function eliminarDireccion($id){
 
     require_once ROOT_PATH.'/app/Models/modelUsuario.php';
     require_once ROOT_PATH.'/app/Models/modelCliente.php';
-
+    require_once ROOT_PATH.'/app/Models/modelCompra.php';
 
     $id = validarInt($id);
+    $compra = new Compra();
+    $comprasConDireccion= $compra->getComprasDirecciones();
+
+    foreach ($comprasConDireccion as $compraDir) {
+        if($compraDir['Id_direccion']==$id){
+            $id=false;
+        }
+    }
 
     if($id != false){
         
@@ -139,7 +147,7 @@ function eliminarDireccion($id){
             exit();
          
         }else{
-            setMensaje("Algo ha salido mal al obtener la dirección", 'error');
+            setMensaje("Algo ha salido mal al obtener la dirección o la dirección esta anexada a un pedido.", 'error');
             header("Location: ".URL_PATH."/index.php?controller=controllerHome&action=mostrarPerfilDirecciones");
             exit();
     }
