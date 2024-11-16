@@ -27,55 +27,56 @@
    <?php include_once 'viewHeaderAdmin.php';?>
 
     <!-- Contenido Principal -->
-    <main class="comienzoPagina main-content">
-    <div>
-        <h1>Estadísticas de ventas</h1>
-        <hr>
-    </div>
-    <div>
-        <h3>Productos más vendidos</h3>
-        <hr>
-        <table class="tabla-listar">
+    <main class="comienzoPagina">
+    <div class="main-content">
+        <div>
+            <h1>Estadísticas de ventas</h1>
+            <hr>
+        </div>
+        <div>
+            <h3>Productos más vendidos</h3>
+            <hr>
+            <table class="tabla-listar">
+                        <thead>
+                            <tr>
+                                <th class="primer-columna">ID</th>
+                                <th>Nombre de producto</th>
+                                <th>Categoría</th>
+                                <th>Ventas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($productosVendidos as $producto): ?>
+                                <tr>
+                                    <td class="primer-columna"><?= htmlspecialchars($producto['Id_producto']) ?></td>
+                                    <td><?= htmlspecialchars($producto['Nombre']) ?></td>
+                                    <td><?= htmlspecialchars($producto['Categoria']) ?></td>
+                                    <td><?= htmlspecialchars($producto['total_vendido']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+            </table>
+        </div>
+        <div>
+            <h3>Ganancias generadas</h3>
+            <hr>
+                <table class="tabla-listar">
                     <thead>
                         <tr>
-                            <th class="primer-columna">ID</th>
-                            <th>Nombre de producto</th>
-                            <th>Categoría</th>
-                            <th>Ventas</th>
+                            <th>Año</th>    
+                            <th>Mes</th>
+                            <th>Semana</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($productosVendidos as $producto): ?>
-                            <tr>
-                                <td class="primer-columna"><?= htmlspecialchars($producto['Id_producto']) ?></td>
-                                <td><?= htmlspecialchars($producto['Nombre']) ?></td>
-                                <td><?= htmlspecialchars($producto['Categoria']) ?></td>
-                                <td><?= htmlspecialchars($producto['total_vendido']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                        <tr>
+                            <td>Año: $<?= $ventasAnio ?></td>
+                            <td>Mes: $<?= $ventasMes ?></td>
+                            <td>Semana: $<?= $ventasSemana ?></td>
+                        </tr>
                     </tbody>
-        </table>
-    </div>
-    <div>
-        <h3>Ganancias generadas</h3>
-        <hr>
-        <table class="tabla-listar">
-            <thead>
-                <tr>
-                    <th>Año</th>    
-                    <th>Mes</th>
-                    <th>Semana</th>
-                </tr>
-            </thead>
-        <tbody>
-            <tr>
-                <td>Año: $<?= $ventasAnio ?></td>
-                <td>Mes: $<?= $ventasMes ?></td>
-                <td>Semana: $<?= $ventasSemana ?></td>
-            </tr>
-        </tbody>
-        
-    </table>
+                </table>
+        </div>
     </div>
 </main>
     

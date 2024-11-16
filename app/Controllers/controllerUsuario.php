@@ -31,8 +31,9 @@ function registrarUsuario(){
         $errores.= validarFormRegistro($email, $password, $passwordCh);
         
         if ($errores != '') {
-            setMensaje($errores,'error');
-            header('Location:'.URL_PATH.'/index.php?controller=controllerHome&action=mostrarRegistro');
+            $msjError=$errores."\n También verifique que no haya espacios en blanco, los mismos pueden ser tratados como caracteres especiales.";
+            setMensaje($msjError,'error');
+            require_once ROOT_PATH . '/app/Views/viewFormRegistro.php';
             exit();
         } else {
             // Si no hay errores, interactuar con el modelo
@@ -129,12 +130,12 @@ function loginUsuario(){
 }
 
 function logoutUsuario(){
-    // Iniciar la sesión si aun no está iniciada
+    
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    // Destruir todas las variables de sesion
+    
     $_SESSION = [];
 
     // Destruir la cookie de la sesion
@@ -146,10 +147,10 @@ function logoutUsuario(){
         );
     }
 
-    // Destruir la sesion
+   
     session_destroy();
 
-    // Redirigir a la página de login
+  
     header("Location: index.php?controller=controllerHome&action=mostrarLogin");
     exit();
     }

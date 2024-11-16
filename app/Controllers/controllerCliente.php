@@ -18,6 +18,7 @@ function agregarDireccion(){
     $nroCasa = $_POST["nroCasa"];
     $comentario = $_POST["comentario"];
     $errores="";
+   
 
     $ciudad = sanearTexto($ciudad);
     $errores.= textoSinCaracteresEspeciales($ciudad);
@@ -29,12 +30,14 @@ function agregarDireccion(){
 
     $nroCasa = validarNroPuerta($nroCasa);
     $errores.= validarLargoCampo($nroCasa,40);
-
-    $comentario = sanearTexto($comentario);
-    $errores.= textoSinCaracteresEspeciales($comentario);
-    $errores.= validarLargoCampo($comentario,280);
-
-    if($ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
+    if($comentario!= ""){
+        $comentario = sanearTexto($comentario);
+        $errores.= textoSinCaracteresEspeciales($comentario);
+        $errores.= validarLargoCampo($comentario,280);
+    }else{
+        $comentario= htmlspecialchars($comentario);
+    }
+    if($ciudad != false && $calle != false && $nroCasa !== false && $comentario !== false && $errores==""){
 
         $mensajeExito="La dirección ha sido ingresada.";
         setMensaje($mensajeExito, 'exito');
@@ -50,7 +53,8 @@ function agregarDireccion(){
         if($nroCasa == false){
             $errores.= "Hay un error en el campo de número de casa";
         }
-        setMensaje($errores, 'error');
+        $msjError= "Hay errores en los datos de algun campo, el único campo vacio puede ser el de comentarios.".$errores;
+        setMensaje($msjError, 'error');
         require_once ROOT_PATH.'/app/Views/viewClienteAgregarDireccion.php';
     }
 }
@@ -84,13 +88,17 @@ function modificarDireccion(){
 
     $nroCasa = validarNroPuerta($nroCasa);
     $errores.= validarLargoCampo($nroCasa,40);
-
-    $comentario = sanearTexto($comentario);
-    $errores.= textoSinCaracteresEspeciales($comentario);
-    $errores.= validarLargoCampo($comentario,280);
+   
+    if($comentario!= ""){
+        $comentario = sanearTexto($comentario);
+        $errores.= textoSinCaracteresEspeciales($comentario);
+        $errores.= validarLargoCampo($comentario,280);
+    }else{
+        $comentario= htmlspecialchars($comentario);
+    }
 
     
-    if($id != false && $ciudad != false && $calle != false && $nroCasa !== false && $comentario != false && $errores==""){
+    if($id != false && $ciudad != false && $calle != false && $nroCasa !== false && $comentario !== false && $errores==""){
 
         $mensajeExito="La dirección ha sido modificada.";
         setMensaje($mensajeExito, 'exito');
@@ -107,7 +115,8 @@ function modificarDireccion(){
         if($nroCasa == false){
             $errores.= "Hay un error en el campo de número de casa";
         }
-        setMensaje($errores, 'error');
+        $msjError= "Hay errores en los datos de algun campo, el único campo vacio puede ser el de comentarios.".$errores;
+        setMensaje($msjError, 'error');
         
         header("Location: ".URL_PATH.'/index.php?controller=controllerHome&action=mostrarModificarDireccion&id='.$id);
         exit();

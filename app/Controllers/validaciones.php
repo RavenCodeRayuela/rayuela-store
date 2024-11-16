@@ -117,24 +117,35 @@ function validarImagen($imagen){
     }else{
         $tiposPermitidos = array("image/jpg", "image/jpeg", "image/png", "image/gif","image/webp");
         if (!in_array($imagen['imagen']['type'], $tiposPermitidos)) {
-        return false;
+            return false;
         }
         return $imagen;
     }
 
 }
 function moverImagen($imagen){
-if($imagen == false){
-    return false;
-}else{
-    $rutaDestino = ROOT_PATH."/public/storage/uploads/" . basename($imagen['imagen']['name']);
-    if (!move_uploaded_file($imagen['imagen']['tmp_name'], $rutaDestino)) {
-       return false;
-    } else{
-        $rutaBD = "/public/storage/uploads/" . basename($imagen['imagen']['name']);
+    function moverImagen($imagen) {
+        if (!$imagen) {
+            return false;
+        }
+    
+        // Obtener el nombre del archivo y limpiar espacios o caracteres no deseados
+        $rutaImagen = basename($imagen['imagen']['name']);
+        $rutaImagen = preg_replace('/\s+/', '_', $rutaImagen); 
+        $rutaImagen = preg_replace('/[^A-Za-z0-9._\-()]/', '_', $rutaImagen); 
+    
+       
+        $rutaDestino = ROOT_PATH . "/public/storage/uploads/" . $rutaImagen;
+    
+        // Mover el archivo a la ruta destino
+        if (!move_uploaded_file($imagen['imagen']['tmp_name'], $rutaDestino)) {
+            return false;
+        }
+    
+        
+        $rutaBD = "/public/storage/uploads/" . $rutaImagen;
         return $rutaBD;
     }
-}
 }
 
 function validarImagenes($imagenes) {
@@ -159,30 +170,30 @@ function moverImagenes($imagenes) {
     if ($imagenes == false) {
         return false;
     } else {
-       
         $rutasBD = array();
 
-       
+        
         for ($i = 0; $i < count($imagenes['name']); $i++) {
             $nombreImagen = basename($imagenes['name'][$i]);
+
+           
+            $nombreImagen = preg_replace('/\s+/', '_', $nombreImagen); 
+            $nombreImagen = preg_replace('/[^A-Za-z0-9._\-()]/', '_', $nombreImagen); 
+
             $rutaTemporal = $imagenes['tmp_name'][$i];
             $rutaDestino = ROOT_PATH . "/public/storage/uploads/" . $nombreImagen;
 
-           
-            if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
-                
+            if (move_uploaded_file($rutaTemporal, $rutaDestino)) {     
                 $rutasBD[] = "/public/storage/uploads/" . $nombreImagen;
             } else {
-                
                 return false;
             }
         }
 
-       
+        
         return $rutasBD;
     }
 }
-
 function eliminarImagenes($imagenes){
    
     if (is_array($imagenes )){
@@ -190,7 +201,8 @@ function eliminarImagenes($imagenes){
         
             $rutaImagen = ROOT_PATH.$imagen['Ruta_imagen_producto']; 
         
-            if (file_exists($rutaImagen)) { 
+            if (file_exists($rutaImagen)) {
+                //Deberia manejar errores con try catch aca
                 unlink($rutaImagen);
             } else {
                 echo "La imagen en la ruta $rutaImagen no existe o ya fue eliminada.\n";
@@ -273,14 +285,16 @@ function enviarCorreo($destinatario, $asunto, $mensaje, $from = "Ovidiodiaz605@g
 }
 
 function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha, $detallesCompra,$subTotal,$valorIva, $direccion,$comentario) {
-   
+    $logo= URL_PATH."/public/img/rayuela.png";
     $html = "
     <html>
     <head>
         <style>
             body { font-family: Arial, sans-serif; }
             .ticket { width: 80%; margin: auto; text-align: center; border: solid 1px #000; padding: 20px; }
-            .nombre{ text-align:left; font-weight:bolder}
+            .logo{height:100px;}
+            .ticket-top{display:flex; justify-content:space-between;}
+            .logo-cont{position:left; width:100px; font-weight:bolder;}
             .header { font-size: 20px; font-weight: bold; }
             .rut {text-align: right; margin-bottom: 10px;}
             .details { text-align: left; margin-top: 20px; }
@@ -293,11 +307,18 @@ function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha,
     </head>
     <body>
         <div class='ticket'>
-            <div class='nombre'>Rayuela Store</div>
-            <div class='rut'><strong>RUT:</strong> $rut</div>
-            <div class='rut'><strong>CONTADO</strong></div>
-            <div class='rut'><strong>Serie:</strong> $serie <strong>Nro:</strong> $numeroTicket</div>
-             <div class='rut'><strong>Fecha:</strong> $fecha</div>
+            <div class='ticket-top'>
+                <div class='logo-cont'>
+                    <div class='nombre'>Rayuela Store</div>
+                    <img src=$logo alt='logo' class='logo'>
+                </div>
+                <div>
+                    <div class='rut'><strong>RUT:</strong> $rut</div>
+                    <div class='rut'><strong>CONTADO</strong></div>
+                    <div class='rut'><strong>Serie:</strong> $serie <strong>Nro:</strong> $numeroTicket</div>
+                    <div class='rut'><strong>Fecha:</strong> $fecha</div>
+                </div>
+            </div>
             <div class='header'>E-Ticket de Compra</div>
             <hr>
             <div class='details'>
@@ -358,6 +379,6 @@ function generarETicketHTML($nombreCliente, $rut, $serie, $numeroTicket, $fecha,
 
     header("Content-type: text/html");
     header("Content-Disposition: attachment; filename=eticket.html");
-    // Mostrar el contenido HTML que se descarga como PDF
+    
     echo $html;
 }?>

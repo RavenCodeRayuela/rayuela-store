@@ -83,7 +83,7 @@ class Cliente extends Usuario {
         $sql = "SELECT * FROM clientes WHERE Id_cliente = :Id_cliente";
         $stmt = $conexion ->prepare($sql);
      
-        // Ejecutar la consulta SQL, pasando el nombre de usuario como parámetro        
+        // Ejecutar la consulta SQL, pasando el nombre de usuario como parametro        
       $stmt->execute([':Id_cliente' => $idUsuario]);
      
       // Obtener la fila del usuario de la base de datos

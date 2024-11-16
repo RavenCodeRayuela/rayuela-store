@@ -54,6 +54,7 @@
             <div class="form-item">
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripcion" name="descripcion" rows="4" required style="resize:none; width:100%; padding:10px;"></textarea>
+                <span class="text-info">El comentario puede tener un máximo de 300 caracteres que equivalen a aprox. 60 palabras</span>
             </div>
             <div class="form-item">
                 <label for="categoria">Seleccionar categoría</label>
@@ -78,6 +79,7 @@
             </div>
             <div class="form-item">
                  <label for="imagen">Subir imágenes del producto</label>
+                 <p style="color:#555; font-size:12px;">Los formatos de imagen aceptados son: png, jpg, jpeg, gif o webp</p>
                  <input type="file" id="imagen" name="imagen[]" accept="image/*" multiple required>
             </div>
             <div class="form-item">

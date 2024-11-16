@@ -25,7 +25,7 @@ $img = URL_PATH.'/public/img/';
     <section class="nosotros-section">
         <h2>Nuestra Historia</h2>
         <p>
-            Fundada en 2012, nuestra empresa ha crecido con una misión clara: crear ropa de diseñador que exprese
+            Fundada en 2012, nuestra empresa ha crecido con una misión clara: crear soluciones en tela que expresen
             estilo y autenticidad. Inspirados en las últimas tendencias, nuestros diseños combinan elegancia con
             un toque moderno, destacando lo mejor de la moda actual.
         </p>
@@ -35,8 +35,8 @@ $img = URL_PATH.'/public/img/';
     <section class="nosotros-section">
         <h2>Nuestros Valores</h2>
         <ul class="valores-list">
-            <li><strong>Innovación:</strong> Buscamos constantemente nuevas formas de reinventar la moda.</li>
-            <li><strong>Calidad:</strong> Solo utilizamos materiales de alta calidad para crear prendas duraderas.</li>
+            <li><strong>Innovación:</strong> Buscamos constantemente nuevas formas de reinventar las soluciones en tela.</li>
+            <li><strong>Calidad:</strong> Solo utilizamos materiales de alta calidad.</li>
             <li><strong>Sostenibilidad:</strong> Nos comprometemos a reducir el impacto ambiental en cada etapa de producción.</li>
             <li><strong>Compromiso:</strong> Apoyamos a nuestros empleados y respetamos el entorno en el que trabajamos.</li>
         </ul>

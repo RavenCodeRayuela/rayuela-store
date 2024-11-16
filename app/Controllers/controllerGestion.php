@@ -59,7 +59,7 @@ function agregarProducto(){
                     echo "Error al obtener el usuario";
                 }
             }else{
-                $errores.= "Todo el formulario debe ser completado, no se admiten 0 o valores negativos excepto en el campo descuento";
+                $errores.= "Todo el formulario debe ser completado, no se admiten 0 o valores negativos excepto en el campo descuento en el cual sí se admite el 0";
                 setMensaje($errores, 'error');
                 require_once ROOT_PATH.'/app/Views/viewAdminAgregarProducto.php'; 
             }
@@ -72,6 +72,7 @@ function editarProducto($id, $modificarImagen){
     }
     require_once ROOT_PATH.'/app/Models/modelGestion.php';
     require_once ROOT_PATH.'/app/Models/modelAdministrador.php';
+    
     $producto= new Producto($id);
     $categoria= new Categoria();
     $categoriaSeleccionada= $producto->getCategoria();
@@ -189,7 +190,7 @@ function eliminarProducto($id){
                 
                 
                 if(!$producto ->removeProducto($id)){
-                    $mensajeError="El producto está relacionado a compras existentes en el sistema, por ello no se puede eliminar.";
+                    $mensajeError="El producto está relacionado a compras existentes en el sistema, por ello no se puede eliminar. Las compras primero deben ser marcadas como entregadas.";
                     setMensaje($mensajeError, 'error');
                     
                     
@@ -382,7 +383,7 @@ function eliminarCategoria($id){
                 
                 
                 if(!$categoria ->removeCategoria($id)){
-                    $mensajeError="La categoría contiene productos que están relacionados con compras, por ello no se pueden eliminar";
+                    $mensajeError="La categoría contiene productos que están relacionados con compras, por ello no se pueden eliminar. Las compras primero deben ser marcadas como entregadas.";
                     setMensaje($mensajeError, 'error');
                     
                     header("Location: index.php?controller=controllerGestion&action=listarCategorias");

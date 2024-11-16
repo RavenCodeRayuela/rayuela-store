@@ -7,7 +7,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome#incio'?>>Inicio</a></li>
+                <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome#inicio'?>>Inicio</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarProductos'?>>Productos</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome#ofertas'?>>Ofertas</a></li>
                 <li><a href=<?php echo URL_PATH.'/index.php?controller=controllerHome&action=mostrarHome#categorias'?>>Categorias</a></li>

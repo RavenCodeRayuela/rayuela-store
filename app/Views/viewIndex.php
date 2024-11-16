@@ -63,7 +63,7 @@
         </div>
     </section>
 
-    <!-- Sección de Ofertas(Insertar logica de selección de ofertas) -->
+    <!-- Sección de Ofertas -->
     <section id="ofertas" class="carrusel">
         <h2>Ofertas</h2>
         <div class="carousel-container">

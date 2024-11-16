@@ -134,7 +134,7 @@ function procesarCompra(){
         //La compra devuelve un id de la compra, con el cual poder añadir los detalles a la tabla detalle de compra
         $idCompra=$compra->addCompra($idCliente,$fecha,$total,$estado,$metodoDePago,$idDireccion);
 
-        var_dump($idCompra);
+        
         if($idCompra !== false){
             $detalleCompra = new DetalleCompra();
             //Por si una transaccion da problemas
@@ -324,7 +324,7 @@ function procesarValoracion(){
         exit();
 
     }else{
-        setMensaje("Ha ocurrido un error al subir tu valoración.", 'error');
+        setMensaje("Ha ocurrido un error al subir tu valoración, en la misma no se permiten caracteres especiales, como por ejemplo '$'", 'error');
         require_once ROOT_PATH.'/app/Views/viewClienteValorarCompra.php';
     }
 

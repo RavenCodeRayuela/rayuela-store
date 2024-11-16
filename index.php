@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if ( is_callable ($action) ){
         switch ($action) {
             case 'editarProducto':
-                $modificaImagen = isset($_GET['modImagen']) ? $_GET['modImagen'] : true;
+                $modificaImagen = isset($_GET['modImagen']) ? $_GET['modImagen'] : "true";
                 $action($_GET[ 'id' ], $modificaImagen);
                 break;
 

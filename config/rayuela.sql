@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-11-2024 a las 06:24:13
+-- Tiempo de generación: 16-11-2024 a las 09:02:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -103,7 +103,9 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`Id_cliente`, `Suscripcion_newsletter`) VALUES
 (3, 0),
 (16, 1),
-(17, 0);
+(17, 0),
+(18, 0),
+(19, 0);
 
 -- --------------------------------------------------------
 
@@ -123,6 +125,22 @@ CREATE TABLE `compras` (
   `Id_direccion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` (`Id_compra`, `Id_cliente`, `Fecha`, `Costo_total`, `Valoracion`, `Estado`, `Tipo_de_pago`, `Comprobante`, `Id_direccion`) VALUES
+(50, 16, '2024-11-14', 200.00, 'asd', 'Entregado', 'efectivo', 'No', 5),
+(51, 16, '2024-11-14', 120.00, NULL, 'Entregado', 'efectivo', 'No', 5),
+(52, 16, '2024-11-14', 45.00, NULL, 'Preparandose', 'efectivo', 'No', 5),
+(53, 16, '2024-11-14', 70.00, NULL, 'Preparandose', 'transferencia', 'No', 5),
+(54, 16, '2024-11-14', 385.00, NULL, 'Preparandose', 'efectivo', 'No', 5),
+(55, 16, '2024-11-14', 1200.00, NULL, 'Entregado', 'efectivo', 'No', 5),
+(56, 16, '2024-11-14', 45.00, NULL, 'Preparandose', 'efectivo', 'No', 5),
+(57, 16, '2024-11-14', 200.00, NULL, 'Preparandose', 'efectivo', 'No', 5),
+(58, 18, '2024-11-16', 310.00, NULL, 'Preparandose', 'efectivo', 'No', 11),
+(59, 18, '2024-11-16', 95.00, NULL, 'Preparandose', 'efectivo', 'No', 11);
+
 -- --------------------------------------------------------
 
 --
@@ -135,6 +153,25 @@ CREATE TABLE `compra_contiene_producto` (
   `Cantidad_producto` int(11) DEFAULT NULL,
   `Precio_por_producto` double(7,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `compra_contiene_producto`
+--
+
+INSERT INTO `compra_contiene_producto` (`Id_compra`, `Id_producto`, `Cantidad_producto`, `Precio_por_producto`) VALUES
+(50, 53, 1, 200.00),
+(51, 41, 1, 120.00),
+(52, 42, 1, 45.00),
+(53, 39, 1, 70.00),
+(54, 32, 1, 95.00),
+(54, 33, 1, 190.00),
+(54, 34, 1, 100.00),
+(55, 44, 5, 240.00),
+(56, 42, 1, 45.00),
+(57, 53, 1, 200.00),
+(58, 33, 1, 190.00),
+(58, 41, 1, 120.00),
+(59, 32, 1, 95.00);
 
 -- --------------------------------------------------------
 
@@ -157,9 +194,8 @@ CREATE TABLE `direcciones_de_envio` (
 
 INSERT INTO `direcciones_de_envio` (`Id_direccion`, `Ciudad`, `Calle`, `NroCasa`, `Comentario`, `Id_cliente`) VALUES
 (5, 'Colonia Valdense', 'Guanabara', '103', 'Casa con paredes de ladrillo visto.', 16),
-(6, 'Colonia Valdense', 'Ala', '1', 'Nada', 16),
-(7, 'RosarioT', 'Axa', '103', 'A', 16),
-(8, 'Colonia Valdense', 'Rincon del rey', '0', 'Los pinos sin numero antes del fin y despues del comienzo', 17);
+(8, 'Colonia Valdense', 'Rincon del rey', '0', 'Los pinos sin numero antes del fin y despues del comienzo', 17),
+(11, 'Rosario', 'Greising', '123', '', 18);
 
 -- --------------------------------------------------------
 
@@ -226,7 +262,8 @@ INSERT INTO `imagen_producto` (`Ruta_imagen_producto`, `Id_imagen`, `Id_producto
 ('/public/storage/uploads/PortaDoc.jpeg', 63, 52),
 ('/public/storage/uploads/KitBabto.jpeg', 64, 53),
 ('/public/storage/uploads/body3m (2).jpeg', 65, 54),
-('/public/storage/uploads/OrganizadorF1.jpeg', 66, 55);
+('/public/storage/uploads/OrganizadorF1.jpeg', 66, 55),
+('/public/storage/uploads/mascara_bat.jpeg', 76, 37);
 
 -- --------------------------------------------------------
 
@@ -260,10 +297,10 @@ INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `P
 (38, 1, 27, 'Máscaras de Halloween', 60.00, 0.00, '¡Que asustes y te diviertas! Se venden por unidad.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 20),
 (39, 1, 29, 'Mochila de piola de dinosaurios', 70.00, 0.00, 'Suave, ligera y con dinos!', 10),
 (40, 1, 26, 'Bolsitas de animales', 80.00, 10.00, 'Para lo que quieras.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 30),
-(41, 1, 30, 'Organizador Among Us', 120.00, 0.00, '¡Donde está el infiltrado, compralo y descúbrelo!\r\n ¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos si quieres ponerle un nombre!', 8),
+(41, 1, 30, 'Organizador Among Us', 120.00, 0.00, '¡Donde está el infiltrado, compralo y descúbrelo!\r\n ¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos si quieres ponerle un nombre!', 7),
 (42, 1, 28, 'Baberos', 50.00, 10.00, '¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 10),
 (43, 1, 28, 'Cambiador', 250.00, 10.00, 'Para que cambies tranquilo a tu bebe.', 15),
-(44, 1, 28, 'Delantales', 300.00, 20.00, 'Para que los más peques puedan hacer y divertirse sin que te tengas preocupar(tanto) por la ropa.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos como quieres el tuyo!', 10),
+(44, 1, 28, 'Delantales', 300.00, 20.00, 'Para que los más peques puedan hacer y divertirse sin que te tengas preocupar(tanto) por la ropa.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos como quieres el tuyo!', 5),
 (45, 1, 28, 'Kit para las comidas', 350.00, 10.00, 'Para que los más peques tengan todo lo que precisan a la hora de comer.', 10),
 (46, 1, 28, 'Kit de higiene', 350.00, 5.00, 'Para que los más peques tengan todo lo que precisan a la hora de limpiarse los dientes y más.', 15),
 (47, 1, 28, 'Pelotas infantiles', 350.00, 0.00, 'Suaves, divertidas, simples o complejas.\r\n¡Comunicate con nosotros, pasanos el id de tu compra y cuéntanos cuál quieres!', 20),
@@ -272,7 +309,7 @@ INSERT INTO `productos` (`Id_producto`, `Id_admin`, `Id_categoria`, `Nombre`, `P
 (50, 1, 27, 'Cartera', 400.00, 5.00, 'Cartera de suave y firme tela.', 10),
 (51, 1, 27, 'Protectores mamarios', 120.00, 16.00, '¡Protectores mamarios en tela, porque tambien nos preocupamos por ti!', 15),
 (52, 1, 28, 'Porta documentos', 350.00, 10.00, 'Para que tus peques tengan un lugar para sus documentos.', 10),
-(53, 1, 28, 'Kit babero y toalla', 200.00, 0.00, 'Para que tu peque pueda comer más libre, y tu más suelto.', 5),
+(53, 1, 28, 'Kit babero y toalla', 200.00, 0.00, 'Para que tu peque pueda comer más libre, y tu más suelto.', 4),
 (54, 1, 28, 'Body y gorro', 400.00, 10.00, 'Body con diseño claro, suave y sencillo, con botones a presión en la entrepierna para su fácil apertura.', 20),
 (55, 1, 30, 'Organizador', 300.00, 0.00, 'Organiza tus accesorios, con listón a presión para poder colocar pulseras, colitas, etc. y que puedas verlas para hallarlas fácilmente.', 10);
 
@@ -317,7 +354,9 @@ INSERT INTO `usuarios` (`Id_usuario`, `Nombre`, `Email`, `password`, `Id_tipo`) 
 (1, 'Nombre no asignado', 'admin@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 1),
 (3, 'Nombre no asignado', 'usuario1@gmail.com', '$2y$10$pLG0bldc5y7t/9uWQaTo3OGHxvCdk6zDltxYbNJ19SsoacQsYqmXa', 2),
 (16, 'Juan', 'juan22@gmail.com', '$2y$10$RD8Mmf.5/ltqRJ4rzX7qVu5yJQTRlSiTcaWxXbi86En6Hv9r3EKrG', 2),
-(17, 'Juan Letamendía', 'juanletamendia22@gmail.com', '$2y$10$dnzDCA7Go2ImTCONAEZH4.9DuuiK1Z/qJ7IDg.rQZxFh9CFU.Nwha', 2);
+(17, 'Juan Letamendía', 'juanletamendia22@gmail.com', '$2y$10$dnzDCA7Go2ImTCONAEZH4.9DuuiK1Z/qJ7IDg.rQZxFh9CFU.Nwha', 2),
+(18, 'Nombre no asignado', 'juker12xd@gmail.com', '$2y$10$.e7hfl1EZ49PuBxgL5uDLOOk0Lt6AcgCGZEcKhI4BxLb2WMzoSnGe', 2),
+(19, 'Nombre no asignado', 'sudalock@gmail.com', '$2y$10$vJJXO5pOm2tGyaFyGEz7w.RuU4Pun7Nq6TT2qmZUDHqiBhcjaWFfi', 2);
 
 --
 -- Índices para tablas volcadas
@@ -413,31 +452,31 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `compras`
 --
 ALTER TABLE `compras`
-  MODIFY `Id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `Id_compra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `direcciones_de_envio`
 --
 ALTER TABLE `direcciones_de_envio`
-  MODIFY `Id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id_direccion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `imagen_producto`
 --
 ALTER TABLE `imagen_producto`
-  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `Id_imagen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `Id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas

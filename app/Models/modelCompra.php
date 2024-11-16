@@ -194,7 +194,7 @@ class Compra{
         // Obtener detalles generales de la compra
         $compra = $stmtCompra->fetch(PDO::FETCH_ASSOC);
         if (!$compra) {
-            return null;  // Si no se encuentra la compra, retorna null
+            return null;  
         }
     
         // Consulta para obtener los productos asociados a la compra
@@ -245,7 +245,7 @@ class Compra{
         $compraIds = array_column($compras, 'Id_compra');
         $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
     
-        // Segunda consulta: obtener los productos de cada compra
+        // Obtener los productos de cada compra
         $stmtProductos = $conexion->prepare("
             SELECT det.Id_compra, det.Id_producto, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
             FROM compra_contiene_producto AS det
@@ -283,7 +283,7 @@ class Compra{
     public function getComprasPaginadasPreparandose($paginaActual, $elementosPorPagina) {
         $conexion = ConexionBD::getInstance();
         
-        // Calcula el offset para la paginación
+        
         $offset = ($paginaActual - 1) * $elementosPorPagina;
     
         // Primera consulta: obtener detalles generales de cada compra con estado "Preparandose"
@@ -312,7 +312,7 @@ class Compra{
         $compraIds = array_column($compras, 'Id_compra');
         $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
     
-        // Segunda consulta: obtener los productos de cada compra
+        // Obtener los productos de cada compra
         $stmtProductos = $conexion->prepare("
             SELECT det.Id_compra, det.Id_producto, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
             FROM compra_contiene_producto AS det
@@ -350,10 +350,10 @@ class Compra{
         public function getComprasDeClientePaginadas($idCliente, $paginaActual, $elementosPorPagina) {
             $conexion = ConexionBD::getInstance();
             
-            // Calcula el offset para la paginación
+            
             $offset = ($paginaActual - 1) * $elementosPorPagina;
         
-            // Primera consulta: obtener detalles generales de cada compra
+            
             $stmtCompras = $conexion->prepare("
                 SELECT com.Id_compra, com.Id_cliente, com.Fecha, com.Costo_total AS total, com.Valoracion, com.Estado, com.Tipo_de_pago,com.Comprobante,
                        dir.Ciudad, dir.Calle, dir.NroCasa, dir.Comentario
@@ -379,7 +379,7 @@ class Compra{
             $compraIds = array_column($compras, 'Id_compra');
             $placeholders = implode(',', array_fill(0, count($compraIds), '?'));
         
-            // Segunda consulta: obtener los productos de cada compra
+            // Obtener los productos de cada compra
             $stmtProductos = $conexion->prepare("
                 SELECT det.Id_compra, prod.Nombre AS producto_nombre, det.Cantidad_producto, det.Precio_por_producto AS precio
                 FROM compra_contiene_producto AS det

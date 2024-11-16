@@ -148,34 +148,41 @@ class Producto{
      * @return bool
      */
     private function updateImagenes($imagenes, $idProducto) {
-
         $conexion = ConexionBD::getInstance();
-
+    
         if (empty($imagenes) || empty($idProducto)) {
             return false;
         }
-
-        $resultadoIdImagenes= $this->selectImagenes($idProducto);
-       
-
+    
+     
+        $resultadoIdImagenes = $this->selectImagenes($idProducto);
+    
+        
         $sql = "UPDATE imagen_producto SET Ruta_imagen_producto = :Ruta_imagen_producto WHERE Id_imagen = :Id_imagen";
         $stmt = $conexion->prepare($sql);
     
-        $limite= count($resultadoIdImagenes);
-        $iteraciones=0;
-
+       
+        $limite = count($resultadoIdImagenes);
+        $iteraciones = 0;
+    
+        
         foreach ($imagenes as $rutaImagen) {
-            
-            if($iteraciones==($limite)){
-                return false;
-            }
-            if (!$stmt->execute([':Id_imagen' => $resultadoIdImagenes[$iteraciones]['Id_imagen'], ':Ruta_imagen_producto' => $rutaImagen])) {
-                return false; 
+            //Aqui si las iteraciones son más que las imagenes cambiamos a un insert
+            if ($iteraciones < $limite) {
+                if (!$stmt->execute([':Id_imagen' => $resultadoIdImagenes[$iteraciones]['Id_imagen'], ':Ruta_imagen_producto' => $rutaImagen])) {
+                    return false; 
+                }
+            } else {
+                $sqlInsert = "INSERT INTO imagen_producto (Id_producto, Ruta_imagen_producto) VALUES (:Id_producto, :Ruta_imagen_producto)";
+                $stmtInsert = $conexion->prepare($sqlInsert);
+                if (!$stmtInsert->execute([':Id_producto' => $idProducto, ':Ruta_imagen_producto' => $rutaImagen])) {
+                    return false;
+                }
             }
             $iteraciones++;
         }
     
-        return true; 
+        return true;
     }
 
     /**
